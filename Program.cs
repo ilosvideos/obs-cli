@@ -1,5 +1,7 @@
-﻿using obs_cli.Helpers;
+﻿using obs_cli.Commands;
+using obs_cli.Helpers;
 using System;
+using System.Collections.Generic;
 
 namespace obs_cli
 {
@@ -12,15 +14,12 @@ namespace obs_cli
             while (true)
             {
                 string command = Console.ReadLine();
-                if (command == "quit")
+                var commandType = AvailableCommands.All.GetValueOrDefault(command);
+
+                if (commandType != null)
                 {
-                    FileWriteService.WriteToFile("quitting");
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    // it's not quit. make sure it's a valid command
-                    FileWriteService.WriteToFile($"received command {command}");
+                    ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType);
+                    commandInstance.Execute();
                 }
             }
         }
