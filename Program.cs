@@ -1,6 +1,4 @@
-﻿using CommandLine;
-using System;
-using System.IO;
+﻿using System;
 
 namespace obs_cli
 {
@@ -8,31 +6,20 @@ namespace obs_cli
     {
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(o =>
-                   {
-                       if (o.Verbose)
-                       {
-                           Console.WriteLine($"Verbose output enabled. Current Arguments: -v {o.Verbose}");
-                           Console.WriteLine("Quick Start Example! App is in Verbose mode!");
-                       }
-                       else
-                       {
-                           Console.WriteLine($"Current Arguments: -v {o.Verbose}");
-                           Console.WriteLine("Quick Start Example!");
-                       }
+            Console.WriteLine("starting");
 
-                       if (!string.IsNullOrWhiteSpace(o.Write))
-                       {
-                           var pathToUse = string.IsNullOrWhiteSpace(o.WritePath) ? @"C:\Users\Chad\Documents\test\test.txt" : o.WritePath;
-                           using (StreamWriter file = new StreamWriter(pathToUse, true))
-                           {
-                               file.WriteLine(o.Write);
-                           }
-                       }
-                   });
-
-            Console.ReadLine();
+            while (true)
+            {
+                string value = Console.ReadLine();
+                if (value == "quit")
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    // it's not quit. make sure it's a valid command
+                }
+            }
         }
     }
 }
