@@ -2,17 +2,38 @@
 using obs_cli.Helpers;
 using obs_cli.Utility;
 using System;
+using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
     public class Initialize : ICommand
     {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
+
         public static string Name
         {
             get
             {
                 return "initialize";
             }
+        }
+
+        public Initialize(IDictionary<string, string> arguments)
+        {
+            FileWriteService.WriteToFile($"got {arguments.Count} arguments");
+
+            this.X = int.Parse(arguments["x"]);
+            this.Y = int.Parse(arguments["y"]);
+            this.Width = int.Parse(arguments["width"]);
+            this.Height = int.Parse(arguments["height"]);
+
+            FileWriteService.WriteToFile($"Initializing with X position: {X}");
+            FileWriteService.WriteToFile($"Initializing with Y position: {Y}");
+            FileWriteService.WriteToFile($"Initializing with Width: {Width}");
+            FileWriteService.WriteToFile($"Initializing with Height position: {Height}");
         }
 
         public void Execute()
