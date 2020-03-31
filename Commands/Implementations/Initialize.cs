@@ -4,8 +4,6 @@ using obs_cli.Objects;
 using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using static OBS.libobs;
 
 namespace obs_cli.Commands.Implementations
@@ -148,7 +146,7 @@ namespace obs_cli.Commands.Implementations
             {
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
-                displaySettings.SetInt("monitor", GetObsDisplayValueFromScreen(ScreenHelper.GetScreen(this.ScreenToRecordHandle)));
+                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(DisplaySource, ScreenHelper.GetScreen(this.ScreenToRecordHandle)));
                 DisplaySource.Update(displaySettings);
                 displaySettings.Dispose();
             }
@@ -162,62 +160,15 @@ namespace obs_cli.Commands.Implementations
 
             //CalculateWebcamItemPosition();
 
-            obs_video_info ovi = GenerateObsVideoInfoObject(
+            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(
                 (uint)CanvasWidth,
                 (uint)CanvasHeight,
                 (uint)OutputWidth,
-                (uint)OutputHeight);
+                (uint)OutputHeight,
+                GetFrameRate());
 
             if (!Obs.ResetVideo(ovi))
                 throw new ApplicationException("ResetVideo failed.");
-        }
-
-        /** 
-		 * Get the active display from the window's position.
-		 * We have to do it this way because the OBS index (or display value) is different than that of Screen.AllScreens
-		 */
-        private int GetObsDisplayValueFromScreen(Screen screen)
-        {
-            // Get a list of OBS properties (names and values) from the display source
-            ObsProperty[] displayCaptureProperties = DisplaySource.GetProperties().GetPropertyList();
-            List<string> displayNames = new List<string>();
-            List<object> displayValues = new List<object>();
-            for (int i = 0; i < displayCaptureProperties.Length; i++)
-            {
-                if (displayCaptureProperties[i].Name.Equals("monitor"))
-                {
-                    displayNames = displayCaptureProperties[i].GetListItemNames().ToList();
-                    displayValues = displayCaptureProperties[i].GetListItemValues().ToList();
-                    break;
-                }
-            }
-
-            // Find the OBS display that matches the bounds of our active screen. OBS display names are in the format of "Display {value}: WidthxHeight @ X,Y"
-            string searchForString = $"@ {screen.Bounds.X},{screen.Bounds.Y}";
-            int targetDisplayIndex = displayNames.FindIndex(x => x.Contains(searchForString));
-            int targetDisplayValue = int.Parse(displayValues[targetDisplayIndex].ToString());
-
-            return targetDisplayValue;
-        }
-
-        private obs_video_info GenerateObsVideoInfoObject(uint baseWidth, uint baseHeight, uint outputWidth, uint outputHeight)
-        {
-            return new obs_video_info
-            {
-                adapter = 0,
-                base_width = baseWidth,
-                base_height = baseHeight,
-                output_width = outputWidth,
-                output_height = outputHeight,
-                fps_num = GetFrameRate(),
-                fps_den = Constants.Video.FPS_DEN,
-                graphics_module = "libobs-d3d11.dll",
-                output_format = video_format.VIDEO_FORMAT_NV12,
-                scale_type = obs_scale_type.OBS_SCALE_BICUBIC,
-                colorspace = video_colorspace.VIDEO_CS_601,
-                range = video_range_type.VIDEO_RANGE_PARTIAL,
-                gpu_conversion = true,
-            };
         }
     }
 }
