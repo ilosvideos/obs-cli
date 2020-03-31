@@ -19,12 +19,12 @@ namespace obs_cli
                 if (argumentTokens.Count > 0)
                 {
                     string command = argumentTokens.FirstOrDefault();
-                    var commandType = AvailableCommands.All.GetValueOrDefault(command);
+                    var commandType = AvailableCommands.All.FirstOrDefault(x => x.Key == command);
 
-                    if (commandType != null)
+                    if (!commandType.Equals(default(KeyValuePair<string, Type>)))
                     {
                         IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0], z => z[1]);
-                        ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType, parameters);
+                        ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
                         commandInstance.Execute();
                     }
                 }
