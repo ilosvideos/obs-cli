@@ -20,7 +20,10 @@ namespace obs_cli.Commands.Implementations
         public double OutputHeight { get; set; }
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
+        public IntPtr ScreenToRecordHandle { get; set; }
 
+        // todo: these need to go somewhere else because they might be accessed by multiple commands.
+        // maybe make a class that encapsulates all of the logic in managing them and then have a single static instance of that class?
         public Presentation Presentation;
         public obs_sceneitem_crop AppliedCrop;
 
@@ -48,6 +51,7 @@ namespace obs_cli.Commands.Implementations
             this.CanvasHeight = int.Parse(arguments["canvasHeight"]);
             this.OutputWidth = double.Parse(arguments["outputWidth"]);
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
+            this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
 
             FileWriteService.WriteToFile($"Initializing with CropTop: {CropTop}");
             FileWriteService.WriteToFile($"Initializing with CropRight: {CropRight}");
@@ -60,6 +64,8 @@ namespace obs_cli.Commands.Implementations
             FileWriteService.WriteToFile($"Initializing with CanvasHeight: {CanvasHeight}");
             FileWriteService.WriteToFile($"Initializing with OutputWidth: {OutputWidth}");
             FileWriteService.WriteToFile($"Initializing with OutputHeight: {OutputHeight}");
+
+            FileWriteService.WriteToFile($"Received screen handle: {ScreenToRecordHandle}");
         }
 
         public void Execute()
