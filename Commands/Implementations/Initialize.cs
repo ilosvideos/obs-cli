@@ -1,9 +1,12 @@
 ﻿using OBS;
 using obs_cli.Helpers;
 using obs_cli.Objects;
+using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using static OBS.libobs;
 
 namespace obs_cli.Commands.Implementations
@@ -21,14 +24,24 @@ namespace obs_cli.Commands.Implementations
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
         public IntPtr ScreenToRecordHandle { get; set; }
+        public string SavedAudioInputId { get; set; }
 
         // todo: these need to go somewhere else because they might be accessed by multiple commands.
         // maybe make a class that encapsulates all of the logic in managing them and then have a single static instance of that class?
         public Presentation Presentation;
+        public Scene MainScene;
+        public Scene WebcamScene;
+
         public obs_sceneitem_crop AppliedCrop;
 
         public Source DisplaySource;
         public Item DisplayItem;
+
+        public Source AudioInputSource;
+        public Item AudioInputItem;
+
+        public string CurrentAudioInputId;
+        public VolMeter AudioInputMeter;
 
         public static string Name
         {
@@ -52,6 +65,7 @@ namespace obs_cli.Commands.Implementations
             this.OutputWidth = double.Parse(arguments["outputWidth"]);
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
+            this.SavedAudioInputId = arguments["savedAudioInputId"];
 
             FileWriteService.WriteToFile($"Initializing with CropTop: {CropTop}");
             FileWriteService.WriteToFile($"Initializing with CropRight: {CropRight}");
@@ -91,6 +105,113 @@ namespace obs_cli.Commands.Implementations
             FileWriteService.WriteToFile("Obs.LoadAllModules successful");
 
             FileWriteService.WriteToFile("initialize command end");
+
+            Presentation = new Presentation();
+            MainScene = Presentation.AddScene("Main");
+            WebcamScene = Presentation.AddScene("Webcam");
+            Presentation.SetScene(MainScene);
+
+            DisplaySource = Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
+            Presentation.AddSource(DisplaySource);
+            DisplayItem = Presentation.CreateItem(DisplaySource);
+            DisplayItem.Name = "Monitor Capture SceneItem";
+
+            Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
+
+            DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
+            MainScene.Items.Add(DisplayItem);
+
+            SetAudioInput();
+
+            //SetAudioOutput();
+
+            Presentation.SetItem(0);
+            Presentation.SetSource(0);
+        }
+        private void SetAudioInput()
+        {
+            ObsData aiSettings = new ObsData();
+            aiSettings.SetBool("use_device_timing", false);
+            AudioInputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            aiSettings.Dispose();
+
+            AudioInputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
+            Presentation.AddSource(AudioInputSource);
+            AudioInputItem = Presentation.CreateItem(AudioInputSource);
+            AudioInputItem.Name = "Mic";
+
+            AudioInputMeter = new VolMeter();
+            AudioInputMeter.AttachSource(AudioInputSource);
+            AudioInputMeter.AddCallBack(InputVolumeCallback);
+
+            // not sure what to do with this yet?
+            string savedAudioInputId = this.SavedAudioInputId;
+
+            List<AudioDevice> allAudioInputs = GetAudioInputDevices();
+            bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
+
+            if (savedAudioInputId != null && savedIsInAvailableInputs)
+            {
+                UpdateAudioInput(savedAudioInputId);
+            }
+            else
+            {
+                string defaultDeviceId = Constants.Audio.NO_DEVICE_ID;
+
+                IEnumerable<AudioDevice> availableInputs = allAudioInputs.Where(x => x.id != Constants.Audio.NO_DEVICE_ID);
+                if (availableInputs.Any())
+                {
+                    defaultDeviceId = availableInputs.First().id;
+                }
+
+                UpdateAudioInput(defaultDeviceId);
+            }
+        }
+
+        // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
+        // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
+        // This is probably an over-simplified calculation.
+        // For practical purposes, we are treating -60 as 0 and -9 as 1.
+        public void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        {
+            AudioInputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+        }
+
+        public void UpdateAudioInput(string deviceId)
+        {
+            CurrentAudioInputId = deviceId;
+
+            ObsData aiSettings = new ObsData();
+            aiSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
+            AudioInputSource.Update(aiSettings);
+            aiSettings.Dispose();
+
+            AudioInputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
+            AudioInputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
+
+            // todo: webcam related
+            //Webcam_UpdateAudioDevice();
+        }
+
+        private float CalculateAudioMeterLevel(float magnitude)
+        {
+            float level = 0.0f;
+
+            if (magnitude <= -60)
+            {
+                level = 0.0f;
+            }
+            else if (magnitude >= -9)
+            {
+                level = 1.0f;
+            }
+            else
+            {
+                // 1.96 is 100/(60-9)
+                level = (float)Math.Abs((-60 - magnitude) * (1.96) / 100);
+            }
+
+            return level;
         }
 
         private void ResetAudioInfo()
@@ -158,6 +279,7 @@ namespace obs_cli.Commands.Implementations
                 DisplayItem.SetCrop(AppliedCrop);
             }
 
+            // todo: webcam related
             //CalculateWebcamItemPosition();
 
             obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(
@@ -169,6 +291,50 @@ namespace obs_cli.Commands.Implementations
 
             if (!Obs.ResetVideo(ovi))
                 throw new ApplicationException("ResetVideo failed.");
+        }
+        public List<AudioDevice> GetAudioInputDevices()
+        {
+            return GetAudioDevices(AudioInputSource, "Primary Sound Capture Device");
+        }
+
+        private List<AudioDevice> GetAudioDevices(Source audioSource, string defaultDeviceName)
+        {
+            List<AudioDevice> audioDevices = new List<AudioDevice>();
+
+            audioDevices.Add(new AudioDevice
+            {
+                name = "None",
+                id = Constants.Audio.NO_DEVICE_ID
+            });
+
+            ObsProperty[] audioSourceProperties = audioSource.GetProperties().GetPropertyList();
+            for (int i = 0; i < audioSourceProperties.Length; i++)
+            {
+                if (audioSourceProperties[i].Name.Equals("device_id"))
+                {
+                    string[] propertyNames = audioSourceProperties[i].GetListItemNames();
+                    object[] propertyValues = audioSourceProperties[i].GetListItemValues();
+
+                    for (int j = 0; j < propertyNames.Length; j++)
+                    {
+                        string deviceName = propertyNames[j];
+                        if (deviceName == "Default")
+                        {
+                            deviceName = defaultDeviceName;
+                        }
+
+                        AudioDevice device = new AudioDevice
+                        {
+                            name = deviceName,
+                            id = (string)propertyValues[j]
+                        };
+
+                        audioDevices.Add(device);
+                    }
+                }
+            }
+
+            return audioDevices;
         }
     }
 }
