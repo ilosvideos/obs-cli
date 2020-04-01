@@ -36,9 +36,6 @@ namespace obs_cli.Commands.Implementations
 
         public obs_sceneitem_crop AppliedCrop;
 
-        public Source DisplaySource;
-        public Item DisplayItem;
-
         public static string Name
         {
             get
@@ -108,15 +105,15 @@ namespace obs_cli.Commands.Implementations
             WebcamScene = Presentation.AddScene("Webcam");
             Presentation.SetScene(MainScene);
 
-            DisplaySource = Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
-            Presentation.AddSource(DisplaySource);
-            DisplayItem = Presentation.CreateItem(DisplaySource);
-            DisplayItem.Name = "Monitor Capture SceneItem";
+            Store.Data.Display.DisplaySource = Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
+            Presentation.AddSource(Store.Data.Display.DisplaySource);
+            Store.Data.Display.DisplayItem = Presentation.CreateItem(Store.Data.Display.DisplaySource);
+            Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
 
             Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
 
-            DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
-            MainScene.Items.Add(DisplayItem);
+            Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
+            MainScene.Items.Add(Store.Data.Display.DisplayItem);
 
             SetAudioInput();
 
@@ -307,20 +304,20 @@ namespace obs_cli.Commands.Implementations
             };
 
             //Set the proper display source
-            if (DisplaySource != null)
+            if (Store.Data.Display.DisplaySource != null)
             {
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
-                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(DisplaySource, ScreenHelper.GetScreen(this.ScreenToRecordHandle)));
-                DisplaySource.Update(displaySettings);
+                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, ScreenHelper.GetScreen(this.ScreenToRecordHandle)));
+                Store.Data.Display.DisplaySource.Update(displaySettings);
                 displaySettings.Dispose();
             }
 
             //Set the proper display bounds and crop
-            if (DisplayItem != null)
+            if (Store.Data.Display.DisplayItem != null)
             {
-                DisplayItem.SetBounds(new Vector2(0, 0), ObsBoundsType.None, ObsAlignment.Top);
-                DisplayItem.SetCrop(AppliedCrop);
+                Store.Data.Display.DisplayItem.SetBounds(new Vector2(0, 0), ObsBoundsType.None, ObsAlignment.Top);
+                Store.Data.Display.DisplayItem.SetCrop(AppliedCrop);
             }
 
             // todo: webcam related

@@ -5,5 +5,6 @@ namespace obs_cli.Data
     public class StoreInstance
     {
         public Audio Audio { get; set; }
+        public Display Display { get; set; }
     }
 }
