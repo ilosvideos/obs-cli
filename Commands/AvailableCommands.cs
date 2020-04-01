@@ -9,6 +9,8 @@ namespace obs_cli.Commands
         public static Dictionary<string, Type> All = new Dictionary<string, Type>()
         {
             { Initialize.Name, typeof(Initialize) },
+            { StartRecording.Name, typeof(StartRecording) },
+            { StopRecording.Name, typeof(StopRecording) },
             { Terminate.Name, typeof(Terminate) }
         };
     }

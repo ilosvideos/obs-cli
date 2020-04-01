@@ -20,10 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Objects\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 

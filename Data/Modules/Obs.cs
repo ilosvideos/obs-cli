@@ -9,5 +9,7 @@ namespace obs_cli.Data.Modules
         public Scene MainScene { get; set; }
         public Scene WebcamScene { get; set; }
         public obs_sceneitem_crop AppliedCrop { get; set; }
+
+        public ObsOutputAndEncoders OutputAndEncoders { get; set; }
     }
 }

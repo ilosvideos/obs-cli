@@ -13,7 +13,6 @@ using static OBS.libobs;
 
 namespace obs_cli.Commands.Implementations
 {
-    // todo: need to do InitPresentation logic still
     public class Initialize : ICommand
     {
         public int CropTop { get; set; }        
@@ -39,8 +38,6 @@ namespace obs_cli.Commands.Implementations
 
         public Initialize(IDictionary<string, string> arguments)
         {
-            FileWriteService.WriteToFile($"got {arguments.Count} arguments");
-
             this.CropTop = int.Parse(arguments["cropTop"]);
             this.CropRight = int.Parse(arguments["cropRight"]);
             this.CropBottom = int.Parse(arguments["cropBottom"]);
@@ -53,20 +50,6 @@ namespace obs_cli.Commands.Implementations
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.SavedAudioInputId = arguments["savedAudioInputId"];
             this.SavedAudioOutputId = arguments["savedAudioOutputId"];
-
-            FileWriteService.WriteToFile($"Initializing with CropTop: {CropTop}");
-            FileWriteService.WriteToFile($"Initializing with CropRight: {CropRight}");
-            FileWriteService.WriteToFile($"Initializing with CropBottom: {CropBottom}");
-            FileWriteService.WriteToFile($"Initializing with CropLeft: {CropLeft}");
-
-            FileWriteService.WriteToFile($"Initializing with FrameRate: {FrameRate}");
-
-            FileWriteService.WriteToFile($"Initializing with CanvasWidth: {CanvasWidth}");
-            FileWriteService.WriteToFile($"Initializing with CanvasHeight: {CanvasHeight}");
-            FileWriteService.WriteToFile($"Initializing with OutputWidth: {OutputWidth}");
-            FileWriteService.WriteToFile($"Initializing with OutputHeight: {OutputHeight}");
-
-            FileWriteService.WriteToFile($"Received screen handle: {ScreenToRecordHandle}");
         }
 
         public void Execute()
@@ -91,8 +74,6 @@ namespace obs_cli.Commands.Implementations
 
             FileWriteService.WriteToFile("Obs.LoadAllModules successful");
 
-            FileWriteService.WriteToFile("initialize command end");
-
             Store.Data.Obs.Presentation = new Presentation();
             Store.Data.Obs.MainScene = Store.Data.Obs.Presentation.AddScene("Main");
             Store.Data.Obs.WebcamScene = Store.Data.Obs.Presentation.AddScene("Webcam");
@@ -114,6 +95,8 @@ namespace obs_cli.Commands.Implementations
 
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
+
+            FileWriteService.WriteToFile("initialize command end");
         }
 
         private void SetAudioInput()
