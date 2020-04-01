@@ -1,4 +1,5 @@
 ﻿using obs_cli.Commands;
+using obs_cli.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace obs_cli
         static void Main(string[] args)
         {
             Console.WriteLine("starting");
+            Store.Data = new StoreInstance();
 
             while (true)
             {

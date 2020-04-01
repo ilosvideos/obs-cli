@@ -1,4 +1,5 @@
 ﻿using OBS;
+using obs_cli.Data;
 using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Structs;
@@ -37,12 +38,6 @@ namespace obs_cli.Commands.Implementations
 
         public Source DisplaySource;
         public Item DisplayItem;
-
-        public Source AudioInputSource;
-        public Item AudioInputItem;
-
-        public string CurrentAudioInputId;
-        public VolMeter AudioInputMeter;
 
         public Source AudioOutputSource;
         public Item AudioOutputItem;
@@ -140,17 +135,17 @@ namespace obs_cli.Commands.Implementations
         {
             ObsData aiSettings = new ObsData();
             aiSettings.SetBool("use_device_timing", false);
-            AudioInputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            Store.Data.Audio.AudioInputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
             aiSettings.Dispose();
 
-            AudioInputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
-            Presentation.AddSource(AudioInputSource);
-            AudioInputItem = Presentation.CreateItem(AudioInputSource);
-            AudioInputItem.Name = "Mic";
+            Store.Data.Audio.AudioInputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
+            Presentation.AddSource(Store.Data.Audio.AudioInputSource);
+            Store.Data.Audio.AudioInputItem = Presentation.CreateItem(Store.Data.Audio.AudioInputSource);
+            Store.Data.Audio.AudioInputItem.Name = "Mic";
 
-            AudioInputMeter = new VolMeter();
-            AudioInputMeter.AttachSource(AudioInputSource);
-            AudioInputMeter.AddCallBack(InputVolumeCallback);
+            Store.Data.Audio.AudioInputMeter = new VolMeter();
+            Store.Data.Audio.AudioInputMeter.AttachSource(Store.Data.Audio.AudioInputSource);
+            Store.Data.Audio.AudioInputMeter.AddCallBack(InputVolumeCallback);
 
             // not sure what to do with this yet?
             string savedAudioInputId = this.SavedAudioInputId;
@@ -211,7 +206,7 @@ namespace obs_cli.Commands.Implementations
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         public void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            AudioInputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.AudioInputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         public void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
@@ -221,15 +216,15 @@ namespace obs_cli.Commands.Implementations
 
         public void UpdateAudioInput(string deviceId)
         {
-            CurrentAudioInputId = deviceId;
+            Store.Data.Audio.CurrentAudioInputId = deviceId;
 
             ObsData aiSettings = new ObsData();
             aiSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
-            AudioInputSource.Update(aiSettings);
+            Store.Data.Audio.AudioInputSource.Update(aiSettings);
             aiSettings.Dispose();
 
-            AudioInputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
-            AudioInputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
+            Store.Data.Audio.AudioInputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
+            Store.Data.Audio.AudioInputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
 
             // todo: webcam related
             //Webcam_UpdateAudioDevice();
@@ -349,7 +344,7 @@ namespace obs_cli.Commands.Implementations
         }
         public List<AudioDevice> GetAudioInputDevices()
         {
-            return GetAudioDevices(AudioInputSource, "Primary Sound Capture Device");
+            return GetAudioDevices(Store.Data.Audio.AudioInputSource, "Primary Sound Capture Device");
         }
 
         public List<AudioDevice> GetAudioOutputDevices()
