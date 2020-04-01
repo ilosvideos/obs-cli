@@ -15,7 +15,7 @@ namespace obs_cli.Commands.Implementations
     // todo: need to do InitPresentation logic still
     public class Initialize : ICommand
     {
-        public int CropTop { get; set; }
+        public int CropTop { get; set; }        
         public int CropRight { get; set; }
         public int CropLeft { get; set; }
         public int CropBottom { get; set; }
