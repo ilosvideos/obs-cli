@@ -25,6 +25,7 @@ namespace obs_cli.Commands.Implementations
         public int CanvasHeight { get; set; }
         public IntPtr ScreenToRecordHandle { get; set; }
         public string SavedAudioInputId { get; set; }
+        public string SavedAudioOutputId { get; set; }
 
         // todo: these need to go somewhere else because they might be accessed by multiple commands.
         // maybe make a class that encapsulates all of the logic in managing them and then have a single static instance of that class?
@@ -42,6 +43,12 @@ namespace obs_cli.Commands.Implementations
 
         public string CurrentAudioInputId;
         public VolMeter AudioInputMeter;
+
+        public Source AudioOutputSource;
+        public Item AudioOutputItem;
+
+        public string CurrentAudioOutputId;
+        public VolMeter AudioOutputMeter;
 
         public static string Name
         {
@@ -66,6 +73,7 @@ namespace obs_cli.Commands.Implementations
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.SavedAudioInputId = arguments["savedAudioInputId"];
+            this.SavedAudioOutputId = arguments["savedAudioOutputId"];
 
             FileWriteService.WriteToFile($"Initializing with CropTop: {CropTop}");
             FileWriteService.WriteToFile($"Initializing with CropRight: {CropRight}");
@@ -123,7 +131,7 @@ namespace obs_cli.Commands.Implementations
 
             SetAudioInput();
 
-            //SetAudioOutput();
+            SetAudioOutput();
 
             Presentation.SetItem(0);
             Presentation.SetSource(0);
@@ -168,6 +176,35 @@ namespace obs_cli.Commands.Implementations
             }
         }
 
+        private void SetAudioOutput()
+        {
+            ObsData aoSettings = new ObsData();
+            aoSettings.SetBool("use_device_timing", false);
+            AudioOutputSource = Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
+            aoSettings.Dispose();
+            AudioOutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
+            Presentation.AddSource(AudioOutputSource);
+            AudioOutputItem = Presentation.CreateItem(AudioOutputSource);
+            AudioOutputItem.Name = "Desktop Audio";
+
+            AudioOutputMeter = new VolMeter();
+            AudioOutputMeter.AttachSource(AudioOutputSource);
+            AudioOutputMeter.AddCallBack(OutputVolumeCallback);
+
+            string savedAudioOutputId = this.SavedAudioOutputId;
+            List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
+            bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
+
+            if (savedAudioOutputId != null && savedIsInAvailableOutputs)
+            {
+                UpdateAudioOutput(savedAudioOutputId);
+            }
+            else
+            {
+                UpdateAudioOutput(Constants.Audio.NO_DEVICE_ID);
+            }
+        }
+
         // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
         // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
         // This is probably an over-simplified calculation.
@@ -175,6 +212,11 @@ namespace obs_cli.Commands.Implementations
         public void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
             AudioInputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+        }
+
+        public void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        {
+            AudioOutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         public void UpdateAudioInput(string deviceId)
@@ -191,6 +233,19 @@ namespace obs_cli.Commands.Implementations
 
             // todo: webcam related
             //Webcam_UpdateAudioDevice();
+        }
+
+        public void UpdateAudioOutput(string deviceId)
+        {
+            CurrentAudioOutputId = deviceId;
+
+            ObsData aoSettings = new ObsData();
+            aoSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
+            AudioOutputSource.Update(aoSettings);
+            aoSettings.Dispose();
+
+            AudioOutputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
+            AudioOutputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
         }
 
         private float CalculateAudioMeterLevel(float magnitude)
@@ -295,6 +350,11 @@ namespace obs_cli.Commands.Implementations
         public List<AudioDevice> GetAudioInputDevices()
         {
             return GetAudioDevices(AudioInputSource, "Primary Sound Capture Device");
+        }
+
+        public List<AudioDevice> GetAudioOutputDevices()
+        {
+            return GetAudioDevices(AudioOutputSource, "Primary Sound Output Device");
         }
 
         private List<AudioDevice> GetAudioDevices(Source audioSource, string defaultDeviceName)
