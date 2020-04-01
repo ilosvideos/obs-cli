@@ -39,12 +39,6 @@ namespace obs_cli.Commands.Implementations
         public Source DisplaySource;
         public Item DisplayItem;
 
-        public Source AudioOutputSource;
-        public Item AudioOutputItem;
-
-        public string CurrentAudioOutputId;
-        public VolMeter AudioOutputMeter;
-
         public static string Name
         {
             get
@@ -135,17 +129,17 @@ namespace obs_cli.Commands.Implementations
         {
             ObsData aiSettings = new ObsData();
             aiSettings.SetBool("use_device_timing", false);
-            Store.Data.Audio.AudioInputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            Store.Data.Audio.InputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
             aiSettings.Dispose();
 
-            Store.Data.Audio.AudioInputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
-            Presentation.AddSource(Store.Data.Audio.AudioInputSource);
-            Store.Data.Audio.AudioInputItem = Presentation.CreateItem(Store.Data.Audio.AudioInputSource);
-            Store.Data.Audio.AudioInputItem.Name = "Mic";
+            Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
+            Presentation.AddSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputItem = Presentation.CreateItem(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputItem.Name = "Mic";
 
-            Store.Data.Audio.AudioInputMeter = new VolMeter();
-            Store.Data.Audio.AudioInputMeter.AttachSource(Store.Data.Audio.AudioInputSource);
-            Store.Data.Audio.AudioInputMeter.AddCallBack(InputVolumeCallback);
+            Store.Data.Audio.InputMeter = new VolMeter();
+            Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
 
             // not sure what to do with this yet?
             string savedAudioInputId = this.SavedAudioInputId;
@@ -175,16 +169,16 @@ namespace obs_cli.Commands.Implementations
         {
             ObsData aoSettings = new ObsData();
             aoSettings.SetBool("use_device_timing", false);
-            AudioOutputSource = Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
+            Store.Data.Audio.OutputSource = Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
             aoSettings.Dispose();
-            AudioOutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
-            Presentation.AddSource(AudioOutputSource);
-            AudioOutputItem = Presentation.CreateItem(AudioOutputSource);
-            AudioOutputItem.Name = "Desktop Audio";
+            Store.Data.Audio.OutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
+            Presentation.AddSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputItem = Presentation.CreateItem(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputItem.Name = "Desktop Audio";
 
-            AudioOutputMeter = new VolMeter();
-            AudioOutputMeter.AttachSource(AudioOutputSource);
-            AudioOutputMeter.AddCallBack(OutputVolumeCallback);
+            Store.Data.Audio.OutputMeter = new VolMeter();
+            Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
 
             string savedAudioOutputId = this.SavedAudioOutputId;
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
@@ -206,25 +200,25 @@ namespace obs_cli.Commands.Implementations
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         public void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.AudioInputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.InputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         public void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            AudioOutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.OutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         public void UpdateAudioInput(string deviceId)
         {
-            Store.Data.Audio.CurrentAudioInputId = deviceId;
+            Store.Data.Audio.CurrentInputId = deviceId;
 
             ObsData aiSettings = new ObsData();
             aiSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
-            Store.Data.Audio.AudioInputSource.Update(aiSettings);
+            Store.Data.Audio.InputSource.Update(aiSettings);
             aiSettings.Dispose();
 
-            Store.Data.Audio.AudioInputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
-            Store.Data.Audio.AudioInputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
+            Store.Data.Audio.InputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
+            Store.Data.Audio.InputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
 
             // todo: webcam related
             //Webcam_UpdateAudioDevice();
@@ -232,15 +226,15 @@ namespace obs_cli.Commands.Implementations
 
         public void UpdateAudioOutput(string deviceId)
         {
-            CurrentAudioOutputId = deviceId;
+            Store.Data.Audio.CurrentOutputId = deviceId;
 
             ObsData aoSettings = new ObsData();
             aoSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
-            AudioOutputSource.Update(aoSettings);
+            Store.Data.Audio.OutputSource.Update(aoSettings);
             aoSettings.Dispose();
 
-            AudioOutputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
-            AudioOutputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
+            Store.Data.Audio.OutputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
+            Store.Data.Audio.OutputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
         }
 
         private float CalculateAudioMeterLevel(float magnitude)
@@ -344,12 +338,12 @@ namespace obs_cli.Commands.Implementations
         }
         public List<AudioDevice> GetAudioInputDevices()
         {
-            return GetAudioDevices(Store.Data.Audio.AudioInputSource, "Primary Sound Capture Device");
+            return GetAudioDevices(Store.Data.Audio.InputSource, "Primary Sound Capture Device");
         }
 
         public List<AudioDevice> GetAudioOutputDevices()
         {
-            return GetAudioDevices(AudioOutputSource, "Primary Sound Output Device");
+            return GetAudioDevices(Store.Data.Audio.OutputSource, "Primary Sound Output Device");
         }
 
         private List<AudioDevice> GetAudioDevices(Source audioSource, string defaultDeviceName)

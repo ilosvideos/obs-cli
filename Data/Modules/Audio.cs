@@ -4,16 +4,16 @@ namespace obs_cli.Data.Modules
 {
     public class Audio
     {
-        public Source AudioInputSource { get; set; }
-        public Item AudioInputItem { get; set; }
+        public Source InputSource { get; set; }
+        public Item InputItem { get; set; }
 
-        public string CurrentAudioInputId { get; set; }
-        public VolMeter AudioInputMeter { get; set; }
+        public string CurrentInputId { get; set; }
+        public VolMeter InputMeter { get; set; }
 
-        public Source AudioOutputSource { get; set; }
-        public Item AudioOutputItem { get; set; }
+        public Source OutputSource { get; set; }
+        public Item OutputItem { get; set; }
 
-        public string CurrentAudioOutputId { get; set; }
-        public VolMeter AudioOutputMeter { get; set; }
+        public string CurrentOutputId { get; set; }
+        public VolMeter OutputMeter { get; set; }
     }
 }
