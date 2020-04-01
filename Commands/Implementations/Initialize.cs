@@ -28,14 +28,6 @@ namespace obs_cli.Commands.Implementations
         public string SavedAudioInputId { get; set; }
         public string SavedAudioOutputId { get; set; }
 
-        // todo: these need to go somewhere else because they might be accessed by multiple commands.
-        // maybe make a class that encapsulates all of the logic in managing them and then have a single static instance of that class?
-        public Presentation Presentation;
-        public Scene MainScene;
-        public Scene WebcamScene;
-
-        public obs_sceneitem_crop AppliedCrop;
-
         public static string Name
         {
             get
@@ -100,38 +92,38 @@ namespace obs_cli.Commands.Implementations
 
             FileWriteService.WriteToFile("initialize command end");
 
-            Presentation = new Presentation();
-            MainScene = Presentation.AddScene("Main");
-            WebcamScene = Presentation.AddScene("Webcam");
-            Presentation.SetScene(MainScene);
+            Store.Data.Obs.Presentation = new Presentation();
+            Store.Data.Obs.MainScene = Store.Data.Obs.Presentation.AddScene("Main");
+            Store.Data.Obs.WebcamScene = Store.Data.Obs.Presentation.AddScene("Webcam");
+            Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
 
-            Store.Data.Display.DisplaySource = Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
-            Presentation.AddSource(Store.Data.Display.DisplaySource);
-            Store.Data.Display.DisplayItem = Presentation.CreateItem(Store.Data.Display.DisplaySource);
+            Store.Data.Display.DisplaySource = Store.Data.Obs.Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
+            Store.Data.Obs.Presentation.AddSource(Store.Data.Display.DisplaySource);
+            Store.Data.Display.DisplayItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Display.DisplaySource);
             Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
 
             Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
 
             Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
-            MainScene.Items.Add(Store.Data.Display.DisplayItem);
+            Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
 
             SetAudioInput();
 
             SetAudioOutput();
 
-            Presentation.SetItem(0);
-            Presentation.SetSource(0);
+            Store.Data.Obs.Presentation.SetItem(0);
+            Store.Data.Obs.Presentation.SetSource(0);
         }
         private void SetAudioInput()
         {
             ObsData aiSettings = new ObsData();
             aiSettings.SetBool("use_device_timing", false);
-            Store.Data.Audio.InputSource = Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            Store.Data.Audio.InputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
             aiSettings.Dispose();
 
             Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
-            Presentation.AddSource(Store.Data.Audio.InputSource);
-            Store.Data.Audio.InputItem = Presentation.CreateItem(Store.Data.Audio.InputSource);
+            Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.InputSource);
             Store.Data.Audio.InputItem.Name = "Mic";
 
             Store.Data.Audio.InputMeter = new VolMeter();
@@ -166,11 +158,11 @@ namespace obs_cli.Commands.Implementations
         {
             ObsData aoSettings = new ObsData();
             aoSettings.SetBool("use_device_timing", false);
-            Store.Data.Audio.OutputSource = Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
+            Store.Data.Audio.OutputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
             aoSettings.Dispose();
             Store.Data.Audio.OutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
-            Presentation.AddSource(Store.Data.Audio.OutputSource);
-            Store.Data.Audio.OutputItem = Presentation.CreateItem(Store.Data.Audio.OutputSource);
+            Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.OutputSource);
             Store.Data.Audio.OutputItem.Name = "Desktop Audio";
 
             Store.Data.Audio.OutputMeter = new VolMeter();
@@ -287,15 +279,15 @@ namespace obs_cli.Commands.Implementations
 
         private void ResetVideoInfo()
         {
-            if (Presentation != null)
+            if (Store.Data.Obs.Presentation != null)
             {
-                if (Presentation.SelectedScene.GetName().ToLowerInvariant() != "main")
+                if (Store.Data.Obs.Presentation.SelectedScene.GetName().ToLowerInvariant() != "main")
                 {
-                    Presentation.SetScene(0);
+                    Store.Data.Obs.Presentation.SetScene(0);
                 }
             }
 
-            AppliedCrop = new obs_sceneitem_crop
+            Store.Data.Obs.AppliedCrop = new obs_sceneitem_crop
             {
                 left = CropLeft,
                 top = CropTop,
@@ -317,7 +309,7 @@ namespace obs_cli.Commands.Implementations
             if (Store.Data.Display.DisplayItem != null)
             {
                 Store.Data.Display.DisplayItem.SetBounds(new Vector2(0, 0), ObsBoundsType.None, ObsAlignment.Top);
-                Store.Data.Display.DisplayItem.SetCrop(AppliedCrop);
+                Store.Data.Display.DisplayItem.SetCrop(Store.Data.Obs.AppliedCrop);
             }
 
             // todo: webcam related
