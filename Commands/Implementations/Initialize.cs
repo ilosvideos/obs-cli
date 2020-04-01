@@ -2,6 +2,7 @@
 using obs_cli.Data;
 using obs_cli.Helpers;
 using obs_cli.Objects;
+using obs_cli.Services;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
@@ -114,6 +115,7 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
         }
+
         private void SetAudioInput()
         {
             ObsData aiSettings = new ObsData();
@@ -130,15 +132,14 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
             Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
 
-            // not sure what to do with this yet?
             string savedAudioInputId = this.SavedAudioInputId;
 
-            List<AudioDevice> allAudioInputs = GetAudioInputDevices();
+            List<AudioDevice> allAudioInputs = AudioService.GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
 
             if (savedAudioInputId != null && savedIsInAvailableInputs)
             {
-                UpdateAudioInput(savedAudioInputId);
+                AudioService.UpdateAudioInput(savedAudioInputId);
             }
             else
             {
@@ -150,7 +151,7 @@ namespace obs_cli.Commands.Implementations
                     defaultDeviceId = availableInputs.First().id;
                 }
 
-                UpdateAudioInput(defaultDeviceId);
+                AudioService.UpdateAudioInput(defaultDeviceId);
             }
         }
 
@@ -170,16 +171,16 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
 
             string savedAudioOutputId = this.SavedAudioOutputId;
-            List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
+            List<AudioDevice> allAudioOutputs = AudioService.GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
 
             if (savedAudioOutputId != null && savedIsInAvailableOutputs)
             {
-                UpdateAudioOutput(savedAudioOutputId);
+                AudioService.UpdateAudioOutput(savedAudioOutputId);
             }
             else
             {
-                UpdateAudioOutput(Constants.Audio.NO_DEVICE_ID);
+                AudioService.UpdateAudioOutput(Constants.Audio.NO_DEVICE_ID);
             }
         }
 
@@ -187,64 +188,14 @@ namespace obs_cli.Commands.Implementations
         // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
         // This is probably an over-simplified calculation.
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
-        public void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.InputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.InputMeter.Level = AudioService.CalculateAudioMeterLevel(magnitude[0]);
         }
 
-        public void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.OutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
-        }
-
-        public void UpdateAudioInput(string deviceId)
-        {
-            Store.Data.Audio.CurrentInputId = deviceId;
-
-            ObsData aiSettings = new ObsData();
-            aiSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
-            Store.Data.Audio.InputSource.Update(aiSettings);
-            aiSettings.Dispose();
-
-            Store.Data.Audio.InputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
-            Store.Data.Audio.InputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
-
-            // todo: webcam related
-            //Webcam_UpdateAudioDevice();
-        }
-
-        public void UpdateAudioOutput(string deviceId)
-        {
-            Store.Data.Audio.CurrentOutputId = deviceId;
-
-            ObsData aoSettings = new ObsData();
-            aoSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
-            Store.Data.Audio.OutputSource.Update(aoSettings);
-            aoSettings.Dispose();
-
-            Store.Data.Audio.OutputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
-            Store.Data.Audio.OutputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
-        }
-
-        private float CalculateAudioMeterLevel(float magnitude)
-        {
-            float level = 0.0f;
-
-            if (magnitude <= -60)
-            {
-                level = 0.0f;
-            }
-            else if (magnitude >= -9)
-            {
-                level = 1.0f;
-            }
-            else
-            {
-                // 1.96 is 100/(60-9)
-                level = (float)Math.Abs((-60 - magnitude) * (1.96) / 100);
-            }
-
-            return level;
+            Store.Data.Audio.OutputMeter.Level = AudioService.CalculateAudioMeterLevel(magnitude[0]);
         }
 
         private void ResetAudioInfo()
@@ -257,24 +208,6 @@ namespace obs_cli.Commands.Implementations
 
             if (!Obs.ResetAudio(avi))
                 throw new ApplicationException("ResetAudio failed.");
-        }
-
-        private uint GetFrameRate()
-        {
-            int minfps = 4;
-            int maxfps = 30;
-            int fps = (int)FrameRate;
-
-            if (fps < 4)
-            {
-                fps = minfps;
-            }
-            else if (fps > maxfps)
-            {
-                fps = maxfps;
-            }
-
-            return (uint)fps;
         }
 
         private void ResetVideoInfo()
@@ -320,59 +253,10 @@ namespace obs_cli.Commands.Implementations
                 (uint)CanvasHeight,
                 (uint)OutputWidth,
                 (uint)OutputHeight,
-                GetFrameRate());
+                VideoService.GetFrameRate(FrameRate));
 
             if (!Obs.ResetVideo(ovi))
                 throw new ApplicationException("ResetVideo failed.");
-        }
-        public List<AudioDevice> GetAudioInputDevices()
-        {
-            return GetAudioDevices(Store.Data.Audio.InputSource, "Primary Sound Capture Device");
-        }
-
-        public List<AudioDevice> GetAudioOutputDevices()
-        {
-            return GetAudioDevices(Store.Data.Audio.OutputSource, "Primary Sound Output Device");
-        }
-
-        private List<AudioDevice> GetAudioDevices(Source audioSource, string defaultDeviceName)
-        {
-            List<AudioDevice> audioDevices = new List<AudioDevice>();
-
-            audioDevices.Add(new AudioDevice
-            {
-                name = "None",
-                id = Constants.Audio.NO_DEVICE_ID
-            });
-
-            ObsProperty[] audioSourceProperties = audioSource.GetProperties().GetPropertyList();
-            for (int i = 0; i < audioSourceProperties.Length; i++)
-            {
-                if (audioSourceProperties[i].Name.Equals("device_id"))
-                {
-                    string[] propertyNames = audioSourceProperties[i].GetListItemNames();
-                    object[] propertyValues = audioSourceProperties[i].GetListItemValues();
-
-                    for (int j = 0; j < propertyNames.Length; j++)
-                    {
-                        string deviceName = propertyNames[j];
-                        if (deviceName == "Default")
-                        {
-                            deviceName = defaultDeviceName;
-                        }
-
-                        AudioDevice device = new AudioDevice
-                        {
-                            name = deviceName,
-                            id = (string)propertyValues[j]
-                        };
-
-                        audioDevices.Add(device);
-                    }
-                }
-            }
-
-            return audioDevices;
         }
     }
 }
