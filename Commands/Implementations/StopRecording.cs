@@ -1,4 +1,5 @@
 ﻿using obs_cli.Data;
+using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,6 +51,12 @@ namespace obs_cli.Commands.Implementations
 
             recordDurationStopWatch.Reset();
             recordedFilesDurations.Clear();
+
+            // todo: this class isn't correctly named
+            var uploadQueueItem = new UploadQueueItem();
+            uploadQueueItem.inputFiles = Store.Data.Record.RecordedFiles;
+            uploadQueueItem.videoFileName = "poop";
+            uploadQueueItem.combineInputFiles();
 
             //OnStopFinished();
         }

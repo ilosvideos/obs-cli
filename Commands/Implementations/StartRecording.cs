@@ -24,7 +24,6 @@ namespace obs_cli.Commands.Implementations
         public string VideoOutputFolder { get; set; }
 
         public string lastVideoName;
-        public List<FileInfo> recordedFiles = new List<FileInfo>();
 
         public StartRecording(IDictionary<string, string> arguments)
         {
@@ -108,13 +107,13 @@ namespace obs_cli.Commands.Implementations
         {
             // Output
             string videoDirectory = $"{FolderService.GetPath(KnownFolder.Videos)}\\{VideoOutputFolder}";
-            if (recordedFiles.Count == 0)
+            if (Store.Data.Record.RecordedFiles.Count == 0)
             {
                 lastVideoName = $"ScreenRecording {DateTime.Now:yyyy-MM-dd HH.mm.ss}";
             }
-            string videoFileName = lastVideoName + "_part " + (recordedFiles.Count + 1) + ".mp4";
+            string videoFileName = lastVideoName + "_part " + (Store.Data.Record.RecordedFiles.Count + 1) + ".mp4";
             string videoFilePath = $"{videoDirectory}\\{videoFileName}";
-            recordedFiles.Add(new FileInfo(videoFilePath));
+            Store.Data.Record.RecordedFiles.Add(new FileInfo(videoFilePath));
 
             Directory.CreateDirectory(videoDirectory);
             videoFilePath = videoFilePath.Replace("\\", "/"); // OBS uses forward slashes

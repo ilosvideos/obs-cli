@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="NReco.VideoConverter.LT">
+      <HintPath>..\..\Windows Screen Recorder 2\obs-studio\build64\rundir\Debug\bin\64bit\NReco.VideoConverter.LT.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
