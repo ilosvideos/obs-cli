@@ -66,7 +66,19 @@ namespace obs_cli.Commands.Implementations
 
             FileWriteService.WriteToFile("ResetAudioInfo successful");
 
-            ResetVideoInfo();
+            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
+            {
+                CropTop = CropTop,
+                CropRight = CropRight,
+                CropLeft = CropLeft,
+                CropBottom = CropBottom,
+                FrameRate = FrameRate,
+                OutputWidth = OutputWidth,
+                OutputHeight = OutputHeight,
+                CanvasWidth = CanvasWidth,
+                CanvasHeight = CanvasHeight,
+                ScreenToRecordHandle = ScreenToRecordHandle
+            });
 
             FileWriteService.WriteToFile("ResetVideoInfo successful");
 
@@ -191,55 +203,6 @@ namespace obs_cli.Commands.Implementations
 
             if (!Obs.ResetAudio(avi))
                 throw new ApplicationException("ResetAudio failed.");
-        }
-
-        private void ResetVideoInfo()
-        {
-            if (Store.Data.Obs.Presentation != null)
-            {
-                if (Store.Data.Obs.Presentation.SelectedScene.GetName().ToLowerInvariant() != "main")
-                {
-                    Store.Data.Obs.Presentation.SetScene(0);
-                }
-            }
-
-            Store.Data.Obs.AppliedCrop = new obs_sceneitem_crop
-            {
-                left = CropLeft,
-                top = CropTop,
-                right = CropRight,
-                bottom = CropBottom
-            };
-
-            //Set the proper display source
-            if (Store.Data.Display.DisplaySource != null)
-            {
-                ObsData displaySettings = new ObsData();
-                displaySettings.SetBool("capture_cursor", true);
-                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, ScreenHelper.GetScreen(this.ScreenToRecordHandle)));
-                Store.Data.Display.DisplaySource.Update(displaySettings);
-                displaySettings.Dispose();
-            }
-
-            //Set the proper display bounds and crop
-            if (Store.Data.Display.DisplayItem != null)
-            {
-                Store.Data.Display.DisplayItem.SetBounds(new Vector2(0, 0), ObsBoundsType.None, ObsAlignment.Top);
-                Store.Data.Display.DisplayItem.SetCrop(Store.Data.Obs.AppliedCrop);
-            }
-
-            // todo: webcam related
-            //CalculateWebcamItemPosition();
-
-            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(
-                (uint)CanvasWidth,
-                (uint)CanvasHeight,
-                (uint)OutputWidth,
-                (uint)OutputHeight,
-                VideoService.GetFrameRate(FrameRate));
-
-            if (!Obs.ResetVideo(ovi))
-                throw new ApplicationException("ResetVideo failed.");
         }
     }
 }
