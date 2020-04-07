@@ -14,5 +14,10 @@ namespace obs_cli.Objects
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
         public IntPtr ScreenToRecordHandle { get; set; }
+
+        public double ActiveScreenBoundsWidth { get; set; }
+        public double ActiveScreenBoundsHeight { get; set; }
+        public double ActiveScreenBoundsX { get; set; }
+        public double ActiveScreenBoundsY { get; set; }
     }
 }

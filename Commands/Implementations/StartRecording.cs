@@ -27,6 +27,11 @@ namespace obs_cli.Commands.Implementations
 
         public string LastVideoName;
 
+        public int ActiveScreenBoundsWidth { get; set; }
+        public int ActiveScreenBoundsHeight { get; set; }
+        public int ActiveScreenBoundsX { get; set; }
+        public int ActiveScreenBoundsY { get; set; }
+
         public static string Name
         {
             get
@@ -48,6 +53,11 @@ namespace obs_cli.Commands.Implementations
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.VideoOutputFolder = arguments["videoOutputFolder"];
+
+            this.ActiveScreenBoundsWidth = int.Parse(arguments["activeScreenBoundsWidth"]);
+            this.ActiveScreenBoundsHeight = int.Parse(arguments["activeScreenBoundsHeight"]);
+            this.ActiveScreenBoundsX = int.Parse(arguments["activeScreenBoundsX"]);
+            this.ActiveScreenBoundsY = int.Parse(arguments["activeScreenBoundsY"]);
         }
 
         public void Execute()
@@ -67,15 +77,18 @@ namespace obs_cli.Commands.Implementations
                     OutputHeight = OutputHeight,
                     CanvasWidth = CanvasWidth,
                     CanvasHeight = CanvasHeight,
-                    ScreenToRecordHandle = ScreenToRecordHandle
+                    ScreenToRecordHandle = ScreenToRecordHandle,
+                    ActiveScreenBoundsWidth = ActiveScreenBoundsWidth,
+                    ActiveScreenBoundsHeight = ActiveScreenBoundsHeight,
+                    ActiveScreenBoundsX = ActiveScreenBoundsX,
+                    ActiveScreenBoundsY = ActiveScreenBoundsY,
                 });
 
                 FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
                 ObsOutputAndEncoders outputAndEncoders = CreateNewObsOutput();
-                outputAndEncoders.obsOutput.Start();
-
                 Store.Data.Obs.OutputAndEncoders = outputAndEncoders;
+                Store.Data.Obs.OutputAndEncoders.obsOutput.Start();
 
                 FileWriteService.WriteToFile("recording started");
             }
@@ -103,13 +116,15 @@ namespace obs_cli.Commands.Implementations
         {
             ObsEncoder obsVideoEncoder = new ObsEncoder(ObsEncoderType.Video, "obs_x264", "simple_h264_stream");
             //obsVideoEncoder.Dispose();
-            obsVideoEncoder.SetVideo(Obs.GetVideo());
+            IntPtr obsVideoPointer = Obs.GetVideo();
+            FileWriteService.WriteToFile($"using {obsVideoPointer} video pointer");
+            obsVideoEncoder.SetVideo(obsVideoPointer);
 
-            ObsData vEncoderSettings = new ObsData();
-            vEncoderSettings.SetInt("bitrate", Constants.Video.ENCODER_BITRATE);
-            vEncoderSettings.SetString("rate_control", Constants.Video.RATE_CONTROL);
-            obsVideoEncoder.Update(vEncoderSettings);
-            vEncoderSettings.Dispose();
+            ObsData videoEncoderSettings = new ObsData();
+            videoEncoderSettings.SetInt("bitrate", Constants.Video.ENCODER_BITRATE);
+            videoEncoderSettings.SetString("rate_control", Constants.Video.RATE_CONTROL);
+            obsVideoEncoder.Update(videoEncoderSettings);
+            videoEncoderSettings.Dispose();
 
             return obsVideoEncoder;
         }
@@ -128,13 +143,13 @@ namespace obs_cli.Commands.Implementations
             ObsEncoder obsAudioEncoder = new ObsEncoder(ObsEncoderType.Audio, encoderId, "simple_aac");
             obsAudioEncoder.SetAudio(Obs.GetAudio());
 
-            ObsData aEncoderSettings = new ObsData();
-            aEncoderSettings.SetInt("bitrate", Constants.Audio.ENCODER_BITRATE);
-            aEncoderSettings.SetString("rate_control", Constants.Audio.RATE_CONTROL);
-            aEncoderSettings.SetInt("samplerate", Constants.Audio.SAMPLES_PER_SEC);
-            aEncoderSettings.SetBoolDefault("allow he-aac", true);
-            obsAudioEncoder.Update(aEncoderSettings);
-            aEncoderSettings.Dispose();
+            ObsData audioEncoderSettings = new ObsData();
+            audioEncoderSettings.SetInt("bitrate", Constants.Audio.ENCODER_BITRATE);
+            audioEncoderSettings.SetString("rate_control", Constants.Audio.RATE_CONTROL);
+            audioEncoderSettings.SetInt("samplerate", Constants.Audio.SAMPLES_PER_SEC);
+            audioEncoderSettings.SetBoolDefault("allow he-aac", true);
+            obsAudioEncoder.Update(audioEncoderSettings);
+            audioEncoderSettings.Dispose();
 
             return obsAudioEncoder;
         }
