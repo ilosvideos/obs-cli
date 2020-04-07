@@ -13,6 +13,20 @@ namespace obs_cli.Commands.Implementations
 {
     public class StartRecording : ICommand
     {
+        public int CropTop { get; set; }
+        public int CropRight { get; set; }
+        public int CropLeft { get; set; }
+        public int CropBottom { get; set; }
+        public uint FrameRate { get; set; }
+        public double OutputWidth { get; set; }
+        public double OutputHeight { get; set; }
+        public int CanvasWidth { get; set; }
+        public int CanvasHeight { get; set; }
+        public IntPtr ScreenToRecordHandle { get; set; }
+        public string VideoOutputFolder { get; set; }
+
+        public string LastVideoName;
+
         public static string Name
         {
             get
@@ -21,12 +35,18 @@ namespace obs_cli.Commands.Implementations
             }
         }
 
-        public string VideoOutputFolder { get; set; }
-
-        public string lastVideoName;
-
         public StartRecording(IDictionary<string, string> arguments)
         {
+            this.CropTop = int.Parse(arguments["cropTop"]);
+            this.CropRight = int.Parse(arguments["cropRight"]);
+            this.CropBottom = int.Parse(arguments["cropBottom"]);
+            this.CropLeft = int.Parse(arguments["cropLeft"]);
+            this.FrameRate = uint.Parse(arguments["frameRate"]);
+            this.CanvasWidth = int.Parse(arguments["canvasWidth"]);
+            this.CanvasHeight = int.Parse(arguments["canvasHeight"]);
+            this.OutputWidth = double.Parse(arguments["outputWidth"]);
+            this.OutputHeight = double.Parse(arguments["outputHeight"]);
+            this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.VideoOutputFolder = arguments["videoOutputFolder"];
         }
 
@@ -36,6 +56,22 @@ namespace obs_cli.Commands.Implementations
 
             try 
             {
+                bool resetVideoInfoStatus = VideoService.ResetVideoInfo(new ResetVideoInfoParameters
+                {
+                    CropTop = CropTop,
+                    CropRight = CropRight,
+                    CropLeft = CropLeft,
+                    CropBottom = CropBottom,
+                    FrameRate = FrameRate,
+                    OutputWidth = OutputWidth,
+                    OutputHeight = OutputHeight,
+                    CanvasWidth = CanvasWidth,
+                    CanvasHeight = CanvasHeight,
+                    ScreenToRecordHandle = ScreenToRecordHandle
+                });
+
+                FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
+
                 ObsOutputAndEncoders outputAndEncoders = CreateNewObsOutput();
                 outputAndEncoders.obsOutput.Start();
 
@@ -109,9 +145,9 @@ namespace obs_cli.Commands.Implementations
             string videoDirectory = $"{FolderService.GetPath(KnownFolder.Videos)}\\{VideoOutputFolder}";
             if (Store.Data.Record.RecordedFiles.Count == 0)
             {
-                lastVideoName = $"ScreenRecording {DateTime.Now:yyyy-MM-dd HH.mm.ss}";
+                LastVideoName = $"ScreenRecording {DateTime.Now:yyyy-MM-dd HH.mm.ss}";
             }
-            string videoFileName = lastVideoName + "_part " + (Store.Data.Record.RecordedFiles.Count + 1) + ".mp4";
+            string videoFileName = LastVideoName + "_part " + (Store.Data.Record.RecordedFiles.Count + 1) + ".mp4";
             string videoFilePath = $"{videoDirectory}\\{videoFileName}";
             Store.Data.Record.RecordedFiles.Add(new FileInfo(videoFilePath));
 

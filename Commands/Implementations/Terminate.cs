@@ -1,5 +1,6 @@
 ﻿using obs_cli.Helpers;
 using System;
+using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -11,6 +12,11 @@ namespace obs_cli.Commands.Implementations
             {
                 return "terminate";
             }
+        }
+
+        public Terminate(IDictionary<string, string> arguments)
+        {
+
         }
 
         public void Execute()

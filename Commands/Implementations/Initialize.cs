@@ -15,7 +15,7 @@ namespace obs_cli.Commands.Implementations
 {
     public class Initialize : ICommand
     {
-        public int CropTop { get; set; }        
+        public int CropTop { get; set; }
         public int CropRight { get; set; }
         public int CropLeft { get; set; }
         public int CropBottom { get; set; }
@@ -66,7 +66,7 @@ namespace obs_cli.Commands.Implementations
 
             FileWriteService.WriteToFile("ResetAudioInfo successful");
 
-            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
+            bool resetVideoInfoStatus = VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
                 CropTop = CropTop,
                 CropRight = CropRight,
@@ -80,7 +80,7 @@ namespace obs_cli.Commands.Implementations
                 ScreenToRecordHandle = ScreenToRecordHandle
             });
 
-            FileWriteService.WriteToFile("ResetVideoInfo successful");
+            FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
             Obs.LoadAllModules();
 
