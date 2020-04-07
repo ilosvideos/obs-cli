@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using static OBS.libobs;
 
 namespace obs_cli.Services
@@ -59,7 +60,10 @@ namespace obs_cli.Services
             {
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
-                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, ScreenHelper.GetScreen((int)parameters.ActiveScreenBoundsWidth, (int)parameters.ActiveScreenBoundsHeight, (int)parameters.ActiveScreenBoundsX, (int)parameters.ActiveScreenBoundsY)));
+
+                Screen activeScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
+                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, activeScreen));
+
                 Store.Data.Display.DisplaySource.Update(displaySettings);
                 displaySettings.Dispose();
             }
