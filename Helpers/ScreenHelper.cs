@@ -10,11 +10,5 @@ namespace obs_cli.Helpers
         {
             return Screen.FromHandle(handle);
         }
-
-        public static Screen GetScreen(int width, int height, int x, int y)
-        {
-            var bounds = new Rectangle(x, y, width, height);
-            return Screen.FromRectangle(bounds);
-        }
     }
 }
