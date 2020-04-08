@@ -7,10 +7,10 @@ namespace obs_cli.Objects
 {
 	public class VideoMerge
 	{
-		public string VideoFileName;
-		public List<FileInfo> InputFiles = new List<FileInfo>();
-		public FileInfo OutputFile;
-		public FileInfo TempFileList;
+		public string VideoFileName { get; set; }
+		public List<FileInfo> InputFiles { get; set; }
+		public FileInfo OutputFile { get; set; }
+		public FileInfo TempFileList { get; set; }
 
 		public VideoMerge(List<FileInfo> inputFiles)
 		{
