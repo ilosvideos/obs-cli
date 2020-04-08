@@ -1,13 +1,12 @@
 ﻿using OBS;
 using obs_cli.Data;
-using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using static OBS.libobs;
 
 namespace obs_cli.Services
 {
@@ -95,6 +94,105 @@ namespace obs_cli.Services
 
             Store.Data.Audio.OutputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
             Store.Data.Audio.OutputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
+        }
+
+        /// <summary>
+        /// Resets and updates the audio settings for audio output.
+        /// </summary>
+        /// <returns></returns>
+        public static bool ResetAudioInfo()
+        {
+            obs_audio_info avi = new obs_audio_info
+            {
+                samples_per_sec = Constants.Audio.SAMPLES_PER_SEC,
+                speakers = speaker_layout.SPEAKERS_STEREO
+            };
+
+            if (!Obs.ResetAudio(avi))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static void SetAudioInput(string savedAudioInputId)
+        {
+            ObsData aiSettings = new ObsData();
+            aiSettings.SetBool("use_device_timing", false);
+            Store.Data.Audio.InputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            aiSettings.Dispose();
+
+            Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
+            Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputItem.Name = "Mic";
+
+            Store.Data.Audio.InputMeter = new VolMeter();
+            Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
+
+            List<AudioDevice> allAudioInputs = GetAudioInputDevices();
+            bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
+
+            if (savedAudioInputId != null && savedIsInAvailableInputs)
+            {
+                UpdateAudioInput(savedAudioInputId);
+            }
+            else
+            {
+                string defaultDeviceId = Constants.Audio.NO_DEVICE_ID;
+
+                IEnumerable<AudioDevice> availableInputs = allAudioInputs.Where(x => x.id != Constants.Audio.NO_DEVICE_ID);
+                if (availableInputs.Any())
+                {
+                    defaultDeviceId = availableInputs.First().id;
+                }
+
+                UpdateAudioInput(defaultDeviceId);
+            }
+        }
+
+        public static void SetAudioOutput(string savedAudioOutputId)
+        {
+            ObsData aoSettings = new ObsData();
+            aoSettings.SetBool("use_device_timing", false);
+            Store.Data.Audio.OutputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
+            aoSettings.Dispose();
+            Store.Data.Audio.OutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
+            Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputItem.Name = "Desktop Audio";
+
+            Store.Data.Audio.OutputMeter = new VolMeter();
+            Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
+
+            List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
+            bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
+
+            if (savedAudioOutputId != null && savedIsInAvailableOutputs)
+            {
+                UpdateAudioOutput(savedAudioOutputId);
+            }
+            else
+            {
+                UpdateAudioOutput(Constants.Audio.NO_DEVICE_ID);
+            }
+        }
+
+        // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
+        // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
+        // This is probably an over-simplified calculation.
+        // For practical purposes, we are treating -60 as 0 and -9 as 1.
+        private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        {
+            Store.Data.Audio.InputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+        }
+
+        private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        {
+            Store.Data.Audio.OutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         /// <summary>
