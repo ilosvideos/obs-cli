@@ -1,8 +1,6 @@
 ﻿using obs_cli.Data;
 using obs_cli.Objects;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Timers;
 
 namespace obs_cli.Commands.Implementations
@@ -17,25 +15,21 @@ namespace obs_cli.Commands.Implementations
             }
         }
 
-        private Timer outputStopTimer;
-
-        public List<TimeSpan> recordedFilesDurations = new List<TimeSpan>();
-        public Stopwatch recordDurationStopWatch = new Stopwatch();
+        private Timer OutputStopTimer { get; set; }
 
         public StopRecording(IDictionary<string, string> arguments)
         {
-
+            OutputStopTimer = new Timer();
         }
 
         public void Execute()
         {
             Store.Data.Obs.OutputAndEncoders.obsOutput.Stop();
 
-            outputStopTimer = new Timer();
-            outputStopTimer.Interval = 50;
-            outputStopTimer.Elapsed += new ElapsedEventHandler(StopRecordingWhenOutputInactive);
-            outputStopTimer.Enabled = true;
-            outputStopTimer.Start();
+            OutputStopTimer.Interval = 50;
+            OutputStopTimer.Elapsed += new ElapsedEventHandler(StopRecordingWhenOutputInactive);
+            OutputStopTimer.Enabled = true;
+            OutputStopTimer.Start();
         }
 
         private void StopRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
@@ -45,17 +39,13 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            outputStopTimer.Stop();
-            outputStopTimer.Dispose();
-            outputStopTimer = null;
+            OutputStopTimer.Stop();
+            OutputStopTimer.Dispose();
+            OutputStopTimer = null;
 
             Store.Data.Obs.OutputAndEncoders.Dispose();
 
-            recordDurationStopWatch.Reset();
-            recordedFilesDurations.Clear();
-
-            var videoMerge = new VideoMerge(Store.Data.Record.RecordedFiles);
-            videoMerge.CombineAndWrite();
+            new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
         }
     }
 }

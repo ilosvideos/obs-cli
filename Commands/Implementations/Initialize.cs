@@ -54,7 +54,7 @@ namespace obs_cli.Commands.Implementations
 
         public void Execute()
         {
-            FileWriteService.WriteToFile("initialize command start");
+            FileWriteService.WriteLineToFile("initialize command start");
 
             if (!Obs.Startup("en-US"))
             {
@@ -64,7 +64,7 @@ namespace obs_cli.Commands.Implementations
 
             ResetAudioInfo();
 
-            FileWriteService.WriteToFile("ResetAudioInfo successful");
+            FileWriteService.WriteLineToFile("ResetAudioInfo successful");
 
             bool resetVideoInfoStatus = VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
@@ -80,11 +80,11 @@ namespace obs_cli.Commands.Implementations
                 ScreenToRecordHandle = ScreenToRecordHandle
             });
 
-            FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
+            FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
             Obs.LoadAllModules();
 
-            FileWriteService.WriteToFile("Obs.LoadAllModules successful");
+            FileWriteService.WriteLineToFile("Obs.LoadAllModules successful");
 
             Store.Data.Obs.Presentation = new Presentation();
             Store.Data.Obs.MainScene = Store.Data.Obs.Presentation.AddScene("Main");
@@ -109,7 +109,7 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
 
-            FileWriteService.WriteToFile("initialize command end");
+            FileWriteService.WriteLineToFile("initialize command end");
         }
 
         private void SetAudioInput()

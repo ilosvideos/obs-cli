@@ -52,7 +52,7 @@ namespace obs_cli.Commands.Implementations
 
         public void Execute()
         {
-            FileWriteService.WriteToFile("in start recording execute");
+            FileWriteService.WriteLineToFile("in start recording execute");
 
             try 
             {
@@ -70,17 +70,17 @@ namespace obs_cli.Commands.Implementations
                     ScreenToRecordHandle = ScreenToRecordHandle
                 });
 
-                FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
+                FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
                 ObsOutputAndEncoders outputAndEncoders = CreateNewObsOutput();
                 Store.Data.Obs.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Obs.OutputAndEncoders.obsOutput.Start();
 
-                FileWriteService.WriteToFile("recording started");
+                FileWriteService.WriteLineToFile("recording started");
             }
             catch(Exception ex)
             {
-                FileWriteService.WriteToFile(ex.Message);
+                FileWriteService.WriteLineToFile(ex.Message);
             }
         }
 
@@ -103,7 +103,7 @@ namespace obs_cli.Commands.Implementations
             ObsEncoder obsVideoEncoder = new ObsEncoder(ObsEncoderType.Video, "obs_x264", "simple_h264_stream");
             //obsVideoEncoder.Dispose();
             IntPtr obsVideoPointer = Obs.GetVideo();
-            FileWriteService.WriteToFile($"using {obsVideoPointer} video pointer");
+            FileWriteService.WriteLineToFile($"using {obsVideoPointer} video pointer");
             obsVideoEncoder.SetVideo(obsVideoPointer);
 
             ObsData videoEncoderSettings = new ObsData();

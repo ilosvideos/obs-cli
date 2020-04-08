@@ -20,7 +20,7 @@ namespace obs_cli
                 string line = Console.ReadLine();
 
                 Console.WriteLine($"line: {line}");
-                FileWriteService.WriteToFile($"line: {line}");
+                FileWriteService.WriteLineToFile($"line: {line}");
 
                 List<string> argumentTokens = new List<string>(line.Split(null));
                 if (argumentTokens.Count > 0)

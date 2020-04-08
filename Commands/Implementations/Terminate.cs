@@ -21,7 +21,7 @@ namespace obs_cli.Commands.Implementations
 
         public void Execute()
         {
-            FileWriteService.WriteToFile("terminating");
+            FileWriteService.WriteLineToFile("terminating");
             Environment.Exit(0);
         }
     }
