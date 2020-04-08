@@ -30,7 +30,6 @@ namespace obs_cli.Commands.Implementations
         public void Execute()
         {
             Store.Data.Obs.OutputAndEncoders.obsOutput.Stop();
-            //OnStopRequested();
 
             outputStopTimer = new Timer();
             outputStopTimer.Interval = 50;
@@ -41,7 +40,10 @@ namespace obs_cli.Commands.Implementations
 
         private void StopRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
         {
-            if (Store.Data.Obs.OutputAndEncoders.obsOutput != null && Store.Data.Obs.OutputAndEncoders.obsOutput.Active) return;
+            if (Store.Data.Obs.OutputAndEncoders.obsOutput != null && Store.Data.Obs.OutputAndEncoders.obsOutput.Active)
+            {
+                return;
+            }
 
             outputStopTimer.Stop();
             outputStopTimer.Dispose();
@@ -52,13 +54,8 @@ namespace obs_cli.Commands.Implementations
             recordDurationStopWatch.Reset();
             recordedFilesDurations.Clear();
 
-            // todo: this class isn't correctly named
-            var uploadQueueItem = new UploadQueueItem();
-            uploadQueueItem.inputFiles = Store.Data.Record.RecordedFiles;
-            uploadQueueItem.videoFileName = "poop";
-            uploadQueueItem.combineInputFiles();
-
-            //OnStopFinished();
+            var videoMerge = new VideoMerge(Store.Data.Record.RecordedFiles);
+            videoMerge.CombineAndWrite();
         }
     }
 }
