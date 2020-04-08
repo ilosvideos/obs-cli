@@ -2,10 +2,6 @@
 using obs_cli.Data;
 using obs_cli.Helpers;
 using obs_cli.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using static OBS.libobs;
 
@@ -37,6 +33,11 @@ namespace obs_cli.Services
             return (uint)fps;
         }
 
+        /// <summary>
+        /// Resets and updates the video settings for video output.
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public static bool ResetVideoInfo(ResetVideoInfoParameters parameters)
         {
             if (Store.Data.Obs.Presentation != null)
