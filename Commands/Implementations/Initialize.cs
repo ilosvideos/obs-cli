@@ -28,11 +28,6 @@ namespace obs_cli.Commands.Implementations
         public string SavedAudioInputId { get; set; }
         public string SavedAudioOutputId { get; set; }
 
-        public int ActiveScreenBoundsWidth { get; set; }
-        public int ActiveScreenBoundsHeight { get; set; }
-        public int ActiveScreenBoundsX { get; set; }
-        public int ActiveScreenBoundsY { get; set; }
-
         public static string Name
         {
             get
@@ -55,11 +50,6 @@ namespace obs_cli.Commands.Implementations
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.SavedAudioInputId = arguments["savedAudioInputId"];
             this.SavedAudioOutputId = arguments["savedAudioOutputId"];
-
-            this.ActiveScreenBoundsWidth = int.Parse(arguments["activeScreenBoundsWidth"]);
-            this.ActiveScreenBoundsHeight = int.Parse(arguments["activeScreenBoundsHeight"]);
-            this.ActiveScreenBoundsX = int.Parse(arguments["activeScreenBoundsX"]);
-            this.ActiveScreenBoundsY = int.Parse(arguments["activeScreenBoundsY"]);
         }
 
         public void Execute()
@@ -87,11 +77,7 @@ namespace obs_cli.Commands.Implementations
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle,
-                ActiveScreenBoundsWidth = ActiveScreenBoundsWidth,
-                ActiveScreenBoundsHeight = ActiveScreenBoundsHeight,
-                ActiveScreenBoundsX = ActiveScreenBoundsX,
-                ActiveScreenBoundsY = ActiveScreenBoundsY,
+                ScreenToRecordHandle = ScreenToRecordHandle
             });
 
             FileWriteService.WriteToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
