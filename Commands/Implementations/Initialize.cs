@@ -99,8 +99,7 @@ namespace obs_cli.Commands.Implementations
 
             Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
 
-            //Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
-            Store.Data.Display.DisplayItem.SetBounds(new Vector2(3840, 2160), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
+            Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
             Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
 
             SetAudioInput();
