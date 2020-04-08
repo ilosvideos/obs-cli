@@ -1,6 +1,7 @@
 ﻿using OBS;
 using obs_cli.Data;
 using obs_cli.Objects;
+using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;

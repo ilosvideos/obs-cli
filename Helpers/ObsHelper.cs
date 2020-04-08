@@ -1,5 +1,6 @@
 ﻿using OBS;
 using obs_cli.Objects;
+using obs_cli.Objects.Obs;
 using obs_cli.Utility;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace obs_cli.Objects
+namespace obs_cli.Objects.Obs
 {
     public class Scene : ObsScene
     {

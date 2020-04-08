@@ -3,8 +3,9 @@ using obs_cli.Helpers.Extensions;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using LibObs = OBS.Obs;
 
-namespace obs_cli.Objects
+namespace obs_cli.Objects.Obs
 {
     public sealed class Presentation : IDisposable
     {
@@ -41,7 +42,7 @@ namespace obs_cli.Objects
         public void SetScene(int index)
         {
             SelectedScene = Scenes[index];
-            Obs.SetOutputScene(0, SelectedScene);
+            LibObs.SetOutputScene(0, SelectedScene);
         }
 
         public void SetScene(Scene scene)
@@ -50,7 +51,7 @@ namespace obs_cli.Objects
                 return;
 
             SelectedScene = scene;
-            Obs.SetOutputScene(0, SelectedScene);
+            LibObs.SetOutputScene(0, SelectedScene);
         }
 
         public void SetItem(int index)

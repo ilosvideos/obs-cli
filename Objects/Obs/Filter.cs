@@ -1,7 +1,7 @@
 ﻿using System;
 using OBS;
 
-namespace obs_cli.Objects
+namespace obs_cli.Objects.Obs
 {
     public class Filter : ObsSource
     {
