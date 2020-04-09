@@ -3,7 +3,6 @@ using obs_cli.Data;
 using obs_cli.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace obs_cli
@@ -22,10 +21,10 @@ namespace obs_cli
                 Console.WriteLine($"line: {line}");
                 FileWriteService.WriteLineToFile($"line: {line}");
 
-                List<string> argumentTokens = new List<string>(line.Split(null));
+                List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
                 if (argumentTokens.Count > 0)
                 {
-                    string command = argumentTokens.FirstOrDefault();
+                    string command = argumentTokens.FirstOrDefault().Trim();
                     var commandType = AvailableCommands.All.FirstOrDefault(x => x.Key == command);
 
                     if (!commandType.Equals(default(KeyValuePair<string, Type>)))

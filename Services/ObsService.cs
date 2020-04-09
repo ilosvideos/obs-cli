@@ -58,7 +58,10 @@ namespace obs_cli.Services
             if (System.Environment.OSVersion.Platform == PlatformID.Win32NT &&
                 ((System.Environment.OSVersion.Version.Major == 6 && System.Environment.OSVersion.Version.Minor <= 1) ||
                  System.Environment.OSVersion.Version.Major < 6)
-            ) encoderId = "ffmpeg_aac";
+            )
+            {
+                encoderId = "ffmpeg_aac";
+            }
 
             ObsEncoder obsAudioEncoder = new ObsEncoder(ObsEncoderType.Audio, encoderId, "simple_aac");
             obsAudioEncoder.SetAudio(Obs.GetAudio());
