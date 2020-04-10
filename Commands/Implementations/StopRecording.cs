@@ -5,13 +5,13 @@ using System.Timers;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class StopRecording : ICommand
+    public class StopRecording : BaseCommand
     {
-        public static string Name
+        public override string Name
         {
             get
             {
-                return "stop-recording";
+                return AvailableCommand.StopRecording.GetDescription();
             }
         }
 
@@ -22,7 +22,7 @@ namespace obs_cli.Commands.Implementations
             OutputStopTimer = new Timer();
         }
 
-        public void Execute()
+        public override void Execute()
         {
             Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
 

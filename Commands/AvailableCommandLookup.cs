@@ -8,12 +8,12 @@ namespace obs_cli.Commands
     {
         public static Dictionary<string, Type> All = new Dictionary<string, Type>()
         {
-            { Initialize.Name, typeof(Initialize) },
+            { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
             { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
-            { StopRecording.Name, typeof(StopRecording) },
-            { PauseRecording.Name, typeof(PauseRecording) },
-            { ResumeRecording.Name, typeof(ResumeRecording) },
-            { Terminate.Name, typeof(Terminate) }
+            { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
+            { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
+            { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },
+            { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) }
         };
     }
 }

@@ -4,56 +4,33 @@ using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Services;
-using obs_cli.Structs;
-using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using static OBS.libobs;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class Initialize : ICommand
+    public class Initialize : BaseStartRecording
     {
-        public int CropTop { get; set; }
-        public int CropRight { get; set; }
-        public int CropLeft { get; set; }
-        public int CropBottom { get; set; }
-        public uint FrameRate { get; set; }
-        public double OutputWidth { get; set; }
-        public double OutputHeight { get; set; }
-        public int CanvasWidth { get; set; }
-        public int CanvasHeight { get; set; }
-        public IntPtr ScreenToRecordHandle { get; set; }
         public string SavedAudioInputId { get; set; }
         public string SavedAudioOutputId { get; set; }
 
-        public static string Name
+        public override string Name
         {
             get
             {
-                return "initialize";
+                return AvailableCommand.Initialize.GetDescription();
             }
         }
 
         public Initialize(IDictionary<string, string> arguments)
+            : base(arguments)
         {
-            this.CropTop = int.Parse(arguments["cropTop"]);
-            this.CropRight = int.Parse(arguments["cropRight"]);
-            this.CropBottom = int.Parse(arguments["cropBottom"]);
-            this.CropLeft = int.Parse(arguments["cropLeft"]);
-            this.FrameRate = uint.Parse(arguments["frameRate"]);
-            this.CanvasWidth = int.Parse(arguments["canvasWidth"]);
-            this.CanvasHeight = int.Parse(arguments["canvasHeight"]);
-            this.OutputWidth = double.Parse(arguments["outputWidth"]);
-            this.OutputHeight = double.Parse(arguments["outputHeight"]);
-            this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.SavedAudioInputId = arguments["savedAudioInputId"];
             this.SavedAudioOutputId = arguments["savedAudioOutputId"];
         }
 
-        public void Execute()
+        public override void Execute()
         {
             FileWriteService.WriteLineToFile("initialize command start");
 

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class Terminate : ICommand
+    public class Terminate : BaseCommand
     {
-        public static string Name
+        public override string Name
         {
             get
             {
-                return "terminate";
+                return AvailableCommand.Terminate.GetDescription();
             }
         }
 
@@ -19,7 +19,7 @@ namespace obs_cli.Commands.Implementations
 
         }
 
-        public void Execute()
+        public override void Execute()
         {
             FileWriteService.WriteLineToFile("terminating");
             Environment.Exit(0);

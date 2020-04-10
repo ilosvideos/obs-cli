@@ -21,7 +21,7 @@ namespace obs_cli.Commands.Implementations
         }
 
         public StartRecording(IDictionary<string, string> arguments)
-            :base(arguments)
+            : base(arguments)
         {
             this.VideoOutputFolder = arguments["videoOutputFolder"];
         }
