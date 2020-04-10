@@ -51,6 +51,8 @@ namespace obs_cli.Commands.Implementations
 
             try 
             {
+                Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
+
                 bool resetVideoInfoStatus = VideoService.ResetVideoInfo(new ResetVideoInfoParameters
                 {
                     CropTop = CropTop,
@@ -67,7 +69,7 @@ namespace obs_cli.Commands.Implementations
 
                 FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
-                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput(VideoOutputFolder);
+                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Record.OutputAndEncoders.obsOutput.Start();
 

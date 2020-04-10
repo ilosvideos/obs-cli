@@ -13,15 +13,14 @@ namespace obs_cli.Services
         /// <summary>
         /// Creates all new Obs output objects.
         /// </summary>
-        /// <param name="videoOutputFolder"></param>
         /// <returns></returns>
-        public static ObsOutputAndEncoders CreateNewObsOutput(string videoOutputFolder)
+        public static ObsOutputAndEncoders CreateNewObsOutput()
         {
             ObsOutputAndEncoders outputAndEncoders = new ObsOutputAndEncoders();
 
             outputAndEncoders.obsVideoEncoder = CreateVideoEncoder();
             outputAndEncoders.obsAudioEncoder = CreateAudioEncoder();
-            outputAndEncoders.obsOutput = CreateOutput(videoOutputFolder);
+            outputAndEncoders.obsOutput = CreateOutput();
 
             outputAndEncoders.obsOutput.SetVideoEncoder(outputAndEncoders.obsVideoEncoder);
             outputAndEncoders.obsOutput.SetAudioEncoder(outputAndEncoders.obsAudioEncoder);
@@ -79,12 +78,10 @@ namespace obs_cli.Services
         /// <summary>
         /// Creates the file output.
         /// </summary>
-        /// <param name="lastVideoName"></param>
-        /// <param name="videoOutputFolder"></param>
         /// <returns></returns>
-        public static ObsOutput CreateOutput(string videoOutputFolder)
+        public static ObsOutput CreateOutput()
         {
-            string videoDirectory = $"{FolderService.GetPath(KnownFolder.Videos)}\\{videoOutputFolder}";
+            string videoDirectory = $"{FolderService.GetPath(KnownFolder.Videos)}\\{Store.Data.Record.VideoOutputFolder}";
 
             if (Store.Data.Record.RecordedFiles.Count == 0)
             {
