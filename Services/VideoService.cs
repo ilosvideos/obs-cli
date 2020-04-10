@@ -48,7 +48,7 @@ namespace obs_cli.Services
                 }
             }
 
-            Store.Data.Obs.AppliedCrop = new obs_sceneitem_crop
+            Store.Data.Record.AppliedCrop = new obs_sceneitem_crop
             {
                 left = parameters.CropLeft,
                 top = parameters.CropTop,
@@ -73,7 +73,7 @@ namespace obs_cli.Services
             if (Store.Data.Display.DisplayItem != null)
             {
                 Store.Data.Display.DisplayItem.SetBounds(new Vector2(0, 0), ObsBoundsType.None, ObsAlignment.Top);
-                Store.Data.Display.DisplayItem.SetCrop(Store.Data.Obs.AppliedCrop);
+                Store.Data.Display.DisplayItem.SetCrop(Store.Data.Record.AppliedCrop);
             }
 
             // todo: webcam related

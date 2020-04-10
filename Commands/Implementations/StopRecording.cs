@@ -24,7 +24,7 @@ namespace obs_cli.Commands.Implementations
 
         public void Execute()
         {
-            Store.Data.Obs.OutputAndEncoders.obsOutput.Stop();
+            Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
 
             OutputStopTimer.Interval = 50;
             OutputStopTimer.Elapsed += new ElapsedEventHandler(StopRecordingWhenOutputInactive);
@@ -34,7 +34,7 @@ namespace obs_cli.Commands.Implementations
 
         private void StopRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
         {
-            if (Store.Data.Obs.OutputAndEncoders.obsOutput != null && Store.Data.Obs.OutputAndEncoders.obsOutput.Active)
+            if (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace obs_cli.Commands.Implementations
             OutputStopTimer.Dispose();
             OutputStopTimer = null;
 
-            Store.Data.Obs.OutputAndEncoders.Dispose();
+            Store.Data.Record.OutputAndEncoders.Dispose();
 
             new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
             Store.Data.ResetRecordModule();

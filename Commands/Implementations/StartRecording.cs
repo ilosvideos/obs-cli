@@ -68,8 +68,8 @@ namespace obs_cli.Commands.Implementations
                 FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput(VideoOutputFolder);
-                Store.Data.Obs.OutputAndEncoders = outputAndEncoders;
-                Store.Data.Obs.OutputAndEncoders.obsOutput.Start();
+                Store.Data.Record.OutputAndEncoders = outputAndEncoders;
+                Store.Data.Record.OutputAndEncoders.obsOutput.Start();
 
                 FileWriteService.WriteLineToFile("recording started");
             }
