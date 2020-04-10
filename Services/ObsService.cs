@@ -47,6 +47,10 @@ namespace obs_cli.Services
             return obsVideoEncoder;
         }
 
+        /// <summary>
+        /// Creates a new Obs audio encoder with default settings.
+        /// </summary>
+        /// <returns></returns>
         public static ObsEncoder CreateAudioEncoder()
         {
             // mf_aac for W8 and later, ffmpeg_aac for W7
@@ -76,7 +80,7 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Creates the file output.
+        /// Creates a new file output.
         /// </summary>
         /// <returns></returns>
         public static ObsOutput CreateOutput()

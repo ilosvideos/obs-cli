@@ -1,5 +1,6 @@
 ﻿namespace obs_cli.Utility
 {
+	// todo: each one of these classes should realistically get broken out into its own file/class
 	class Constants
 	{
 		public static class Video

@@ -1,5 +1,4 @@
 ﻿using obs_cli.Objects.Obs;
-using static OBS.libobs;
 
 namespace obs_cli.Data.Modules
 {

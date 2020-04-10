@@ -116,6 +116,10 @@ namespace obs_cli.Services
             return true;
         }
 
+        /// <summary>
+        /// Sets the audio input to the device with the given audio input id. 
+        /// </summary>
+        /// <param name="savedAudioInputId"></param>
         public static void SetAudioInput(string savedAudioInputId)
         {
             ObsData aiSettings = new ObsData();
@@ -153,6 +157,10 @@ namespace obs_cli.Services
             }
         }
 
+        /// <summary>
+        /// Sets the audio output to the device with the given audio output id. 
+        /// </summary>
+        /// <param name="savedAudioOutputId"></param>
         public static void SetAudioOutput(string savedAudioOutputId)
         {
             ObsData aoSettings = new ObsData();

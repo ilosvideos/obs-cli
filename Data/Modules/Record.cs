@@ -10,9 +10,12 @@ namespace obs_cli.Data.Modules
         public obs_sceneitem_crop AppliedCrop { get; set; }
         public string LastVideoName { get; set; }
         public ObsOutputAndEncoders OutputAndEncoders { get; set; }
-
-        public List<FileInfo> RecordedFiles = new List<FileInfo>();
-
+        public List<FileInfo> RecordedFiles { get; set; }
         public string VideoOutputFolder { get; set; }
+
+        public Record()
+        {
+            this.RecordedFiles = new List<FileInfo>();
+        }
     }
 }
