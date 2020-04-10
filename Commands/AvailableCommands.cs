@@ -11,6 +11,7 @@ namespace obs_cli.Commands
             { Initialize.Name, typeof(Initialize) },
             { StartRecording.Name, typeof(StartRecording) },
             { StopRecording.Name, typeof(StopRecording) },
+            { PauseRecording.Name, typeof(PauseRecording) },
             { Terminate.Name, typeof(Terminate) }
         };
     }
