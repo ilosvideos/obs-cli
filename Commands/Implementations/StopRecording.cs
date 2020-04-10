@@ -7,13 +7,7 @@ namespace obs_cli.Commands.Implementations
 {
     public class StopRecording : BaseCommand
     {
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.StopRecording.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.StopRecording.GetDescription();
 
         private Timer OutputStopTimer { get; set; }
 

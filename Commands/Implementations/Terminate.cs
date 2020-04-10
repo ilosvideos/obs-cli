@@ -6,13 +6,7 @@ namespace obs_cli.Commands.Implementations
 {
     public class Terminate : BaseCommand
     {
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.Terminate.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.Terminate.GetDescription();
 
         public Terminate(IDictionary<string, string> arguments)
         {

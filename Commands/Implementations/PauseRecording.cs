@@ -6,13 +6,7 @@ namespace obs_cli.Commands.Implementations
 {
     public class PauseRecording : BaseCommand
     {
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.PauseRecording.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.PauseRecording.GetDescription();
 
         public PauseRecording(IDictionary<string, string> arguments)
         {

@@ -9,13 +9,7 @@ namespace obs_cli.Commands.Implementations
 {
     public class ResumeRecording : BaseStartRecording
     {
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.ResumeRecording.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.ResumeRecording.GetDescription();
 
         public ResumeRecording(IDictionary<string, string> arguments)
             : base(arguments) { }

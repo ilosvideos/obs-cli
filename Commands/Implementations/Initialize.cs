@@ -14,14 +14,7 @@ namespace obs_cli.Commands.Implementations
     {
         public string SavedAudioInputId { get; set; }
         public string SavedAudioOutputId { get; set; }
-
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.Initialize.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.Initialize.GetDescription();
 
         public Initialize(IDictionary<string, string> arguments)
             : base(arguments)

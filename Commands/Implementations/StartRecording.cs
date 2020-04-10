@@ -12,13 +12,7 @@ namespace obs_cli.Commands.Implementations
     {
         public string VideoOutputFolder { get; set; }
 
-        public override string Name
-        {
-            get
-            {
-                return AvailableCommand.StartRecording.GetDescription();
-            }
-        }
+        public override string Name => AvailableCommand.StartRecording.GetDescription();
 
         public StartRecording(IDictionary<string, string> arguments)
             : base(arguments)
