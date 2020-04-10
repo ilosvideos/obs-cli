@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands
 {
-    public static class AvailableCommands
+    public static class AvailableCommandLookup
     {
         public static Dictionary<string, Type> All = new Dictionary<string, Type>()
         {
             { Initialize.Name, typeof(Initialize) },
-            { StartRecording.Name, typeof(StartRecording) },
+            { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
             { StopRecording.Name, typeof(StopRecording) },
             { PauseRecording.Name, typeof(PauseRecording) },
             { ResumeRecording.Name, typeof(ResumeRecording) },

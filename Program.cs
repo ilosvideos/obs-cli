@@ -25,7 +25,7 @@ namespace obs_cli
                 if (argumentTokens.Count > 0)
                 {
                     string command = argumentTokens.FirstOrDefault().Trim();
-                    var commandType = AvailableCommands.All.FirstOrDefault(x => x.Key == command);
+                    var commandType = AvailableCommandLookup.All.FirstOrDefault(x => x.Key == command);
 
                     if (!commandType.Equals(default(KeyValuePair<string, Type>)))
                     {

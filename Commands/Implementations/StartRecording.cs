@@ -8,44 +8,25 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class StartRecording : ICommand
+    public class StartRecording : BaseStartRecording
     {
-        public int CropTop { get; set; }
-        public int CropRight { get; set; }
-        public int CropLeft { get; set; }
-        public int CropBottom { get; set; }
-        public uint FrameRate { get; set; }
-        public double OutputWidth { get; set; }
-        public double OutputHeight { get; set; }
-        public int CanvasWidth { get; set; }
-        public int CanvasHeight { get; set; }
-        public IntPtr ScreenToRecordHandle { get; set; }
         public string VideoOutputFolder { get; set; }
 
-        public static string Name
+        public override string Name
         {
             get
             {
-                return "start-recording";
+                return AvailableCommand.StartRecording.GetDescription();
             }
         }
 
         public StartRecording(IDictionary<string, string> arguments)
+            :base(arguments)
         {
-            this.CropTop = int.Parse(arguments["cropTop"]);
-            this.CropRight = int.Parse(arguments["cropRight"]);
-            this.CropBottom = int.Parse(arguments["cropBottom"]);
-            this.CropLeft = int.Parse(arguments["cropLeft"]);
-            this.FrameRate = uint.Parse(arguments["frameRate"]);
-            this.CanvasWidth = int.Parse(arguments["canvasWidth"]);
-            this.CanvasHeight = int.Parse(arguments["canvasHeight"]);
-            this.OutputWidth = double.Parse(arguments["outputWidth"]);
-            this.OutputHeight = double.Parse(arguments["outputHeight"]);
-            this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
             this.VideoOutputFolder = arguments["videoOutputFolder"];
         }
 
-        public void Execute()
+        public override void Execute()
         {
             FileWriteService.WriteLineToFile("in start recording execute");
 
