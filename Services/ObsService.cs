@@ -13,16 +13,15 @@ namespace obs_cli.Services
         /// <summary>
         /// Creates all new Obs output objects.
         /// </summary>
-        /// <param name="lastVideoName"></param>
         /// <param name="videoOutputFolder"></param>
         /// <returns></returns>
-        public static ObsOutputAndEncoders CreateNewObsOutput(string lastVideoName, string videoOutputFolder)
+        public static ObsOutputAndEncoders CreateNewObsOutput(string videoOutputFolder)
         {
             ObsOutputAndEncoders outputAndEncoders = new ObsOutputAndEncoders();
 
             outputAndEncoders.obsVideoEncoder = CreateVideoEncoder();
             outputAndEncoders.obsAudioEncoder = CreateAudioEncoder();
-            outputAndEncoders.obsOutput = CreateOutput(lastVideoName, videoOutputFolder);
+            outputAndEncoders.obsOutput = CreateOutput(videoOutputFolder);
 
             outputAndEncoders.obsOutput.SetVideoEncoder(outputAndEncoders.obsVideoEncoder);
             outputAndEncoders.obsOutput.SetAudioEncoder(outputAndEncoders.obsAudioEncoder);
@@ -83,14 +82,17 @@ namespace obs_cli.Services
         /// <param name="lastVideoName"></param>
         /// <param name="videoOutputFolder"></param>
         /// <returns></returns>
-        public static ObsOutput CreateOutput(string lastVideoName, string videoOutputFolder)
+        public static ObsOutput CreateOutput(string videoOutputFolder)
         {
             string videoDirectory = $"{FolderService.GetPath(KnownFolder.Videos)}\\{videoOutputFolder}";
+
             if (Store.Data.Record.RecordedFiles.Count == 0)
             {
-                lastVideoName = $"ScreenRecording {DateTime.Now:yyyy-MM-dd HH.mm.ss}";
+                Store.Data.Record.LastVideoName = $"ScreenRecording {DateTime.Now:yyyy-MM-dd HH.mm.ss}";
             }
-            string videoFileName = lastVideoName + "_part " + (Store.Data.Record.RecordedFiles.Count + 1) + ".mp4";
+
+            string videoFileName = Store.Data.Record.LastVideoName + "_part " + (Store.Data.Record.RecordedFiles.Count + 1) + ".mp4";
+
             string videoFilePath = $"{videoDirectory}\\{videoFileName}";
             Store.Data.Record.RecordedFiles.Add(new FileInfo(videoFilePath));
 

@@ -46,6 +46,7 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Obs.OutputAndEncoders.Dispose();
 
             new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
+            Store.Data.ResetRecordModule();
         }
     }
 }

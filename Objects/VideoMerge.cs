@@ -1,4 +1,5 @@
 ﻿using NReco.VideoConverter;
+using obs_cli.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace obs_cli.Objects
 	public class VideoMerge
 	{
 		public string VideoFileName { get; set; }
+
 		public List<FileInfo> InputFiles { get; set; }
 		public FileInfo OutputFile { get; set; }
 		public FileInfo TempFileList { get; set; }
@@ -24,7 +26,7 @@ namespace obs_cli.Objects
 		{
 			try
 			{
-				string fileOutputPath = Path.Combine(InputFiles.First().DirectoryName, VideoFileName + ".mp4");
+				string fileOutputPath = Path.Combine(InputFiles.First().DirectoryName, Store.Data.Record.LastVideoName + ".mp4");
 
 				if (InputFiles.Count == 1)
 				{

@@ -35,7 +35,6 @@ namespace obs_cli
                         commandInstance.Execute();
                     }
                 }
-
             }
         }
     }

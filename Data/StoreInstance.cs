@@ -16,5 +16,13 @@ namespace obs_cli.Data
         public Display Display { get; set; }
         public Obs Obs { get; set; }
         public Record Record{ get; set; }
+
+        /// <summary>
+        /// Resets the Record store.
+        /// </summary>
+        public void ResetRecordModule()
+        {
+            this.Record = new Record();
+        }
     }
 }

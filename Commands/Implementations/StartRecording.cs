@@ -22,8 +22,6 @@ namespace obs_cli.Commands.Implementations
         public IntPtr ScreenToRecordHandle { get; set; }
         public string VideoOutputFolder { get; set; }
 
-        public string LastVideoName;
-
         public static string Name
         {
             get
@@ -69,7 +67,7 @@ namespace obs_cli.Commands.Implementations
 
                 FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
-                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput(LastVideoName, VideoOutputFolder);
+                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput(VideoOutputFolder);
                 Store.Data.Obs.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Obs.OutputAndEncoders.obsOutput.Start();
 
