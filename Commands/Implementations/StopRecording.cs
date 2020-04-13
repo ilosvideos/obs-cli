@@ -21,12 +21,12 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
 
             OutputStopTimer.Interval = 50;
-            OutputStopTimer.Elapsed += new ElapsedEventHandler(StopRecordingWhenOutputInactive);
+            OutputStopTimer.Elapsed += new ElapsedEventHandler(DisposeEncodersAndFinalizeVideo);
             OutputStopTimer.Enabled = true;
             OutputStopTimer.Start();
         }
 
-        private void StopRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
+        private void DisposeEncodersAndFinalizeVideo(object source, ElapsedEventArgs e)
         {
             if (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
             {
