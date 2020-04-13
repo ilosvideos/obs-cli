@@ -37,7 +37,7 @@ namespace obs_cli.Commands.Implementations
 
             FileWriteService.WriteLineToFile("ResetAudioInfo successful");
 
-            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
+            ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
                 CropTop = CropTop,
                 CropRight = CropRight,

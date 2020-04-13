@@ -28,7 +28,7 @@ namespace obs_cli.Commands.Implementations
             {
                 Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
 
-                bool resetVideoInfoStatus = VideoService.ResetVideoInfo(new ResetVideoInfoParameters
+                bool resetVideoInfoStatus = ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
                 {
                     CropTop = CropTop,
                     CropRight = CropRight,

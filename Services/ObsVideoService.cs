@@ -7,7 +7,7 @@ using static OBS.libobs;
 
 namespace obs_cli.Services
 {
-    public static class VideoService
+    public static class ObsVideoService
     {
         public const int MAX_FPS = 30;
         public const int MIN_FPS = 4;
