@@ -6,6 +6,8 @@ namespace obs_cli.Commands
     {
         [Description("cancel-recording")]
         CancelRecording,
+        [Description("delete-last-section")]
+        DeleteLastSection,
         [Description("initialize")]
         Initialize,
         [Description("pause-recording")]

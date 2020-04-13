@@ -14,6 +14,7 @@ namespace obs_cli.Commands
             { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },
+            { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
             { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) }
         };
     }
