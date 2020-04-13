@@ -1,4 +1,5 @@
 ﻿using obs_cli.Data;
+using obs_cli.Services;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,14 +16,7 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            Store.Data.Record.OutputAndEncoders.Dispose();
-
-            foreach (FileInfo file in Store.Data.Record.RecordedFiles)
-            {
-                file.Delete();
-            }
-
-            Store.Data.ResetRecordModule();
+            VideoService.CancelRecording();
         }
     }
 }
