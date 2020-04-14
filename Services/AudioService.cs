@@ -135,7 +135,7 @@ namespace obs_cli.Services
 
             Store.Data.Audio.InputMeter = new VolMeter();
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
-            Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
+            Store.Data.Audio.InputMeter.AddCallBack(EmitInputMagnitude);
 
             List<AudioDevice> allAudioInputs = GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
@@ -194,7 +194,7 @@ namespace obs_cli.Services
         // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
         // This is probably an over-simplified calculation.
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
-        private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private static void EmitInputMagnitude(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
             EmitService.EmitInputMagnitude(new AudioMagnitudeParameters { Magnitude = magnitude[0] });
         }
