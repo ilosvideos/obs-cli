@@ -7,8 +7,7 @@ using System.Text;
 
 namespace obs_cli.Services
 {
-    // todo: EmitService? ResponseService? OutputService sounds like it's specifically for audio-related things
-    public static class OutputService
+    public static class EmitService
     {
         /// <summary>
         /// Emits the audio input magnitude level to standard output.
@@ -16,7 +15,7 @@ namespace obs_cli.Services
         /// <param name="magnitude"></param>
         public static void EmitInputMagnitude(AudioMagnitudeParameters parameters)
         {
-            EmitOutput(OutputMessage.AudioInputMagnitude, parameters.ToDictionary());
+            EmitOutput(EmitMessage.AudioInputMagnitude, parameters.ToDictionary());
         }
 
         /// <summary>
@@ -25,10 +24,10 @@ namespace obs_cli.Services
         /// <param name="magnitude"></param>
         public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
         {
-            EmitOutput(OutputMessage.AudioOutputMagnitude, parameters.ToDictionary());
+            EmitOutput(EmitMessage.AudioOutputMagnitude, parameters.ToDictionary());
         }
 
-        private static void EmitOutput(OutputMessage messageType, IDictionary<string, string> additionalParameters = null)
+        private static void EmitOutput(EmitMessage messageType, IDictionary<string, string> additionalParameters = null)
         {
             var commandToExecute = new StringBuilder(messageType.GetDescription());
 

@@ -2,7 +2,7 @@
 
 namespace obs_cli.Enums
 {
-    public enum OutputMessage
+    public enum EmitMessage
     {
         [Description("audio-input-magnitude")]
         AudioInputMagnitude,
