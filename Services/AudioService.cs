@@ -1,5 +1,6 @@
 ﻿using OBS;
 using obs_cli.Data;
+using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
@@ -174,7 +175,7 @@ namespace obs_cli.Services
 
             Store.Data.Audio.OutputMeter = new VolMeter();
             Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
-            Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
+            Store.Data.Audio.OutputMeter.AddCallBack(EmitOutputMagnitude);
 
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
@@ -195,16 +196,13 @@ namespace obs_cli.Services
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            var level = CalculateAudioMeterLevel(magnitude[0]);
-            Console.WriteLine($"audio input {level}");
-            Store.Data.Audio.InputMeter.Level = level;
+            //var level = CalculateAudioMeterLevel(magnitude[0]);
+            //Console.WriteLine($"audio input {level}");
         }
 
-        private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private static void EmitOutputMagnitude(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            var level = CalculateAudioMeterLevel(magnitude[0]);
-            Console.WriteLine($"audio output {level}");
-            Store.Data.Audio.OutputMeter.Level = level;
+            OutputService.EmitOutputMagnitude(new AudioOutputParameters { Magnitude = magnitude[0] });
         }
 
         /// <summary>
