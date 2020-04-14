@@ -11,10 +11,19 @@ namespace obs_cli.Services
     public static class OutputService
     {
         /// <summary>
+        /// Emits the audio input magnitude level to standard output.
+        /// </summary>
+        /// <param name="magnitude"></param>
+        public static void EmitInputMagnitude(AudioMagnitudeParameters parameters)
+        {
+            EmitOutput(OutputMessage.AudioInputMagnitude, parameters.ToDictionary());
+        }
+
+        /// <summary>
         /// Emits the audio output magnitude level to standard output.
         /// </summary>
         /// <param name="magnitude"></param>
-        public static void EmitOutputMagnitude(AudioOutputParameters parameters)
+        public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
         {
             EmitOutput(OutputMessage.AudioOutputMagnitude, parameters.ToDictionary());
         }

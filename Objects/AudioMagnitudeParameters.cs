@@ -2,7 +2,7 @@
 
 namespace obs_cli.Objects
 {
-    public class AudioOutputParameters
+    public class AudioMagnitudeParameters
     {
         public float Magnitude { get; set; }
 

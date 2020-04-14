@@ -196,13 +196,12 @@ namespace obs_cli.Services
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            //var level = CalculateAudioMeterLevel(magnitude[0]);
-            //Console.WriteLine($"audio input {level}");
+            OutputService.EmitInputMagnitude(new AudioMagnitudeParameters { Magnitude = magnitude[0] });
         }
 
         private static void EmitOutputMagnitude(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            OutputService.EmitOutputMagnitude(new AudioOutputParameters { Magnitude = magnitude[0] });
+            OutputService.EmitOutputMagnitude(new AudioMagnitudeParameters { Magnitude = magnitude[0] });
         }
 
         /// <summary>
