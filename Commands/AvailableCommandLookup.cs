@@ -1,4 +1,5 @@
 ﻿using obs_cli.Commands.Implementations;
+using obs_cli.Enums;
 using System;
 using System.Collections.Generic;
 

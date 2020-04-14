@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace obs_cli.Commands
+namespace obs_cli.Enums
 {
     public enum AvailableCommand
     {

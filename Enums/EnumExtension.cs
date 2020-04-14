@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
-namespace obs_cli.Commands
+namespace obs_cli.Enums
 {
-    public static class AvailableCommandExtension
+    public static class EnumExtension
     {
-        public static string GetDescription(this AvailableCommand value)
+        public static string GetDescription(this Enum value)
         {
             DescriptionAttribute[] attributes = (DescriptionAttribute[])value
                 .GetType()

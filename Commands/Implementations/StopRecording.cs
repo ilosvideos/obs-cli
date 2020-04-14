@@ -1,4 +1,5 @@
 ﻿using obs_cli.Data;
+using obs_cli.Enums;
 using obs_cli.Objects;
 using System.Collections.Generic;
 using System.Timers;
