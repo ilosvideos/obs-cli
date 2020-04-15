@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using obs_cli.Enums;
+﻿using obs_cli.Enums;
+using obs_cli.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Web.Script.Serialization;
 
 namespace obs_cli.Commands.Implementations
@@ -23,6 +20,11 @@ namespace obs_cli.Commands.Implementations
         {
             Devices = new List<AudioDevice>();
         }
+
+        public void Add(AudioDevice device)
+        {
+            this.Devices.Add(device);
+        }
     }
 
     public class GetAudioDevices : BaseCommand
@@ -36,15 +38,12 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            var test = new AudioDeviceList();
-            test.Devices.Add(new AudioDevice() { Id = Guid.NewGuid().ToString(), Name = "Test1" });
-            test.Devices.Add(new AudioDevice() { Id = Guid.NewGuid().ToString(), Name = "Test2" });
-            test.Devices.Add(new AudioDevice() { Id = Guid.NewGuid().ToString(), Name = "Test3" });
-            test.Devices.Add(new AudioDevice() { Id = Guid.NewGuid().ToString(), Name = "Test4" });
+            var obsAudioDevices = AudioService.GetAudioInputDevices();
 
-            var serializedString = new JavaScriptSerializer().Serialize(test);
+            var audioDeviceList = new AudioDeviceList();
+            obsAudioDevices.ForEach(x => audioDeviceList.Add(new AudioDevice() { Id = x.id, Name = x.name }));
 
-            Console.WriteLine($"get-audio-devices --response={serializedString}");
+            EmitService.EmitAudioDevices(audioDeviceList);
         }
     }
 }
