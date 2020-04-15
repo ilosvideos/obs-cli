@@ -10,12 +10,13 @@ namespace obs_cli.Commands
         public static Dictionary<string, Type> All = new Dictionary<string, Type>()
         {
             { AvailableCommand.CancelRecording.GetDescription(), typeof(CancelRecording) },
+            { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
+            { AvailableCommand.GetAudioDevices.GetDescription(), typeof(GetAudioDevices) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
-            { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
-            { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },
-            { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
+            { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
+            { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
             { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) }
         };
     }

@@ -8,6 +8,8 @@ namespace obs_cli.Enums
         CancelRecording,
         [Description("delete-last-section")]
         DeleteLastSection,
+        [Description("get-audio-devices")]
+        GetAudioDevices,
         [Description("initialize")]
         Initialize,
         [Description("pause-recording")]
