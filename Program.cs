@@ -18,7 +18,6 @@ namespace obs_cli
             {
                 string line = Console.ReadLine();
 
-                Console.WriteLine($"line: {line}");
                 FileWriteService.WriteLineToFile($"line: {line}");
 
                 List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
@@ -31,7 +30,6 @@ namespace obs_cli
                     {
                         IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0], z => z[1]);
                         ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
-                        Console.WriteLine($"executing {commandType.Key}");
                         commandInstance.Execute();
                     }
                 }
