@@ -28,11 +28,19 @@ namespace obs_cli.Services
             EmitOutput(AvailableCommand.AudioOutputMagnitude, parameters.ToDictionary());
         }
 
+        /// <summary>
+        /// Emits the list of all available audio input devices.
+        /// </summary>
+        /// <param name="audioDeviceList"></param>
         public static void EmitAudioInputDevices(AudioDeviceList audioDeviceList)
         {
             EmitSerializedOutput(AvailableCommand.GetAudioInputDevices, audioDeviceList);
         }
 
+        /// <summary>
+        /// Emits the list of all available audio output devices.
+        /// </summary>
+        /// <param name="audioDeviceList"></param>
         public static void EmitAudioOutputDevices(AudioDeviceList audioDeviceList)
         {
             EmitSerializedOutput(AvailableCommand.GetAudioOutputDevices, audioDeviceList);
