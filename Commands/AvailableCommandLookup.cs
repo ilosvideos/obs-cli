@@ -11,7 +11,7 @@ namespace obs_cli.Commands
         {
             { AvailableCommand.CancelRecording.GetDescription(), typeof(CancelRecording) },
             { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
-            { AvailableCommand.GetAudioDevices.GetDescription(), typeof(GetAudioDevices) },
+            { AvailableCommand.GetAudioInputDevices.GetDescription(), typeof(GetAudioInputDevices) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },

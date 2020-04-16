@@ -8,7 +8,7 @@ namespace obs_cli.Enums
         AudioInputMagnitude,
         [Description("audio-output-magnitude")]
         AudioOutputMagnitude,
-        [Description("get-audio-devices")]
-        GetAudioDevices
+        [Description("get-audio-input-devices")]
+        GetAudioInputDevices
     }
 }

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class GetAudioDevices : BaseCommand
+    public class GetAudioInputDevices : BaseCommand
     {
-        public override string Name => AvailableCommand.GetAudioDevices.GetDescription();
+        public override string Name => AvailableCommand.GetAudioInputDevices.GetDescription();
 
-        public GetAudioDevices(IDictionary<string, string> arguments)
+        public GetAudioInputDevices(IDictionary<string, string> arguments)
         {
 
         }

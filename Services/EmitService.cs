@@ -31,9 +31,10 @@ namespace obs_cli.Services
 
         public static void EmitAudioDevices(AudioDeviceList audioDeviceList)
         {
-            EmitSerializedOutput(EmitMessage.GetAudioDevices, audioDeviceList);
+            EmitSerializedOutput(EmitMessage.GetAudioInputDevices, audioDeviceList);
         }
 
+        // todo: maybe it should just use the same AvailableCommands enum 
         /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>
