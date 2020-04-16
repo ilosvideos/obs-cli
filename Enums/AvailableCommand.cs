@@ -30,5 +30,7 @@ namespace obs_cli.Enums
         Terminate,
         [Description("update-audio-input-device")]
         UpdateAudioInputDevice,
+        [Description("update-audio-output-device")]
+        UpdateAudioOutputDevice,
     }
 }
