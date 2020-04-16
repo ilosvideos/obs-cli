@@ -4,6 +4,10 @@ namespace obs_cli.Enums
 {
     public enum AvailableCommand
     {
+        [Description("audio-input-magnitude")]
+        AudioInputMagnitude,
+        [Description("audio-output-magnitude")]
+        AudioOutputMagnitude,
         [Description("cancel-recording")]
         CancelRecording,
         [Description("delete-last-section")]

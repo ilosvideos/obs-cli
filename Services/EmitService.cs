@@ -1,5 +1,4 @@
-﻿using obs_cli.Commands.Implementations;
-using obs_cli.Enums;
+﻿using obs_cli.Enums;
 using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace obs_cli.Services
         /// <param name="magnitude"></param>
         public static void EmitInputMagnitude(AudioMagnitudeParameters parameters)
         {
-            EmitOutput(EmitMessage.AudioInputMagnitude, parameters.ToDictionary());
+            EmitOutput(AvailableCommand.AudioInputMagnitude, parameters.ToDictionary());
         }
 
         /// <summary>
@@ -26,27 +25,31 @@ namespace obs_cli.Services
         /// <param name="magnitude"></param>
         public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
         {
-            EmitOutput(EmitMessage.AudioOutputMagnitude, parameters.ToDictionary());
+            EmitOutput(AvailableCommand.AudioOutputMagnitude, parameters.ToDictionary());
         }
 
         public static void EmitAudioDevices(AudioDeviceList audioDeviceList)
         {
-            EmitSerializedOutput(EmitMessage.GetAudioInputDevices, audioDeviceList);
+            EmitSerializedOutput(AvailableCommand.GetAudioInputDevices, audioDeviceList);
         }
 
-        // todo: maybe it should just use the same AvailableCommands enum 
         /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>
         /// <param name="messageType"></param>
         /// <param name="dataToSerialize"></param>
-        private static void EmitSerializedOutput(EmitMessage messageType, object dataToSerialize)
+        private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize)
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
             Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
         }
 
-        private static void EmitOutput(EmitMessage messageType, IDictionary<string, string> additionalParameters = null)
+        /// <summary>
+        /// Emits the message type with the parameters formatted in the form of CLI arguments.
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="additionalParameters"></param>
+        private static void EmitOutput(AvailableCommand messageType, IDictionary<string, string> additionalParameters = null)
         {
             var commandToExecute = new StringBuilder(messageType.GetDescription());
 
