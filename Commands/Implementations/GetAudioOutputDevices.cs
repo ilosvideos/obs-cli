@@ -5,23 +5,23 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class GetAudioInputDevices : BaseCommand
+    public class GetAudioOutputDevices : BaseCommand
     {
-        public override string Name => AvailableCommand.GetAudioInputDevices.GetDescription();
+        public override string Name => AvailableCommand.GetAudioOutputDevices.GetDescription();
 
-        public GetAudioInputDevices(IDictionary<string, string> arguments)
+        public GetAudioOutputDevices(IDictionary<string, string> arguments)
         {
 
         }
 
         public override void Execute()
         {
-            var obsAudioDevices = AudioService.GetAudioInputDevices();
+            var obsAudioDevices = AudioService.GetAudioOutputDevices();
 
             var audioDeviceList = new AudioDeviceList();
             obsAudioDevices.ForEach(x => audioDeviceList.Add(x));
 
-            EmitService.EmitAudioInputDevices(audioDeviceList);
+            EmitService.EmitAudioOutputDevices(audioDeviceList);
         }
     }
 }

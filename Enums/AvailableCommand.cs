@@ -14,6 +14,8 @@ namespace obs_cli.Enums
         DeleteLastSection,
         [Description("get-audio-input-devices")]
         GetAudioInputDevices,
+        [Description("get-audio-output-devices")]
+        GetAudioOutputDevices,
         [Description("initialize")]
         Initialize,
         [Description("pause-recording")]
