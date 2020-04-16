@@ -28,5 +28,7 @@ namespace obs_cli.Enums
         StopRecording,
         [Description("terminate")]
         Terminate,
+        [Description("update-audio-input-device")]
+        UpdateAudioInputDevice,
     }
 }
