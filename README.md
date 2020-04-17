@@ -5,7 +5,7 @@ An unofficial CLI for [OBS Studio](https://github.com/obsproject/obs-studio) for
 
 ## Available Commands
 
-vidgrid-obs-cli offers a number of commands to control starting, stopping recording, as well as other supporting OBS Studio functionality.
+vidgrid-obs-cli offers a number of commands to control starting, pausing, and stopping recordings, as well as other supporting OBS Studio functionality.
 
  - [CancelRecording](#cancelrecording)
  - [DeleteLastSection](#deletelastsection)
