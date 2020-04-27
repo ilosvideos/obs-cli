@@ -1,4 +1,5 @@
 ﻿using obs_cli.Objects.Obs;
+using obs_cli.Utility;
 using obs_cli.Windows;
 using System.Collections.Generic;
 using WebcamDevice = obs_cli.Objects.Webcam;
@@ -28,6 +29,26 @@ namespace obs_cli.Data.Modules
             }
 
             return Webcams;
+        }
+
+        /// <summary>
+        /// Disposes the OBS webcam item and source and reenables standalone audio input.
+        /// </summary>
+        public void DestroyObsWebcam()
+        {
+            Store.Data.Obs.MainScene.Items.Remove(Item);
+            Item.Remove();
+            Item.Dispose();
+            Item = null;
+
+            Store.Data.Obs.Presentation.Sources.Remove(Source);
+            Source.Enabled = false;
+            Source.Remove();
+            Source.Dispose();
+            Source = null;
+
+            Store.Data.Audio.InputSource.Enabled = true;
+            Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
         }
     }
 }
