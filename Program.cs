@@ -9,6 +9,7 @@ namespace obs_cli
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             Console.WriteLine("starting");

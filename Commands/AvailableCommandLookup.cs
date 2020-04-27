@@ -13,6 +13,7 @@ namespace obs_cli.Commands
             { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
             { AvailableCommand.GetAudioInputDevices.GetDescription(), typeof(GetAudioInputDevices) },
             { AvailableCommand.GetAudioOutputDevices.GetDescription(), typeof(GetAudioOutputDevices) },
+            { AvailableCommand.GetWebcamDevices.GetDescription(), typeof(GetWebcamDevices) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },

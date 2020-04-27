@@ -47,6 +47,15 @@ namespace obs_cli.Services
         }
 
         /// <summary>
+        /// Emits the list of all available webcam devices.
+        /// </summary>
+        /// <param name="audioDeviceList"></param>
+        public static void EmitWebcamDevices(WebcamDeviceList webcamDeviceList)
+        {
+            EmitSerializedOutput(AvailableCommand.GetWebcamDevices, webcamDeviceList);
+        }
+
+        /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>
         /// <param name="messageType"></param>

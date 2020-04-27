@@ -16,6 +16,8 @@ namespace obs_cli.Enums
         GetAudioInputDevices,
         [Description("get-audio-output-devices")]
         GetAudioOutputDevices,
+        [Description("get-webcam-devices")]
+        GetWebcamDevices,
         [Description("initialize")]
         Initialize,
         [Description("pause-recording")]
