@@ -10,12 +10,14 @@ namespace obs_cli.Data
             this.Display = new Display();
             this.Obs = new Obs();
             this.Record = new Record();
+            this.Webcam = new Webcam();
         }
 
         public Audio Audio { get; set; }
         public Display Display { get; set; }
         public Obs Obs { get; set; }
-        public Record Record{ get; set; }
+        public Record Record { get; set; }
+        public Webcam Webcam { get; set; }
 
         /// <summary>
         /// Resets the Record store.
