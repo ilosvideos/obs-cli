@@ -47,8 +47,7 @@ namespace obs_cli.Windows
 
         private bool aligningWebcamWithControlBar;
 
-        // todo: bring DpiUtil over
-        public double BorderSize => 4; // DpiUtil.GetNearestMultipleSize(this, resizeBorder.Padding.Left);
+        public double BorderSize => DpiUtil.GetNearestMultipleSize(this, resizeBorder.Padding.Left);
 
         public WebcamWindow()
         {
@@ -146,9 +145,7 @@ namespace obs_cli.Windows
 
                 try
                 {
-                    // Try to find a preferred resolution. This lets us choose the preferred resolution and also fixes some initialization issues with some webcams.
-                    
-                    // todo: bring DirectShow over
+                    // Try to find a preferred resolution. This lets us choose the preferred resolution and also fixes some initialization issues with some webcams.                    
                     DsDevice[] devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
                     if (devices.Length == 0)
                     {
@@ -248,12 +245,11 @@ namespace obs_cli.Windows
                 changeResolutionTimer?.Stop();
                 changeResolutionTimer = null;
 
-                // todo: bring CalculateWebcamItemPosition over
-                //Recorder.ScreenRecorder.CalculateWebcamItemPosition();
+                Store.Data.Webcam.CalculateItemPosition();
             }
             else if (elapsedTimerTime % 1000 == 0)
             {
-                //Recorder.ScreenRecorder.CalculateWebcamItemPosition();
+                Store.Data.Webcam.CalculateItemPosition();
             }
 
             if (elapsedTimerTime >= 5000)
@@ -262,8 +258,6 @@ namespace obs_cli.Windows
                 changeResolutionTimer?.Stop();
                 changeResolutionTimer = null;
             }
-
-            //			ILog.IlosLogger.Trace("OUT CheckIfWebcamResolutionChanged");
         }
 
         private void WebcamWindow_OnLocationChanged(object sender, EventArgs e)
@@ -279,9 +273,7 @@ namespace obs_cli.Windows
                 // When moving the webcam, put it outside the bounds of the recording and 
                 // show the preview instead this avoids a window lag when dragging. 
                 // Can't set visibility to false cause then the audio will cut out as well.
-
-                // todo: bring over SetWebcamOffscreen method
-                //Recorder.ScreenRecorder.SetWebcamOffScreen();
+                Store.Data.Webcam.SetWebcamItemOffscreen();
             }
         }
 
@@ -365,8 +357,6 @@ namespace obs_cli.Windows
             {
                 Store.Data.Webcam.Item = Store.Data.Obs.Presentation.CreateItem(Store.Data.Webcam.Source);
                 Store.Data.Webcam.Item.Name = "Webcam SceneItem";
-
-                // todo: properly calculate BorderSize
                 Store.Data.Webcam.Item.SetBounds(new Vector2((float)(Width - (BorderSize * 2)), (float)(Height - (BorderSize * 2))), ObsBoundsType.ScaleOuter, ObsAlignment.Center);
                 Store.Data.Obs.MainScene.Items.Add(Store.Data.Webcam.Item);
             }

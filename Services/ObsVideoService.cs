@@ -62,8 +62,8 @@ namespace obs_cli.Services
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
 
-                Screen activeScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
-                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, activeScreen));
+                Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
+                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, Store.Data.Record.ActiveScreen));
 
                 Store.Data.Display.DisplaySource.Update(displaySettings);
                 displaySettings.Dispose();
@@ -90,6 +90,9 @@ namespace obs_cli.Services
             {
                 return false;
             }
+
+            Store.Data.Record.CanvasHeight = parameters.CanvasHeight;
+            Store.Data.Record.CanvasWidth = parameters.CanvasWidth;
 
             return true;
         }
