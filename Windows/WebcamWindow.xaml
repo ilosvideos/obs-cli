@@ -3,10 +3,54 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:obs_cli.Windows"
+        xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+        xmlns:ma="clr-namespace:MonitorAware.Views;assembly=MonitorAware"
         mc:Ignorable="d"
-        Title="WebcamWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Webcam Viewer" Height="295" Width="525" 
+        WindowStartupLocation="Manual" 
+        Topmost="True" 
+        Background="Transparent" 
+        ShowInTaskbar="False" 
+        WindowStyle="None"
+        MouseLeftButtonUp="Window_MouseLeftButtonUp" 
+        SizeChanged="Window_SizeChanged" LocationChanged="WebcamWindow_OnLocationChanged"
+        AllowsTransparency="True"
+        Opacity="0.01"
+        Closing="Window_Closing" Loaded="WebcamWindow_OnLoaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <!-- The Grabbable should be bigger than the border padding. This gives the user more space to work with when resizing from the corner. -->
+            <Thickness x:Key="ResizeBorderPadding">10</Thickness>
+            <Thickness x:Key="GrabbableResizeRegion">20</Thickness>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!-- ResizeMode being set to CanResize causes the window to have some chrome that we don't want. Need to figure out how to allow resize without having the chrome -->
+
+    <ma:MonitorAwareProperty.AttachedProperty>
+        <ma:MonitorAwareProperty x:Name="MonitorProperty"/>
+    </ma:MonitorAwareProperty.AttachedProperty>
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome 
+        CaptionHeight="0"
+        ResizeBorderThickness="{StaticResource GrabbableResizeRegion}" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border x:Name="mainBorder" Background="White" Visibility="Hidden">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Grid.RowSpan="1" x:Name="grid_middle" Panel.ZIndex="1">
+                <Border x:Name="resizeBorder" Padding="{StaticResource ResizeBorderPadding}" Background="#777777">
+                    <Border x:Name="bTarget"></Border>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>
