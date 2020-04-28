@@ -349,6 +349,7 @@ namespace obs_cli.Windows
                 {
                     Store.Data.Webcam.Source = Store.Data.Obs.Presentation.CreateSource("dshow_input", "Webcam", webcamSettings);
                 }
+
                 Store.Data.Webcam.Source.AudioOffset = Constants.Audio.DELAY_INPUT_ATTACHED_TO_WEBCAM;
                 Store.Data.Obs.Presentation.AddSource(Store.Data.Webcam.Source);
             }

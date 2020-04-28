@@ -20,8 +20,8 @@ namespace obs_cli.Behaviors
         public static void Attach(DisplayPanel child, Window window)
         {
             if (child.Name.Equals("")) child.Name = Guid.NewGuid().ToString();
-            Application.Current.Properties["window_" + child.Name] = window;
-            Application.Current.Properties["windowHandle_" + child.Name] = new WindowInteropHelper(window).Handle;
+            //Application.Current.Properties["window_" + child.Name] = window;
+            //Application.Current.Properties["windowHandle_" + child.Name] = new WindowInteropHelper(window).Handle;
 
             child.MouseMove += Child_MouseMove;
             child.MouseDown += child_MouseDown;

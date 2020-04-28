@@ -40,13 +40,15 @@
       <HintPath>..\obs-studio\build64\rundir\Debug\bin\64bit\DirectShowLib-2005.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Windows.Shell">
-      <HintPath>..\obs-studio\build64\rundir\Debug\bin\64bit\Microsoft.Windows.Shell.dll</HintPath>
+      <HintPath>..\..\Windows Screen Recorder 2\ilos_recorder\packages\WPF.Shell.Integration.Library.2.0\lib\net30\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter.LT">
       <HintPath>..\..\Windows Screen Recorder 2\obs-studio\build64\rundir\Debug\bin\64bit\NReco.VideoConverter.LT.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />

@@ -1,7 +1,9 @@
 ﻿using obs_cli.Structs;
 using obs_cli.Windows;
 using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace obs_cli.Utility
 {
@@ -35,15 +37,22 @@ namespace obs_cli.Utility
             return new System.Windows.Point(recordingWidthAdj, recordingHeightAdj);
         }
 
+        /// <summary>
+        /// Gets the window's size properties
+        /// </summary>
+        /// <param name="window"></param>
+        /// <returns></returns>
         public static WindowSizeProperties GetWindowSizeProperties(Window window)
         {
-            WindowSizeProperties properties = new WindowSizeProperties
+            WindowSizeProperties properties = new WindowSizeProperties();
+
+            window.Dispatcher.Invoke(new Action(() =>
             {
-                Width = window.Width,
-                Height = window.Height,
-                Left = window.Left,
-                Top = window.Top
-            };
+                properties.Width = window.Width;
+                properties.Height = window.Height;
+                properties.Left = window.Left;
+                properties.Top = window.Top;
+            }));
 
             // todo: I don't think this is required. we might need to do this logic differently if we need this
             //if (window.GetType() == typeof(SelectionWindow))
