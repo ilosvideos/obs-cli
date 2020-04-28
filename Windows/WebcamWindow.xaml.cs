@@ -115,6 +115,7 @@ namespace obs_cli.Windows
 
         public void setWebcam(WebcamDevice webcam)
         {
+            Store.Data.Webcam.ActiveWebcamValue = webcam.value;
             selectedWebcam = webcam;
             set_webcam_source_settings();
         }

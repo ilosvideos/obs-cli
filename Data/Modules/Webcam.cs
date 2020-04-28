@@ -12,6 +12,8 @@ namespace obs_cli.Data.Modules
 {
     public class Webcam
     {
+        public string ActiveWebcamValue { get; set; }
+
         public Item Item { get; set; }
 
         public Source Source { get; set; }

@@ -33,6 +33,11 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
+            if (WebcamValue == Store.Data.Webcam.ActiveWebcamValue)
+            {
+                return;
+            }
+
             Store.Data.Webcam.Window.Show(Width, Height);
 
             var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);

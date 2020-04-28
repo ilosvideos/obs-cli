@@ -16,6 +16,7 @@ namespace obs_cli.Commands.Implementations
         public override void Execute()
         {
             Store.Data.Webcam.Window.Close();
+            Store.Data.Webcam.ActiveWebcamValue = string.Empty;
         }
     }
 }
