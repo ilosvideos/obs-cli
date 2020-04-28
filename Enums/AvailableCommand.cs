@@ -12,6 +12,8 @@ namespace obs_cli.Enums
         CancelRecording,
         [Description("delete-last-section")]
         DeleteLastSection,
+        [Description("disable-webcam")]
+        DisableWebcam,
         [Description("enable-webcam")]
         EnableWebcam,
         [Description("get-audio-input-devices")]

@@ -11,6 +11,7 @@ namespace obs_cli.Commands
         {
             { AvailableCommand.CancelRecording.GetDescription(), typeof(CancelRecording) },
             { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
+            { AvailableCommand.DisableWebcam.GetDescription(), typeof(DisableWebcam) },
             { AvailableCommand.EnableWebcam.GetDescription(), typeof(EnableWebcam) },
             { AvailableCommand.GetAudioInputDevices.GetDescription(), typeof(GetAudioInputDevices) },
             { AvailableCommand.GetAudioOutputDevices.GetDescription(), typeof(GetAudioOutputDevices) },
