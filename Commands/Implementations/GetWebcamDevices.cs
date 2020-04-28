@@ -23,9 +23,11 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window = new WebcamWindow();
             }
 
+            Store.Data.Webcam.Window.EnumerateAndSetWebcams();
+
             EmitService.EmitWebcamDevices(new WebcamDeviceList
             {
-                Devices = Store.Data.Webcam.GetWebcams()
+                Devices = Store.Data.Webcam.Webcams
             });
         }
     }

@@ -54,7 +54,7 @@ namespace obs_cli.Windows
             InitializeComponent();
             this.DataContext = this;
 
-            enum_webcams();
+            EnumerateAndSetWebcams();
 
             // todo: bring this method over, but deal with it when I deal with attaching audio to webcam
             //Recorder.ScreenRecorder.Webcam_UpdateAudioDevice();
@@ -314,11 +314,11 @@ namespace obs_cli.Windows
             ResizeMode = ResizeMode.CanResize; // Re-enable resizing on this window. Resizing disabled when mouse is dragged o nthe winform child (in DisplayPanelMoveBehavior)
         }
 
-        private void enum_webcams()
+        public void EnumerateAndSetWebcams()
         {
             Store.Data.Webcam.Webcams.Clear();
 
-            init_webcam_source(null);
+            InitializeWebcamObsSource(null);
 
             ObsProperties webcamProperties = Store.Data.Webcam.Source.GetProperties();
             ObsProperty[] webcamPropertyList = webcamProperties.GetPropertyList();
@@ -338,7 +338,7 @@ namespace obs_cli.Windows
             }
         }
 
-        private void init_webcam_source(ObsData webcamSettings)
+        private void InitializeWebcamObsSource(ObsData webcamSettings)
         {
             if (Store.Data.Webcam.Source == null)
             {
