@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using MonitorAware.Models;
 using MonitorAware.Views;
+using obs_cli.Data;
 
 namespace obs_cli.Utility
 {
@@ -12,9 +13,7 @@ namespace obs_cli.Utility
     {
         public static Dpi GetSystemDpi()
         {
-            // todo: pass the system DPI in the initialize. store in Obs data module
-            return new Dpi(0, 0);
-            //return ((MainWindow)MainWindowAccessor.Window).MonitorProperty.WindowHandler.SystemDpi;
+            return Store.Data.Display.SystemDpi;
         }
 
         public static Rect GetScreenWpfBounds(Screen screen)

@@ -16,13 +16,18 @@ namespace obs_cli.Commands.Implementations
     {
         public string SavedAudioInputId { get; set; }
         public string SavedAudioOutputId { get; set; }
+        public uint DpiX { get; set; }
+        public uint DpiY { get; set; }
+
         public override string Name => AvailableCommand.Initialize.GetDescription();
 
         public Initialize(IDictionary<string, string> arguments)
             : base(arguments)
         {
-            this.SavedAudioInputId = arguments["savedAudioInputId"];
-            this.SavedAudioOutputId = arguments["savedAudioOutputId"];
+            SavedAudioInputId = arguments["savedAudioInputId"];
+            SavedAudioOutputId = arguments["savedAudioOutputId"];
+            DpiX = uint.Parse(arguments["dpiX"]);
+            DpiY = uint.Parse(arguments["dpiY"]);
         }
 
         public override void Execute()
@@ -34,6 +39,8 @@ namespace obs_cli.Commands.Implementations
                 // todo: if any exceptions are thrown in this app, we need to bubble it all up to a single terminate code so consuming apps know that it shut down
                 throw new ApplicationException("Startup failed.");
             }
+
+            Store.Data.Display.SetSystemDpi(DpiX, DpiY);
 
             AudioService.ResetAudioInfo();
 
