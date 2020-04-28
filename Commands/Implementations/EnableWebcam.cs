@@ -1,4 +1,5 @@
-﻿using obs_cli.Data;
+﻿using obs_cli.Commands.Abstract;
+using obs_cli.Data;
 using obs_cli.Enums;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,15 +7,15 @@ using System.Windows;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class EnableWebcam : BaseCommand
+    public class EnableWebcam : BaseWebcamInitialization
     {
         public double? Height { get; set; }
         public double? Width { get; set; }
-        public string WebcamValue { get; set; }
 
         public override string Name => AvailableCommand.EnableWebcam.GetDescription();
 
         public EnableWebcam(IDictionary<string, string> arguments)
+            :base(arguments)
         {
             double height;
             if (double.TryParse(arguments["height"], out height))
@@ -27,8 +28,6 @@ namespace obs_cli.Commands.Implementations
             {
                 Width = width;
             }
-
-            WebcamValue = arguments["webcamValue"];
         }
 
         public override void Execute()
