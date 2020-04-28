@@ -75,9 +75,7 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Display.DisplayItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Display.DisplaySource);
             Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
 
-            Screen screenToRecord = ScreenHelper.GetScreen(this.ScreenToRecordHandle);
-            Rectangle activeScreenBounds = screenToRecord.Bounds;
-            Store.Data.Record.ActiveScreen = screenToRecord;
+            Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
 
             Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
             Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);

@@ -56,13 +56,14 @@ namespace obs_cli.Services
                 bottom = parameters.CropBottom
             };
 
+            Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
+
             //Set the proper display source
             if (Store.Data.Display.DisplaySource != null)
             {
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
 
-                Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
                 displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, Store.Data.Record.ActiveScreen));
 
                 Store.Data.Display.DisplaySource.Update(displaySettings);
