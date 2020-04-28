@@ -10,6 +10,8 @@ namespace obs_cli.Enums
         AudioOutputMagnitude,
         [Description("cancel-recording")]
         CancelRecording,
+        [Description("change-webcam")]
+        ChangeWebcam,
         [Description("delete-last-section")]
         DeleteLastSection,
         [Description("disable-webcam")]
