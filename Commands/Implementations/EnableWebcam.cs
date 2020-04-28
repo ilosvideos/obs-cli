@@ -1,6 +1,7 @@
 ﻿using obs_cli.Commands.Abstract;
 using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -35,6 +36,11 @@ namespace obs_cli.Commands.Implementations
             if (WebcamValue == Store.Data.Webcam.ActiveWebcamValue)
             {
                 return;
+            }
+
+            if (Store.Data.Webcam.Window == null)
+            {
+                Store.Data.Webcam.Window = new WebcamWindow();
             }
 
             Store.Data.Webcam.Window.Show(Width, Height);
