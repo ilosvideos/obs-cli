@@ -22,20 +22,28 @@ namespace obs_cli.Data.Modules
 
         public List<WebcamDevice> Webcams { get; set; }
 
+        public IntPtr WindowHandle { get; set; }
+        public int WindowMouseX { get; set; }
+        public int WindowMouseY { get; set; }
+
+        public Application Application { get; set; }
+
         public Webcam()
         {
             Webcams = new List<WebcamDevice>();
+            Application = new Application();
+
+            Application.Dispatcher.Invoke(new Action(() =>
+            {
+                Window = new WebcamWindow();
+            }));
         }
 
         public List<WebcamDevice> GetWebcams()
         {
-            if (Window == null)
-            {
-                Window = new WebcamWindow();
-            }
-
             return Webcams;
         }
+
 
         /// <summary>
         /// Disposes the OBS webcam item and source and reenables standalone audio input.

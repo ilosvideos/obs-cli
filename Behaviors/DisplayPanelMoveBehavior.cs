@@ -1,4 +1,5 @@
 ﻿using obs_cli.Controls;
+using obs_cli.Data;
 using obs_cli.Utility;
 using System;
 using System.Runtime.InteropServices;
@@ -22,6 +23,7 @@ namespace obs_cli.Behaviors
             if (child.Name.Equals("")) child.Name = Guid.NewGuid().ToString();
             //Application.Current.Properties["window_" + child.Name] = window;
             //Application.Current.Properties["windowHandle_" + child.Name] = new WindowInteropHelper(window).Handle;
+            Store.Data.Webcam.WindowHandle = new WindowInteropHelper(window).Handle;
 
             child.MouseMove += Child_MouseMove;
             child.MouseDown += child_MouseDown;
@@ -37,10 +39,14 @@ namespace obs_cli.Behaviors
         private static void Child_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             DisplayPanel displayPanel = (DisplayPanel)sender;
-            if (e.Button == MouseButtons.Left && (e.X != (int)Application.Current.Properties[displayPanel.Name + "_mouse_x"] || e.Y != (int)Application.Current.Properties[displayPanel.Name + "_mouse_y"]))
+            //if (e.Button == MouseButtons.Left && (e.X != (int)Application.Current.Properties[displayPanel.Name + "_mouse_x"] || e.Y != (int)Application.Current.Properties[displayPanel.Name + "_mouse_y"]))
+            if (e.Button == MouseButtons.Left && (e.X != Store.Data.Webcam.WindowMouseX || e.Y != Store.Data.Webcam.WindowMouseY))
             {
-                Window window = (Window)Application.Current.Properties["window_" + displayPanel.Name];
-                IntPtr windowHandle = (IntPtr)Application.Current.Properties["windowHandle_" + displayPanel.Name];
+                //Window window = (Window)Application.Current.Properties["window_" + displayPanel.Name];
+                //IntPtr windowHandle = (IntPtr)Application.Current.Properties["windowHandle_" + displayPanel.Name];
+
+                Window window = Store.Data.Webcam.Window;
+                IntPtr windowHandle = Store.Data.Webcam.WindowHandle;
 
                 if (e.Button == MouseButtons.Left)
                 {
@@ -54,8 +60,10 @@ namespace obs_cli.Behaviors
         private static void child_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             DisplayPanel displayPanel = (DisplayPanel)sender;
-            Application.Current.Properties[displayPanel.Name + "_mouse_x"] = e.X;
-            Application.Current.Properties[displayPanel.Name + "_mouse_y"] = e.Y;
+            Store.Data.Webcam.WindowMouseX = e.X;
+            Store.Data.Webcam.WindowMouseY = e.Y;
+            //Application.Current.Properties[displayPanel.Name + "_mouse_x"] = e.X;
+            //Application.Current.Properties[displayPanel.Name + "_mouse_y"] = e.Y;
         }
 
     }
