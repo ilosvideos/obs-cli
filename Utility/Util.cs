@@ -64,7 +64,11 @@ namespace obs_cli.Utility
             if (window.GetType() == typeof(WebcamWindow))
             {
                 WebcamWindow webcamWindow = (WebcamWindow)window;
-                properties.BorderWidth = webcamWindow.BorderSize;
+                window.Dispatcher.Invoke(new Action(() =>
+                {
+                    properties.BorderWidth = webcamWindow.BorderSize;
+                }));
+                
             }
 
             return properties;
