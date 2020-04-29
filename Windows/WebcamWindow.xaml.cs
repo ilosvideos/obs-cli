@@ -185,9 +185,9 @@ namespace obs_cli.Windows
                         preferredResolution = $"{preferredRes.Width}x{preferredRes.Height}";
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    //ILog.IlosLogger.Error(ex);
+                    
                 }
 
                 if (!string.IsNullOrEmpty(preferredResolution))
@@ -308,7 +308,7 @@ namespace obs_cli.Windows
         {
             if (Store.Data.Webcam.Item != null)
             {
-                //Recorder.ScreenRecorder.CalculateWebcamItemPosition();
+                Store.Data.Webcam.CalculateItemPosition();
             }
 
             ResizeMode = ResizeMode.CanResize; // Re-enable resizing on this window. Resizing disabled when mouse is dragged o nthe winform child (in DisplayPanelMoveBehavior)

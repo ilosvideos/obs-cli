@@ -1,4 +1,5 @@
-﻿using System;
+﻿using obs_cli.Utility;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using Control = System.Windows.Forms.Control;
@@ -49,9 +50,7 @@ namespace obs_cli.Controls
 
         public void PositionAndResize()
         {
-            // todo: set padding to correct size. bring DpiUtil over
-            //double padding = DpiUtil.ConvertSizeSystemDpiToMonitorDpi(Owner, ((Border)(t.Parent)).Padding.Left);
-            double padding = 4.0;
+            double padding = DpiUtil.ConvertSizeSystemDpiToMonitorDpi(Owner, ((Border)(t.Parent)).Padding.Left);
 
             Left = Owner.Left + padding;
             Top = Owner.Top + padding;
