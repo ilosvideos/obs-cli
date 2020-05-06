@@ -1,4 +1,5 @@
 ﻿using obs_cli.Data.Modules;
+using System.Windows;
 
 namespace obs_cli.Data
 {
@@ -6,6 +7,7 @@ namespace obs_cli.Data
     {
         public StoreInstance()
         {
+            this.Application = new Application();
             this.Audio = new Audio();
             this.Display = new Display();
             this.Obs = new Obs();
@@ -13,6 +15,7 @@ namespace obs_cli.Data
             this.Webcam = new Webcam();
         }
 
+        public Application Application { get; set; }
         public Audio Audio { get; set; }
         public Display Display { get; set; }
         public Obs Obs { get; set; }
