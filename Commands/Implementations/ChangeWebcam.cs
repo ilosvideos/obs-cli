@@ -1,6 +1,7 @@
 ﻿using obs_cli.Commands.Abstract;
 using obs_cli.Data;
 using obs_cli.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,6 @@ namespace obs_cli.Commands.Implementations
     {
         public override string Name => AvailableCommand.ChangeWebcam.GetDescription();
 
-        // todo: move this to base class and have EnableWebcam extend from it too
         public ChangeWebcam(IDictionary<string, string> arguments)
             :base(arguments)
         {
@@ -30,7 +30,10 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            Store.Data.Webcam.Window.setWebcam(webcam);
+            Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
+            {
+                Store.Data.Webcam.Window.setWebcam(webcam);
+            }));
         }
     }
 }
