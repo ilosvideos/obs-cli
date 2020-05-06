@@ -14,8 +14,8 @@ namespace obs_cli.Commands.Implementations
     {
         public double? Height { get; set; }
         public double? Width { get; set; }
-        //public double? Left { get; set; }
-        //public double? Top { get; set; }
+        public double? Left { get; set; }
+        public double? Top { get; set; }
 
         public override string Name => AvailableCommand.EnableWebcam.GetDescription();
 
@@ -34,17 +34,17 @@ namespace obs_cli.Commands.Implementations
                 Width = width;
             }
 
-            //double left;
-            //if (double.TryParse(arguments["left"], out left))
-            //{
-            //    Left = left;
-            //}
+            double left;
+            if (double.TryParse(arguments["left"], out left))
+            {
+                Left = left;
+            }
 
-            //double top;
-            //if (double.TryParse(arguments["top"], out top))
-            //{
-            //    Top = top;
-            //}
+            double top;
+            if (double.TryParse(arguments["top"], out top))
+            {
+                Top = top;
+            }
         }
 
         public override void Execute()
@@ -60,8 +60,8 @@ namespace obs_cli.Commands.Implementations
                 Thread thread = new Thread(() =>
                 {
                     Store.Data.Webcam.Window = new WebcamWindow();
-                    //Store.Data.Webcam.Window.Left = Left.Value;
-                    //Store.Data.Webcam.Window.Top = Top.Value;
+                    Store.Data.Webcam.Window.Left = Left.Value;
+                    Store.Data.Webcam.Window.Top = Top.Value;
                     Store.Data.Webcam.Window.Show(Width, Height);
                     Store.Data.App.ApplicationInstance = new Application();
 
@@ -81,8 +81,8 @@ namespace obs_cli.Commands.Implementations
             {
                 Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
                 {
-                    //Store.Data.Webcam.Window.Left = Left.Value;
-                    //Store.Data.Webcam.Window.Top = Top.Value;
+                    Store.Data.Webcam.Window.Left = Left.Value;
+                    Store.Data.Webcam.Window.Top = Top.Value;
                     Store.Data.Webcam.Window.Show(Width, Height);
 
                     var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
