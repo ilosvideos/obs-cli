@@ -54,21 +54,27 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
+            var showWebcam = new Action(() => 
+            {
+                Store.Data.Webcam.Window.Left = Left.Value;
+                Store.Data.Webcam.Window.Top = Top.Value;
+                Store.Data.Webcam.Window.Show(Width, Height);
+
+                var webcam = Store.Data.Webcam.GetWebcam(WebcamValue);
+                Store.Data.Webcam.Window.setWebcam(webcam);
+
+                Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+            });
+
             // todo: if no left/top, show center screen
             if (Store.Data.Webcam.Window == null)
             {
                 Thread thread = new Thread(() =>
                 {
                     Store.Data.Webcam.Window = new WebcamWindow();
-                    Store.Data.Webcam.Window.Left = Left.Value;
-                    Store.Data.Webcam.Window.Top = Top.Value;
-                    Store.Data.Webcam.Window.Show(Width, Height);
                     Store.Data.App.ApplicationInstance = new Application();
 
-                    var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
-                    Store.Data.Webcam.Window.setWebcam(webcam);
-
-                    Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                    showWebcam();
 
                     Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
                 });
@@ -81,14 +87,7 @@ namespace obs_cli.Commands.Implementations
             {
                 Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
                 {
-                    Store.Data.Webcam.Window.Left = Left.Value;
-                    Store.Data.Webcam.Window.Top = Top.Value;
-                    Store.Data.Webcam.Window.Show(Width, Height);
-
-                    var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
-                    Store.Data.Webcam.Window.setWebcam(webcam);
-
-                    Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                    showWebcam();
                 }));
             }
 

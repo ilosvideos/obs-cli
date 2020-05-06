@@ -5,6 +5,7 @@ using obs_cli.Utility;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using WebcamDevice = obs_cli.Objects.Webcam;
 
@@ -33,6 +34,18 @@ namespace obs_cli.Data.Modules
         public Webcam()
         {
             Webcams = new List<WebcamDevice>();
+        }
+
+        // todo: probably want to move all of these methods to a dedicated WebcamService
+
+        /// <summary>
+        /// Gets the webcam object with the corresponding value.
+        /// </summary>
+        /// <param name="webcamValue"></param>
+        /// <returns></returns>
+        public WebcamDevice GetWebcam(string webcamValue)
+        {
+            return Webcams.FirstOrDefault(x => x.value == webcamValue);
         }
 
         /// <summary>
