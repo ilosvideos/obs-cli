@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using Application = System.Windows.Application;
 
 namespace obs_cli.Behaviors
 {
