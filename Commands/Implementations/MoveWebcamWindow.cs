@@ -31,8 +31,8 @@ namespace obs_cli.Commands.Implementations
         {
             Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
-                Store.Data.Webcam.Window.Top = Top;
-                Store.Data.Webcam.Window.Left = Left;
+                Store.Data.Webcam.Window.Top = Store.Data.Webcam.Window.Top + Top;
+                Store.Data.Webcam.Window.Left = Store.Data.Webcam.Window.Left + Left;
             }));
         }
     }
