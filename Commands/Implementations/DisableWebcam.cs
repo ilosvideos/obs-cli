@@ -21,6 +21,8 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window.Close();
                 Store.Data.Webcam.ActiveWebcamValue = string.Empty;
             }));
+
+            Store.Data.Webcam.IsWebcamEnabled = false;
         }
     }
 }

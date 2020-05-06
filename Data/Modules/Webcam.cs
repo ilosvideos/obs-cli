@@ -14,6 +14,8 @@ namespace obs_cli.Data.Modules
     {
         public string ActiveWebcamValue { get; set; }
 
+        public bool IsWebcamEnabled { get; set; }
+
         public Item Item { get; set; }
 
         public Source Source { get; set; }
@@ -23,7 +25,9 @@ namespace obs_cli.Data.Modules
         public List<WebcamDevice> Webcams { get; set; }
 
         public IntPtr WindowHandle { get; set; }
+
         public int WindowMouseX { get; set; }
+
         public int WindowMouseY { get; set; }
 
         public Webcam()

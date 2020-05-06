@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class EnableWebcam : BaseWebcamInitialization
+    public class EnableWebcamOnly : BaseWebcamInitialization
     {
         public double? Height { get; set; }
         public double? Width { get; set; }
@@ -19,8 +19,8 @@ namespace obs_cli.Commands.Implementations
 
         public override string Name => AvailableCommand.EnableWebcam.GetDescription();
 
-        public EnableWebcam(IDictionary<string, string> arguments)
-            :base(arguments)
+        public EnableWebcamOnly(IDictionary<string, string> arguments)
+            : base(arguments)
         {
             double height;
             if (double.TryParse(arguments["height"], out height))
@@ -54,7 +54,7 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            // todo: if no left/top, show center screen
+            // if no left/top, show center screen
             if (Store.Data.Webcam.Window == null)
             {
                 Thread thread = new Thread(() =>
@@ -79,6 +79,9 @@ namespace obs_cli.Commands.Implementations
             }
             else
             {
+                // webcam window is already created
+                // is webcam enabled? if so, just move it to the Left/Top position passed in
+                // if not, enable the webcam, then move it to the Left/Top position passed in. use first webcam in the list
                 Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
                 {
                     Store.Data.Webcam.Window.Left = Left.Value;
@@ -91,8 +94,6 @@ namespace obs_cli.Commands.Implementations
                     Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
                 }));
             }
-
-            Store.Data.Webcam.IsWebcamEnabled = true;
         }
     }
 }
