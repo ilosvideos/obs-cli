@@ -4,6 +4,6 @@ namespace obs_cli.Data.Modules
 {
     public class App
     {
-        public Application Application { get; set; }
+        public Application ApplicationInstance { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
+using System;
 using System.Collections.Generic;
-using System.Windows;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -16,9 +16,11 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            Store.Data.Webcam.Window.Close();
-            Store.Data.Webcam.Window = null;
-            Store.Data.Webcam.ActiveWebcamValue = string.Empty;
+            Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
+            {
+                Store.Data.Webcam.Window.Close();
+                Store.Data.Webcam.ActiveWebcamValue = string.Empty;
+            }));
         }
     }
 }

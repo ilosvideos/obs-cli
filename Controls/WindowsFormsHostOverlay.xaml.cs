@@ -20,20 +20,28 @@ namespace obs_cli.Controls
             t = target;
             wfh.Child = child;
 
-            Owner = Window.GetWindow(t);
+            t.Dispatcher.Invoke(new Action(() =>
+            {
+                Owner = GetWindow(t);
+                Owner.LocationChanged += new EventHandler(EventHandler);
+                t.SizeChanged += new SizeChangedEventHandler(EventHandler);
+                PositionAndResize();
 
-            Owner.LocationChanged += new EventHandler(EventHandler);
-            t.SizeChanged += new SizeChangedEventHandler(EventHandler);
-            PositionAndResize();
-
-            if (Owner.IsVisible)
-                Show();
-            else
-                Owner.IsVisibleChanged += delegate
+                if (Owner.IsVisible)
                 {
-                    if (Owner.IsVisible)
-                        Show();
-                };
+                    Show();
+                }
+                else
+                {
+                    Owner.IsVisibleChanged += delegate
+                    {
+                        if (Owner.IsVisible && IsLoaded)
+                        {
+                            Show();
+                        }
+                    };
+                }
+            }));
         }
 
         protected override void OnClosed(EventArgs e)

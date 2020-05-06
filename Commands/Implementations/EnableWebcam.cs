@@ -2,8 +2,10 @@
 using obs_cli.Data;
 using obs_cli.Enums;
 using obs_cli.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace obs_cli.Commands.Implementations
@@ -40,15 +42,36 @@ namespace obs_cli.Commands.Implementations
 
             if (Store.Data.Webcam.Window == null)
             {
-                Store.Data.Webcam.Window = new WebcamWindow();
+                Thread thread = new Thread(() =>
+                {
+                    Store.Data.Webcam.Window = new WebcamWindow();
+                    Store.Data.Webcam.Window.Show(Width, Height);
+                    Store.Data.App.ApplicationInstance = new Application();
+
+                    var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
+                    Store.Data.Webcam.Window.setWebcam(webcam);
+
+                    Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+
+                    Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
+                });
+
+                thread.Name = "Webcam Window";
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
             }
+            else
+            {
+                Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
+                {
+                    Store.Data.Webcam.Window.Show(Width, Height);
 
-            Store.Data.Webcam.Window.Show(Width, Height);
+                    var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
+                    Store.Data.Webcam.Window.setWebcam(webcam);
 
-            var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
-            Store.Data.Webcam.Window.setWebcam(webcam);
-
-            Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                    Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                }));
+            }
         }
     }
 }

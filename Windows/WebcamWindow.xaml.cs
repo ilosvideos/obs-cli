@@ -90,10 +90,14 @@ namespace obs_cli.Windows
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            e.Cancel = true;
+            Hide();
+
             wfPanel?.Controls.Remove(itemPreviewPanel);
             itemPreviewPanel?.Dispose();
             itemPreviewPanel = null;
             windowsFormsHostOverlay?.Close();
+            windowsFormsHostOverlay = null;
 
             Store.Data.Webcam.DestroyObsWebcam();
         }
