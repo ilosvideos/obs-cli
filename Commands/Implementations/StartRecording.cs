@@ -29,9 +29,12 @@ namespace obs_cli.Commands.Implementations
             {
                 Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
 
-                // check if webcam only. if so, configure webcam only instead of ResetVideoInfo
                 // todo: this is pretty ugly. maybe make a separate "StartWebcamOnlyRecording" command? I like that a little more
-                if (!Store.Data.Webcam.IsWebcamOnly)
+                if (Store.Data.Webcam.IsWebcamOnly)
+                {
+                    ObsVideoService.ConfigureWebcamOnly();
+                }
+                else
                 {
                     ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
                     {

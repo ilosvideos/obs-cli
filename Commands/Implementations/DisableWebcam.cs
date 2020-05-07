@@ -22,12 +22,6 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window.Close();
             }));
 
-            if (Store.Data.Webcam.IsWebcamOnly)
-            {
-                Store.Data.Obs.WebcamScene.ClearItems();
-                Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
-            }
-
             Store.Data.Webcam.IsWebcamOnly = false;
             Store.Data.Webcam.ActiveWebcamValue = string.Empty;
             Store.Data.Webcam.IsWebcamEnabled = false;

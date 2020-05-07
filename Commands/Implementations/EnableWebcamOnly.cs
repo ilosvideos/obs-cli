@@ -79,7 +79,6 @@ namespace obs_cli.Commands.Implementations
                 }));
             }
 
-            ObsVideoService.ConfigureWebcamOnly();
             Store.Data.Webcam.IsWebcamEnabled = true;
             Store.Data.Webcam.IsWebcamOnly = true;
         }
