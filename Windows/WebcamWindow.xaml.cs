@@ -1,14 +1,12 @@
-﻿using DirectShowLib;
-using OBS;
+﻿using OBS;
 using obs_cli.Behaviors;
 using obs_cli.Controls;
 using obs_cli.Data;
 using obs_cli.Objects;
+using obs_cli.Services;
 using obs_cli.Utility;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
@@ -16,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using SystemTimer = System.Timers.Timer;
 using WebcamDevice = obs_cli.Objects.Webcam;
-using WindowsFormsButton = System.Windows.Forms.Button;
 using WindowsFormsPanel = System.Windows.Forms.Panel;
 
 namespace obs_cli.Windows
@@ -32,10 +29,6 @@ namespace obs_cli.Windows
         public WebcamDevice selectedWebcam;
         private WebcamResolution selectedWebcamResolution;
         private ItemPreviewPanel itemPreviewPanel;
-
-        private WindowsFormsButton buttonSelectCam;
-
-        private bool camIsFull = false;
 
         private SystemTimer changeResolutionTimer;
         private int elapsedTimerTime;
@@ -102,7 +95,7 @@ namespace obs_cli.Windows
             Store.Data.Webcam.DestroyObsWebcam();
         }
 
-        private void init_source_preview()
+        private void InitializeWebcamPreview()
         {
             if (itemPreviewPanel != null) return;
 
@@ -117,20 +110,14 @@ namespace obs_cli.Windows
             DisplayPanelMoveBehavior.Attach(itemPreviewPanel, this);
         }
 
-        public void setWebcam(WebcamDevice webcam)
+        public void SetWebcam(WebcamDevice webcam)
         {
             Store.Data.Webcam.ActiveWebcamValue = webcam.value;
             selectedWebcam = webcam;
-            set_webcam_source_settings();
+            SetWebcamSourceSettings();
         }
 
-        public void disableThenEnableWebcam()
-        {
-            Store.Data.Webcam.Source.Enabled = false;
-            Store.Data.Webcam.Source.Enabled = true;
-        }
-
-        private ObsData createWebcamSettingsData()
+        private ObsData CreateWebcamSettings()
         {
             ObsData webcamSettings = new ObsData();
 
@@ -146,53 +133,7 @@ namespace obs_cli.Windows
             }
             else
             {
-                string preferredResolution = "";
-
-                try
-                {
-                    // Try to find a preferred resolution. This lets us choose the preferred resolution and also fixes some initialization issues with some webcams.                    
-                    DsDevice[] devices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
-                    if (devices.Length == 0)
-                    {
-                        throw new Exception("Could not find any video input devices");
-                    }
-
-                    IEnumerable<DsDevice> videoInputDevices = devices.Where(x => x.DevicePath.Contains(selectedWebcam.dsDeviceValue));
-                    if (!videoInputDevices.Any())
-                    {
-                        throw new Exception($"Could not find video input device: {selectedWebcam.dsDeviceValue}");
-                    }
-
-                    DsDevice videoInputDevice = videoInputDevices.First();
-                    List<Size> allDeviceRes = DShowUtility.GetAllAvailableResolutions(videoInputDevice);
-                    if (!allDeviceRes.Any())
-                    {
-                        throw new Exception($"Could not find resolutions for device: {selectedWebcam.dsDeviceValue}");
-                    }
-
-                    if (allDeviceRes.Any(x => x.Width == 1280 && x.Height == 720))
-                    {
-                        preferredResolution = "1280x720";
-                    }
-                    else if (allDeviceRes.Any(x => x.Width == 1920 && x.Height == 1080))
-                    {
-                        preferredResolution = "1920x1080";
-                    }
-                    else if (allDeviceRes.Any(x => x.Width < 1280))
-                    {
-                        Size preferredRes = allDeviceRes.First(x => x.Width < 1280);
-                        preferredResolution = $"{preferredRes.Width}x{preferredRes.Height}";
-                    }
-                    else
-                    {
-                        Size preferredRes = allDeviceRes.First();
-                        preferredResolution = $"{preferredRes.Width}x{preferredRes.Height}";
-                    }
-                }
-                catch (Exception)
-                {
-                    
-                }
+                var preferredResolution = WebcamService.GetOptimalWebcamResolution(selectedWebcam.dsDeviceValue);
 
                 if (!string.IsNullOrEmpty(preferredResolution))
                 {
@@ -205,25 +146,24 @@ namespace obs_cli.Windows
                     webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 0);
                 }
             }
-            
 
             webcamSettings.SetBool(VideoCapture.ACTIVATE, true);
 
             return webcamSettings;
         }
 
-        private void set_webcam_source_settings()
+        private void SetWebcamSourceSettings()
         {
             // Start a timer to see when the webcam resolution has changed
             webcamWidthBeforeChange = (int)Store.Data.Webcam.Source.Width;
             webcamHeightBeforeChange = (int)Store.Data.Webcam.Source.Height;
 
-            ObsData webcamSettings = createWebcamSettingsData();
+            ObsData webcamSettings = CreateWebcamSettings();
 
             Store.Data.Webcam.Source.Update(webcamSettings);
             webcamSettings.Dispose();
 
-            init_source_preview();
+            InitializeWebcamPreview();
 
             changeResolutionTimer?.Stop();
             changeResolutionTimer = new SystemTimer();

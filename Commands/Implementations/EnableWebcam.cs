@@ -60,7 +60,7 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window.Show(Width, Height);
 
                 var webcam = Store.Data.Webcam.GetWebcam(WebcamValue);
-                Store.Data.Webcam.Window.setWebcam(webcam);
+                Store.Data.Webcam.Window.SetWebcam(webcam);
 
                 Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
             });

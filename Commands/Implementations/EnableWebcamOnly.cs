@@ -43,7 +43,7 @@ namespace obs_cli.Commands.Implementations
                     Store.Data.Webcam.Window.Top = Top;
                     Store.Data.Webcam.Window.Show(Width, Height);
 
-                    Store.Data.Webcam.Window.setWebcam(Store.Data.Webcam.DefaultWebcam);
+                    Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
 
                     Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
 
@@ -72,7 +72,7 @@ namespace obs_cli.Commands.Implementations
                         Store.Data.Webcam.Window.Top = Top;
                         Store.Data.Webcam.Window.Show(Width, Height);
 
-                        Store.Data.Webcam.Window.setWebcam(Store.Data.Webcam.DefaultWebcam);
+                        Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
 
                         Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
                     }

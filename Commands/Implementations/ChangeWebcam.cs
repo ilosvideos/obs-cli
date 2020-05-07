@@ -32,7 +32,7 @@ namespace obs_cli.Commands.Implementations
 
             Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
-                Store.Data.Webcam.Window.setWebcam(webcam);
+                Store.Data.Webcam.Window.SetWebcam(webcam);
             }));
         }
     }
