@@ -30,6 +30,8 @@ namespace obs_cli.Enums
         Initialize,
         [Description("pause-recording")]
         PauseRecording,
+        [Description("position-webcam-window")]
+        PositionWebcamWindow,
         [Description("resume-recording")]
         ResumeRecording,
         [Description("start-recording")]

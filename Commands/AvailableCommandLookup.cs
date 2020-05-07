@@ -20,6 +20,7 @@ namespace obs_cli.Commands
             { AvailableCommand.GetWebcamDevices.GetDescription(), typeof(GetWebcamDevices) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
+            { AvailableCommand.PositionWebcamWindow.GetDescription(), typeof(PositionWebcamWindow) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },
             { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
             { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
