@@ -28,8 +28,6 @@ namespace obs_cli.Enums
         GetWebcamDevices,
         [Description("initialize")]
         Initialize,
-        [Description("move-webcam-window")]
-        MoveWebcamWindow,
         [Description("pause-recording")]
         PauseRecording,
         [Description("resume-recording")]
@@ -40,6 +38,8 @@ namespace obs_cli.Enums
         StopRecording,
         [Description("terminate")]
         Terminate,
+        [Description("translate-webcam-window")]
+        TranslateWebcamWindow,
         [Description("update-audio-input-device")]
         UpdateAudioInputDevice,
         [Description("update-audio-output-device")]
