@@ -4,7 +4,6 @@ using obs_cli.Enums;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -67,6 +66,9 @@ namespace obs_cli.Commands.Implementations
             });
 
             // todo: if no left/top, show center screen
+            // todo: check to see if we're coming from webcam only
+            // if so, all we have to do is change scenes in the presentation
+            // and switch the webcams
             if (Store.Data.Webcam.Window == null)
             {
                 Thread thread = new Thread(() =>

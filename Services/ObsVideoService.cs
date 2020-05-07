@@ -2,7 +2,7 @@
 using obs_cli.Data;
 using obs_cli.Helpers;
 using obs_cli.Objects;
-using System.Windows.Forms;
+using System.Linq;
 using static OBS.libobs;
 
 namespace obs_cli.Services
@@ -31,6 +31,23 @@ namespace obs_cli.Services
             }
 
             return (uint)fps;
+        }
+
+        public static bool ConfigureWebcamOnly()
+        {
+            Store.Data.Obs.WebcamScene.ClearItems();
+            Store.Data.Obs.WebcamScene.Add(Store.Data.Webcam.Source);
+            Store.Data.Obs.WebcamScene.Add(Store.Data.Audio.InputSource);
+            Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.WebcamScene);
+
+            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(Store.Data.Webcam.Source.Width, Store.Data.Webcam.Source.Height, Store.Data.Webcam.Source.Width, Store.Data.Webcam.Source.Height);
+
+            if (!Obs.ResetVideo(ovi))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

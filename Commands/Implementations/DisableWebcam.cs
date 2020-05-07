@@ -1,5 +1,6 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Services;
 using System;
 using System.Collections.Generic;
 
@@ -19,9 +20,16 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
                 Store.Data.Webcam.Window.Close();
-                Store.Data.Webcam.ActiveWebcamValue = string.Empty;
             }));
 
+            if (Store.Data.Webcam.IsWebcamOnly)
+            {
+                Store.Data.Obs.WebcamScene.ClearItems();
+                Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
+            }
+
+            Store.Data.Webcam.IsWebcamOnly = false;
+            Store.Data.Webcam.ActiveWebcamValue = string.Empty;
             Store.Data.Webcam.IsWebcamEnabled = false;
         }
     }

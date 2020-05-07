@@ -65,8 +65,8 @@ namespace obs_cli.Commands.Implementations
             FileWriteService.WriteLineToFile("Obs.LoadAllModules successful");
 
             Store.Data.Obs.Presentation = new Presentation();
-            Store.Data.Obs.MainScene = Store.Data.Obs.Presentation.AddScene("Main");
-            Store.Data.Obs.WebcamScene = Store.Data.Obs.Presentation.AddScene("Webcam");
+            Store.Data.Obs.Presentation.AddScene("Main");
+            Store.Data.Obs.Presentation.AddScene("Webcam");
             Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
 
             Store.Data.Display.DisplaySource = Store.Data.Obs.Presentation.CreateSource("monitor_capture", "Monitor Capture Source");

@@ -15,7 +15,17 @@ namespace obs_cli.Data.Modules
     {
         public string ActiveWebcamValue { get; set; }
 
+        public WebcamDevice DefaultWebcam
+        {
+            get
+            {
+                return Webcams.FirstOrDefault();
+            }
+        }
+
         public bool IsWebcamEnabled { get; set; }
+
+        public bool IsWebcamOnly { get; set; }
 
         public Item Item { get; set; }
 
