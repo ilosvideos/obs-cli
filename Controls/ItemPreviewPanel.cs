@@ -15,33 +15,33 @@
 	along with this program; if not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 using OBS;
 using OBS.Graphics;
 using obs_cli.Objects.Obs;
-using System;
-using System.Windows.Forms;
+using obs_cli.Data;
 
 namespace obs_cli.Controls
 {
 	class ItemPreviewPanel : DisplayPanel
 	{
-		private ObsSource source;
-		private Item item;
-
-		private Label loadingMessage;
-		private LinkLabel loadingMessageLink;
+		private Item _item;
+		private Label _loadingMessage;
+		private ObsSource _source;
 
 		public ItemPreviewPanel(Item item, ObsSource source)
 		{
-			this.item = item;
-			this.source = source;
+			this._item = item;
+			this._source = source;
 		}
 
 		protected override void DisplayCreated()
 		{
 			base.DisplayCreated();
 
-			if (source != null)
+			if (_source != null)
 				Display.AddDrawCallback(RenderItem);
 		}
 
@@ -49,18 +49,34 @@ namespace obs_cli.Controls
 		{
 			base.DisplayDestroyed();
 
-			if (source != null)
+			if (_source != null)
 				Display.RemoveDrawCallback(RenderItem);
 		}
 
 		private void RenderItem(IntPtr data, uint cx, uint cy)
 		{
+			bool sourceIsInitialized = _source.Width != 0 || _source.Height != 0;
+			if (!sourceIsInitialized)
+			{
+				if (_loadingMessage == null)
+				{
+					Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(AddLoadingMessage));
+				}
+			}
+			else
+			{
+				if (_loadingMessage != null)
+				{
+					Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(RemoveLoadingMessage));
+				}
+			}
+
 			int newW = (int)cx;
 			int newH = (int)cy;
-			int itemWidth = (int)item.Width;
-			int itemHeight = (int)item.Height;
-			int itemSourceWidth = (int)source.Width;
-			int itemSourceHeight = (int)source.Height;
+			int itemWidth = (int)_item.Width;
+			int itemHeight = (int)_item.Height;
+			int itemSourceWidth = (int)_source.Width;
+			int itemSourceHeight = (int)_source.Height;
 			float previewAspect = (float)cx / cy;
 			float itemAspect = (float)itemWidth / itemHeight;
 			float sourceAspect = (float)itemSourceWidth / itemSourceHeight;
@@ -85,12 +101,34 @@ namespace obs_cli.Controls
 			GS.SetViewport(centerX, centerY, newW, newH);
 
 			//render item content
-			source.Render();
+			_source.Render();
 
 			GS.ProjectionPop();
 			GS.ViewportPop();
 
 			GS.LoadVertexBuffer(null);
+		}
+
+		private void AddLoadingMessage()
+		{
+			_loadingMessage = new Label
+			{
+				Text = "Loading webcam...",
+				AutoSize = false,
+				TextAlign = ContentAlignment.MiddleCenter,
+				Dock = DockStyle.Fill,
+				ForeColor = Color.White,
+				Font = new Font("Arial", 20),
+				BackColor = Color.DimGray
+			};
+
+			Controls.Add(_loadingMessage);
+		}
+
+		private void RemoveLoadingMessage()
+		{
+			this.Controls.Remove(_loadingMessage);
+			_loadingMessage = null;
 		}
 	}
 }
