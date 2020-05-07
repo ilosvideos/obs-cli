@@ -23,8 +23,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("in start recording execute");
-
             try 
             {
                 Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
@@ -54,8 +52,6 @@ namespace obs_cli.Commands.Implementations
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Record.OutputAndEncoders.obsOutput.Start();
-
-                FileWriteService.WriteLineToFile("recording started");
             }
             catch(Exception ex)
             {
