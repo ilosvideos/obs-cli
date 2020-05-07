@@ -48,9 +48,7 @@ namespace obs_cli.Windows
             this.DataContext = this;
 
             EnumerateAndSetWebcams();
-
-            // todo: bring this method over, but deal with it when I deal with attaching audio to webcam
-            //Recorder.ScreenRecorder.Webcam_UpdateAudioDevice();
+            WebcamService.UpdateAudioDevice();
         }
 
         public WebcamWindow(double? width, double? height)
