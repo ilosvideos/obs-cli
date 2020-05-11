@@ -22,11 +22,14 @@ namespace obs_cli.Objects
 		/// <summary>
 		/// Combines all of the InputFiles and writes it to disk.
 		/// </summary>
-		public void CombineAndWrite()
+		/// <returns>The final video's output path.</returns>
+		public string CombineAndWrite()
 		{
+			string fileOutputPath = string.Empty;
+
 			try
 			{
-				string fileOutputPath = Path.Combine(InputFiles.First().DirectoryName, Store.Data.Record.LastVideoName + ".mp4");
+				fileOutputPath = Path.Combine(InputFiles.First().DirectoryName, Store.Data.Record.LastVideoName + ".mp4");
 
 				if (InputFiles.Count == 1)
 				{
@@ -34,7 +37,7 @@ namespace obs_cli.Objects
 					InputFiles.First().MoveTo(fileOutputPath);
 					OutputFile = new FileInfo(fileOutputPath);
 
-					return;
+					return fileOutputPath;
 				}
 
 				TempFileList = new FileInfo(Path.GetTempFileName());
@@ -60,6 +63,8 @@ namespace obs_cli.Objects
 			{
 				DeleteTemporaryFiles();
 			}
+
+			return fileOutputPath;
 		}
 
 		/// <summary>

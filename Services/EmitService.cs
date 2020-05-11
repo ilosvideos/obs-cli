@@ -8,6 +8,7 @@ using System.Web.Script.Serialization;
 
 namespace obs_cli.Services
 {
+    // todo: maybe break this into two separate services - EmitOutputService and EmitSerializedOutputService
     public static class EmitService
     {
         /// <summary>
@@ -26,6 +27,15 @@ namespace obs_cli.Services
         public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
         {
             EmitOutput(AvailableCommand.AudioOutputMagnitude, parameters.ToDictionary());
+        }
+
+        /// <summary>
+        /// Emits the stop recording status to standard output.
+        /// </summary>
+        /// <param name="parameters"></param>
+        public static void EmitStopRecordingStatus(StopRecordingStatusParameters parameters)
+        {
+            EmitOutput(AvailableCommand.StopRecording, parameters.ToDictionary());
         }
 
         /// <summary>
