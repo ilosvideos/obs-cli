@@ -52,6 +52,8 @@ namespace obs_cli.Commands.Implementations
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Record.OutputAndEncoders.obsOutput.Start();
+
+                EmitService.EmitStatusResponse(AvailableCommand.StartRecording, true);
             }
             catch(Exception ex)
             {

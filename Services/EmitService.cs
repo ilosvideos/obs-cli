@@ -1,4 +1,5 @@
 ﻿using obs_cli.Enums;
+using obs_cli.Helpers;
 using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace obs_cli.Services
 {
+    // todo: maybe break this into two separate services - EmitOutputService and EmitSerializedOutputService
     public static class EmitService
     {
         /// <summary>
@@ -26,6 +28,15 @@ namespace obs_cli.Services
         public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
         {
             EmitOutput(AvailableCommand.AudioOutputMagnitude, parameters.ToDictionary());
+        }
+
+        /// <summary>
+        /// Emits the stop recording status to standard output.
+        /// </summary>
+        /// <param name="parameters"></param>
+        public static void EmitStopRecordingStatus(StopRecordingStatusParameters parameters)
+        {
+            EmitOutput(AvailableCommand.StopRecording, parameters.ToDictionary());
         }
 
         /// <summary>
@@ -53,6 +64,22 @@ namespace obs_cli.Services
         public static void EmitWebcamDevices(WebcamDeviceList webcamDeviceList)
         {
             EmitSerializedOutput(AvailableCommand.GetWebcamDevices, webcamDeviceList);
+        }
+        
+        /// Emits a true/false status response with an optional message.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
+        public static void EmitStatusResponse(AvailableCommand command, bool status, string message = null)
+        {
+            var statusResponse = new StatusResponse
+            { 
+                IsSuccessful = status,
+                Message = message
+            };
+
+            EmitSerializedOutput(command, statusResponse);
         }
 
         /// <summary>
