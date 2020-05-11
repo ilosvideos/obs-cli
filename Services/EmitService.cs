@@ -1,4 +1,5 @@
 ﻿using obs_cli.Enums;
+using obs_cli.Helpers;
 using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,17 @@ namespace obs_cli.Services
         public static void EmitAudioOutputDevices(AudioDeviceList audioDeviceList)
         {
             EmitSerializedOutput(AvailableCommand.GetAudioOutputDevices, audioDeviceList);
+        }
+
+        public static void EmitStatusResponse(AvailableCommand command, bool status, string message = null)
+        {
+            var statusResponse = new StatusResponse
+            { 
+                IsSuccessful = status,
+                Message = message
+            };
+
+            EmitSerializedOutput(command, statusResponse);
         }
 
         /// <summary>

@@ -49,7 +49,7 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
                 Store.Data.Record.OutputAndEncoders.obsOutput.Start();
 
-                FileWriteService.WriteLineToFile("recording started");
+                EmitService.EmitStatusResponse(AvailableCommand.StartRecording, true);
             }
             catch(Exception ex)
             {
