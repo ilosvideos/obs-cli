@@ -103,8 +103,7 @@ namespace obs_cli.Services
                 Store.Data.Display.DisplayItem.SetCrop(Store.Data.Record.AppliedCrop);
             }
 
-            // todo: webcam related
-            //CalculateWebcamItemPosition();
+            Store.Data.Webcam.CalculateItemPosition();
 
             var obsVideoInfo = new GenerateObsVideoInfoParameters
             {
