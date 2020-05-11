@@ -7,8 +7,6 @@ namespace obs_cli.Objects
         public string name { get; }
         public string value { get; }
         public string dsDeviceValue { get; }
-        public string pid { get; }
-        public string vid { get; }
 
         public Webcam(string name, string value)
         {
@@ -20,11 +18,7 @@ namespace obs_cli.Objects
             {
                 // todo: not quite sure what #22 represents yet. something OBS adds in?
                 var index = value.IndexOf(":\\");
-                dsDeviceValue = index >= 0 ? value.Substring(value.IndexOf(":\\")).Replace("#22", "#") : value;
-
-                // todo: move the WebcamConfigurationService over
-                //vid = WebcamConfigurationService.GetVendorId(value);
-                //pid = WebcamConfigurationService.GetProductId(value);
+                dsDeviceValue = index >= 0 ? value.Substring(value.IndexOf(":\\")).Replace("#22", "#") : value;;
             }
         }
 

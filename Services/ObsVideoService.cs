@@ -2,7 +2,6 @@
 using obs_cli.Data;
 using obs_cli.Helpers;
 using obs_cli.Objects;
-using System.Linq;
 using static OBS.libobs;
 
 namespace obs_cli.Services
@@ -11,27 +10,6 @@ namespace obs_cli.Services
     {
         public const int MAX_FPS = 30;
         public const int MIN_FPS = 4;
-
-        /// <summary>
-        /// Gets the appropriate frame rate.
-        /// </summary>
-        /// <param name="frameRate"></param>
-        /// <returns></returns>
-        public static uint GetFrameRate(uint frameRate)
-        {
-            int fps = (int)frameRate;
-
-            if (fps < 4)
-            {
-                fps = MIN_FPS;
-            }
-            else if (fps > MAX_FPS)
-            {
-                fps = MAX_FPS;
-            }
-
-            return (uint)fps;
-        }
 
         public static bool ConfigureWebcamOnly(uint frameRate)
         {
@@ -125,6 +103,27 @@ namespace obs_cli.Services
             Store.Data.Record.CanvasWidth = parameters.CanvasWidth;
 
             return true;
+        }
+
+        /// <summary>
+        /// Gets the appropriate frame rate.
+        /// </summary>
+        /// <param name="frameRate"></param>
+        /// <returns></returns>
+        private static uint GetFrameRate(uint frameRate)
+        {
+            int fps = (int)frameRate;
+
+            if (fps < 4)
+            {
+                fps = MIN_FPS;
+            }
+            else if (fps > MAX_FPS)
+            {
+                fps = MAX_FPS;
+            }
+
+            return (uint)fps;
         }
     }
 }

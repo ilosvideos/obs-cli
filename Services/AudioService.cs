@@ -76,8 +76,7 @@ namespace obs_cli.Services
             Store.Data.Audio.InputSource.Enabled = !deviceId.Equals(Constants.Audio.NO_DEVICE_ID);
             Store.Data.Audio.InputSource.Muted = deviceId.Equals(Constants.Audio.NO_DEVICE_ID); // Muted is used to update audio meter
 
-            // todo: webcam related
-            //Webcam_UpdateAudioDevice();
+            WebcamService.UpdateAudioDevice();
         }
 
         /// <summary>
