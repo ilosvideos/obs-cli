@@ -57,6 +57,12 @@ namespace obs_cli.Services
             EmitSerializedOutput(AvailableCommand.GetAudioOutputDevices, audioDeviceList);
         }
 
+        /// <summary>
+        /// Emits a true/false status response with an optional message.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
         public static void EmitStatusResponse(AvailableCommand command, bool status, string message = null)
         {
             var statusResponse = new StatusResponse
