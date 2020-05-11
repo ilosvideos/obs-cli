@@ -33,14 +33,23 @@ namespace obs_cli.Services
             return (uint)fps;
         }
 
-        public static bool ConfigureWebcamOnly()
+        public static bool ConfigureWebcamOnly(uint frameRate)
         {
             Store.Data.Obs.WebcamScene.ClearItems();
             Store.Data.Obs.WebcamScene.Add(Store.Data.Webcam.Source);
             Store.Data.Obs.WebcamScene.Add(Store.Data.Audio.InputSource);
             Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.WebcamScene);
 
-            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(Store.Data.Webcam.Source.Width, Store.Data.Webcam.Source.Height, Store.Data.Webcam.Source.Width, Store.Data.Webcam.Source.Height);
+            var obsVideoInfo = new GenerateObsVideoInfoParameters
+            {
+                BaseWidth = Store.Data.Webcam.Source.Width,
+                OutputWidth = Store.Data.Webcam.Source.Width,
+                BaseHeight = Store.Data.Webcam.Source.Height,
+                OutputHeight = Store.Data.Webcam.Source.Height,
+                FrameRate = GetFrameRate(frameRate)
+            };
+
+            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(obsVideoInfo);
 
             if (!Obs.ResetVideo(ovi))
             {
@@ -97,12 +106,16 @@ namespace obs_cli.Services
             // todo: webcam related
             //CalculateWebcamItemPosition();
 
-            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(
-                (uint)parameters.CanvasWidth,
-                (uint)parameters.CanvasHeight,
-                (uint)parameters.OutputWidth,
-                (uint)parameters.OutputHeight,
-                GetFrameRate(parameters.FrameRate));
+            var obsVideoInfo = new GenerateObsVideoInfoParameters
+            {
+                BaseWidth = (uint)parameters.CanvasWidth,
+                OutputWidth = (uint)parameters.OutputWidth,
+                BaseHeight = (uint)parameters.CanvasHeight,
+                OutputHeight = (uint)parameters.OutputHeight,
+                FrameRate = GetFrameRate(parameters.FrameRate)
+            };
+
+            obs_video_info ovi = ObsHelper.GenerateObsVideoInfoObject(obsVideoInfo);
 
             if (!Obs.ResetVideo(ovi))
             {

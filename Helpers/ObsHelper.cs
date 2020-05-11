@@ -42,21 +42,19 @@ namespace obs_cli.Helpers
         /// <summary>
         /// Generates a new ObsVideoInfo object.
         /// </summary>
-        /// <param name="baseWidth"></param>
-        /// <param name="baseHeight"></param>
-        /// <param name="outputWidth"></param>
-        /// <param name="outputHeight"></param>
+        /// <param name="obsVideoInfo"></param>
         /// <returns></returns>
-        public static obs_video_info GenerateObsVideoInfoObject(uint baseWidth, uint baseHeight, uint outputWidth, uint outputHeight)
+        public static obs_video_info GenerateObsVideoInfoObject(GenerateObsVideoInfoParameters obsVideoInfo)
         {
             return new obs_video_info
             {
                 adapter = 0,
-                base_width = baseWidth,
-                base_height = baseHeight,
-                output_width = outputWidth,
-                output_height = outputHeight,
+                base_width = obsVideoInfo.BaseWidth,
+                base_height = obsVideoInfo.BaseHeight,
+                output_width = obsVideoInfo.OutputWidth,
+                output_height = obsVideoInfo.OutputHeight,
                 fps_den = Constants.Video.FPS_DEN,
+                fps_num = obsVideoInfo.FrameRate,
                 graphics_module = "libobs-d3d11.dll",
                 output_format = video_format.VIDEO_FORMAT_NV12,
                 scale_type = obs_scale_type.OBS_SCALE_BICUBIC,
@@ -64,22 +62,6 @@ namespace obs_cli.Helpers
                 range = video_range_type.VIDEO_RANGE_PARTIAL,
                 gpu_conversion = true,
             };
-        }
-
-        /// <summary>
-        /// Generates a new ObsVideoInfo object with the designated frame rate.
-        /// </summary>
-        /// <param name="baseWidth"></param>
-        /// <param name="baseHeight"></param>
-        /// <param name="outputWidth"></param>
-        /// <param name="outputHeight"></param>
-        /// <param name="frameRate"></param>
-        /// <returns></returns>
-        public static obs_video_info GenerateObsVideoInfoObject(uint baseWidth, uint baseHeight, uint outputWidth, uint outputHeight, uint frameRate)
-        {
-            var obsVideoInfo = GenerateObsVideoInfoObject(baseWidth, baseHeight, outputWidth, outputHeight);
-            obsVideoInfo.fps_num = frameRate;
-            return obsVideoInfo;
         }
     }
 }

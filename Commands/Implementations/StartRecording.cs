@@ -30,7 +30,7 @@ namespace obs_cli.Commands.Implementations
                 // todo: this is pretty ugly. maybe make a separate "StartWebcamOnlyRecording" command? I like that a little more
                 if (Store.Data.Webcam.IsWebcamOnly)
                 {
-                    ObsVideoService.ConfigureWebcamOnly();
+                    ObsVideoService.ConfigureWebcamOnly(FrameRate);
                 }
                 else
                 {
