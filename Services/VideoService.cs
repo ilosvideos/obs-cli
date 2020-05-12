@@ -7,7 +7,6 @@ using static OBS.libobs;
 
 namespace obs_cli.Services
 {
-    // todo: should this class and ObsVideoService be merged together into a single VideoService?
     public static class VideoService
     {
         public const int MAX_FPS = 30;
