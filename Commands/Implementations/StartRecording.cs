@@ -1,9 +1,9 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
 using obs_cli.Helpers;
-using obs_cli.Objects;
-using obs_cli.Objects.Obs;
-using obs_cli.Services;
+using obs_cli.Services.Recording;
+using obs_cli.Services.Recording.Abstract;
+using obs_cli.Services.Recording.Objects;
 using System;
 using System.Collections.Generic;
 
@@ -25,35 +25,23 @@ namespace obs_cli.Commands.Implementations
         {
             try 
             {
-                Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
-
-                // todo: this is pretty ugly. maybe make a separate "StartWebcamOnlyRecording" command? I like that a little more
-                if (Store.Data.Webcam.IsWebcamOnly)
+                var baseRecordingParameters = new BaseRecordingParameters
                 {
-                    ObsVideoService.ConfigureWebcamOnly(FrameRate);
-                }
-                else
-                {
-                    ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
-                    {
-                        CropTop = CropTop,
-                        CropRight = CropRight,
-                        CropLeft = CropLeft,
-                        CropBottom = CropBottom,
-                        FrameRate = FrameRate,
-                        OutputWidth = OutputWidth,
-                        OutputHeight = OutputHeight,
-                        CanvasWidth = CanvasWidth,
-                        CanvasHeight = CanvasHeight,
-                        ScreenToRecordHandle = ScreenToRecordHandle
-                    });
-                }
+                    CropTop = CropTop,
+                    CropRight = CropRight,
+                    CropLeft = CropLeft,
+                    CropBottom = CropBottom,
+                    FrameRate = FrameRate,
+                    OutputWidth = OutputWidth,
+                    OutputHeight = OutputHeight,
+                    CanvasWidth = CanvasWidth,
+                    CanvasHeight = CanvasHeight,
+                    ScreenToRecordHandle = ScreenToRecordHandle,
+                    VideoOutputFolder = VideoOutputFolder
+                };
 
-                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
-                Store.Data.Record.OutputAndEncoders = outputAndEncoders;
-                Store.Data.Record.OutputAndEncoders.obsOutput.Start();
-
-                EmitService.EmitStatusResponse(AvailableCommand.StartRecording, true);
+                IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
+                service.StartRecording();
             }
             catch(Exception ex)
             {
