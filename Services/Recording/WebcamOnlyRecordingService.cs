@@ -10,7 +10,7 @@ namespace obs_cli.Services.Recording
 
         public override void Setup()
         {
-            ObsVideoService.ConfigureWebcamOnly(FrameRate);
+            VideoService.ConfigureWebcamOnly(FrameRate);
         }
     }
 }

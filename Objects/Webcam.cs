@@ -16,7 +16,6 @@ namespace obs_cli.Objects
 
             if (!string.IsNullOrEmpty(value))
             {
-                // todo: not quite sure what #22 represents yet. something OBS adds in?
                 var index = value.IndexOf(":\\");
                 dsDeviceValue = index >= 0 ? value.Substring(value.IndexOf(":\\")).Replace("#22", "#") : value;;
             }

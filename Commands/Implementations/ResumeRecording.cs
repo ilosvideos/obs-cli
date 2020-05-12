@@ -17,7 +17,7 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
+            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
                 CropTop = CropTop,
                 CropRight = CropRight,

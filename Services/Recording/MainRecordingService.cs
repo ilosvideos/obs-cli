@@ -33,7 +33,7 @@ namespace obs_cli.Services.Recording
 
         public override void Setup()
         {
-            ObsVideoService.ResetVideoInfo(new ResetVideoInfoParameters
+            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
                 CropTop = CropTop,
                 CropRight = CropRight,
