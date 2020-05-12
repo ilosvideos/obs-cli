@@ -40,6 +40,8 @@ namespace obs_cli.Enums
         StopRecording,
         [Description("terminate")]
         Terminate,
+        [Description("toggle-full-screen")]
+        ToggleFullScreen,
         [Description("translate-webcam-window")]
         TranslateWebcamWindow,
         [Description("update-audio-input-device")]

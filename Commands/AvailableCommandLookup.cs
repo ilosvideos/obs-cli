@@ -25,6 +25,7 @@ namespace obs_cli.Commands
             { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
             { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
             { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) },
+            { AvailableCommand.ToggleFullScreen.GetDescription(), typeof(ToggleFullScreen) },
             { AvailableCommand.TranslateWebcamWindow.GetDescription(), typeof(TranslateWebcamWindow) },
             { AvailableCommand.UpdateAudioInputDevice.GetDescription(), typeof(UpdateAudioInputDevice) },
             { AvailableCommand.UpdateAudioOutputDevice.GetDescription(), typeof(UpdateAudioOutputDevice) }
