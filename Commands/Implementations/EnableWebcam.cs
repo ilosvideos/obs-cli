@@ -55,8 +55,16 @@ namespace obs_cli.Commands.Implementations
 
             var showWebcam = new Action(() => 
             {
-                Store.Data.Webcam.Window.Left = Left.Value;
-                Store.Data.Webcam.Window.Top = Top.Value;
+                if (!Left.HasValue || !Top.HasValue)
+                {
+                    Store.Data.Webcam.Window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                }
+                else
+                {
+                    Store.Data.Webcam.Window.Left = Left.Value;
+                    Store.Data.Webcam.Window.Top = Top.Value;
+                }
+                
                 Store.Data.Webcam.Window.Show(Width, Height);
 
                 var webcam = Store.Data.Webcam.GetWebcam(WebcamValue);
@@ -65,7 +73,6 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
             });
 
-            // todo: if no left/top, show center screen
             // todo: check to see if we're coming from webcam only
             // if so, all we have to do is change scenes in the presentation
             // and switch the webcams
