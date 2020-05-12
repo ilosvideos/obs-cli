@@ -1,6 +1,7 @@
 ﻿using obs_cli.Commands.Abstract;
 using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Services;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,7 @@ namespace obs_cli.Commands.Implementations
                 
                 Store.Data.Webcam.Window.Show(Width, Height);
 
-                var webcam = Store.Data.Webcam.GetWebcam(WebcamValue);
+                var webcam = WebcamService.GetWebcam(WebcamValue);
                 Store.Data.Webcam.Window.SetWebcam(webcam);
 
                 Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;

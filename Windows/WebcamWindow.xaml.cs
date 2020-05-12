@@ -90,7 +90,7 @@ namespace obs_cli.Windows
             windowsFormsHostOverlay?.Close();
             windowsFormsHostOverlay = null;
 
-            Store.Data.Webcam.DestroyObsWebcam();
+            WebcamService.DestroyObsWebcam();
         }
 
         private void InitializeWebcamPreview()
@@ -188,11 +188,11 @@ namespace obs_cli.Windows
                 changeResolutionTimer?.Stop();
                 changeResolutionTimer = null;
 
-                Store.Data.Webcam.CalculateItemPosition();
+                WebcamService.CalculateItemPosition();
             }
             else if (elapsedTimerTime % 1000 == 0)
             {
-                Store.Data.Webcam.CalculateItemPosition();
+                WebcamService.CalculateItemPosition();
             }
 
             if (elapsedTimerTime >= 5000)
@@ -216,7 +216,7 @@ namespace obs_cli.Windows
                 // When moving the webcam, put it outside the bounds of the recording and 
                 // show the preview instead this avoids a window lag when dragging. 
                 // Can't set visibility to false cause then the audio will cut out as well.
-                Store.Data.Webcam.SetWebcamItemOffscreen();
+                WebcamService.SetWebcamItemOffscreen();
             }
         }
 
@@ -250,7 +250,7 @@ namespace obs_cli.Windows
         {
             if (Store.Data.Webcam.Item != null)
             {
-                Store.Data.Webcam.CalculateItemPosition();
+                WebcamService.CalculateItemPosition();
             }
 
             ResizeMode = ResizeMode.CanResize; // Re-enable resizing on this window. Resizing disabled when mouse is dragged o nthe winform child (in DisplayPanelMoveBehavior)
