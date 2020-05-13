@@ -20,6 +20,8 @@ namespace obs_cli.Enums
         EnableWebcam,
         [Description("enable-webcam-only")]
         EnableWebcamOnly,
+        [Description("exception-thrown")]
+        ExceptionThrown,
         [Description("get-audio-input-devices")]
         GetAudioInputDevices,
         [Description("get-audio-output-devices")]

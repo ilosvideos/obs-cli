@@ -39,6 +39,22 @@ namespace obs_cli.Services
         }
 
         /// <summary>
+        /// Emits the thrown exception.
+        /// </summary>
+        /// <param name="exceptionMessage"></param>
+        public static void EmitException(string exceptionMessage)
+        {
+            var exceptionThrownParameters = new ExceptionThrownParameters
+            {
+                Message = exceptionMessage
+            };
+
+            FileWriteService.WriteLineToFile(exceptionMessage);
+
+            ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
+        }
+
+        /// <summary>
         /// Emits the list of all available audio input devices.
         /// </summary>
         /// <param name="audioDeviceList"></param>
@@ -99,15 +115,36 @@ namespace obs_cli.Services
         /// <param name="additionalParameters"></param>
         private static void EmitOutput(AvailableCommand messageType, IDictionary<string, string> additionalParameters = null)
         {
+            Console.WriteLine(BuildParameterizedOutput(messageType, additionalParameters));
+        }
+
+        /// <summary>
+        /// Emits the message type with the parameters to the standard error output.
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="additionalParameters"></param>
+        private static void ThrowException(AvailableCommand messageType, IDictionary<string, string> additionalParameters = null)
+        {
+            Console.Error.WriteLine(BuildParameterizedOutput(messageType, additionalParameters));
+        }
+
+        /// <summary>
+        /// Builds and formats the output response.
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private static string BuildParameterizedOutput(AvailableCommand messageType, IDictionary<string, string> parameters = null)
+        {
             var commandToExecute = new StringBuilder(messageType.GetDescription());
 
-            if (additionalParameters != null)
+            if (parameters != null)
             {
-                StringBuilder parameterString = additionalParameters.Aggregate(new StringBuilder(), (stringBuilder, x) => stringBuilder.Append($" --{x.Key}={x.Value}"));
+                StringBuilder parameterString = parameters.Aggregate(new StringBuilder(), (stringBuilder, x) => stringBuilder.Append($" --{x.Key}={x.Value}"));
                 commandToExecute.Append(parameterString);
             }
 
-            Console.WriteLine(commandToExecute.ToString());
+            return commandToExecute.ToString();
         }
     }
 }
