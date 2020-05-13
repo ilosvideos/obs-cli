@@ -19,6 +19,7 @@ namespace obs_cli.Commands
             { AvailableCommand.GetAudioOutputDevices.GetDescription(), typeof(GetAudioOutputDevices) },
             { AvailableCommand.GetWebcamDevices.GetDescription(), typeof(GetWebcamDevices) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
+            { AvailableCommand.MoveWebcamWindow.GetDescription(), typeof(MoveWebcamWindow) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
             { AvailableCommand.PositionWebcamWindow.GetDescription(), typeof(PositionWebcamWindow) },
             { AvailableCommand.ResumeRecording.GetDescription(), typeof(ResumeRecording) },
@@ -26,7 +27,6 @@ namespace obs_cli.Commands
             { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
             { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) },
             { AvailableCommand.ToggleFullScreen.GetDescription(), typeof(ToggleFullScreen) },
-            { AvailableCommand.TranslateWebcamWindow.GetDescription(), typeof(TranslateWebcamWindow) },
             { AvailableCommand.UpdateAudioInputDevice.GetDescription(), typeof(UpdateAudioInputDevice) },
             { AvailableCommand.UpdateAudioOutputDevice.GetDescription(), typeof(UpdateAudioOutputDevice) }
         };

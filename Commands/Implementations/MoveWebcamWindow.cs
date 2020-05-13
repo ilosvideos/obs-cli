@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class TranslateWebcamWindow : BaseCommand
+    public class MoveWebcamWindow : BaseCommand
     {
-        public override string Name => AvailableCommand.TranslateWebcamWindow.GetDescription();
+        public override string Name => AvailableCommand.MoveWebcamWindow.GetDescription();
 
         public double Left { get; set; }
         public double Top { get; set; }
 
-        public TranslateWebcamWindow(IDictionary<string, string> arguments)
+        public MoveWebcamWindow(IDictionary<string, string> arguments)
         {
             double left;
             if (double.TryParse(arguments["left"], out left))
