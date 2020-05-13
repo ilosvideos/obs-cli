@@ -12,6 +12,8 @@ namespace obs_cli.Enums
         CancelRecording,
         [Description("delete-last-section")]
         DeleteLastSection,
+        [Description("exception-thrown")]
+        ExceptionThrown,
         [Description("get-audio-input-devices")]
         GetAudioInputDevices,
         [Description("get-audio-output-devices")]

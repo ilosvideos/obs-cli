@@ -23,8 +23,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("in start recording execute");
-
             try 
             {
                 Store.Data.Record.VideoOutputFolder = VideoOutputFolder;
@@ -42,8 +40,6 @@ namespace obs_cli.Commands.Implementations
                     CanvasHeight = CanvasHeight,
                     ScreenToRecordHandle = ScreenToRecordHandle
                 });
-
-                FileWriteService.WriteLineToFile($"ResetVideoInfo status: {resetVideoInfoStatus}");
 
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
