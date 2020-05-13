@@ -13,13 +13,10 @@ namespace obs_cli.Commands.Implementations
         public PositionWebcamWindow(IDictionary<string, string> arguments)
             : base(arguments) { }
 
-        public override void Execute()
+        public override void Translate()
         {
-            Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
-            {
-                Store.Data.Webcam.Window.Top = Top;
-                Store.Data.Webcam.Window.Left = Left;
-            }));
+            Store.Data.Webcam.Window.Top = Top;
+            Store.Data.Webcam.Window.Left = Left;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using obs_cli.Data;
+using System;
+using System.Collections.Generic;
 
 namespace obs_cli.Commands.Abstract
 {
@@ -20,6 +22,16 @@ namespace obs_cli.Commands.Abstract
             {
                 Top = top;
             }
+        }
+
+        public abstract void Translate();
+
+        public override void Execute()
+        {
+            Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
+            {
+                Translate();
+            }));
         }
     }
 }
