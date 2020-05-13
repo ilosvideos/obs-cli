@@ -98,6 +98,11 @@ namespace obs_cli.Services
             EmitSerializedOutput(command, statusResponse);
         }
 
+        public static void EmitWebcamWindowProperties(WebcamWindowProperties webcamWindowProperties)
+        {
+            EmitSerializedOutput(AvailableCommand.GetWebcamWindowProperties, webcamWindowProperties);
+        }
+
         /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>

@@ -28,6 +28,8 @@ namespace obs_cli.Enums
         GetAudioOutputDevices,
         [Description("get-webcam-devices")]
         GetWebcamDevices,
+        [Description("get-webcam-window-properties")]
+        GetWebcamWindowProperties,
         [Description("initialize")]
         Initialize,
         [Description("move-webcam-window")]

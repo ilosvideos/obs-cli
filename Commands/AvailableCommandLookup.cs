@@ -18,6 +18,7 @@ namespace obs_cli.Commands
             { AvailableCommand.GetAudioInputDevices.GetDescription(), typeof(GetAudioInputDevices) },
             { AvailableCommand.GetAudioOutputDevices.GetDescription(), typeof(GetAudioOutputDevices) },
             { AvailableCommand.GetWebcamDevices.GetDescription(), typeof(GetWebcamDevices) },
+            { AvailableCommand.GetWebcamWindowProperties.GetDescription(), typeof(GetWebcamWindowProperties) },
             { AvailableCommand.Initialize.GetDescription(), typeof(Initialize) },
             { AvailableCommand.MoveWebcamWindow.GetDescription(), typeof(MoveWebcamWindow) },
             { AvailableCommand.PauseRecording.GetDescription(), typeof(PauseRecording) },
