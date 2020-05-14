@@ -1,6 +1,7 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
 using obs_cli.Helpers;
+using obs_cli.Services;
 using obs_cli.Services.Recording;
 using obs_cli.Services.Recording.Abstract;
 using obs_cli.Services.Recording.Objects;
@@ -41,7 +42,9 @@ namespace obs_cli.Commands.Implementations
                 };
 
                 IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
-                service.StartRecording();
+                var isStarted = service.StartRecording();
+
+                EmitService.EmitStatusResponse(AvailableCommand.StartRecording, isStarted);
             }
             catch(Exception ex)
             {

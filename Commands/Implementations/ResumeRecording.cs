@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Services;
@@ -31,11 +30,21 @@ namespace obs_cli.Commands.Implementations
                 ScreenToRecordHandle = ScreenToRecordHandle
             });
 
-            ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
-            Store.Data.Record.OutputAndEncoders = outputAndEncoders;
-            Store.Data.Record.OutputAndEncoders.obsOutput.Start();
+            bool isStarted;
 
-            FileWriteService.WriteLineToFile("recording resumed");
+            try
+            {
+                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
+                Store.Data.Record.OutputAndEncoders = outputAndEncoders;
+                Store.Data.Record.OutputAndEncoders.obsOutput.Start();
+                isStarted = true;
+            }
+            catch
+            {
+                isStarted = false;
+            }
+
+            EmitService.EmitStatusResponse(AvailableCommand.ResumeRecording, isStarted);
         }
     }
 }

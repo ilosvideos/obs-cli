@@ -3,6 +3,6 @@
     public interface IBaseRecordingService
     {
         void Setup();
-        void StartRecording();
+        bool StartRecording();
     }
 }
