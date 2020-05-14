@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Services;
 using System;
 using System.Collections.Generic;
 
@@ -17,6 +16,11 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
+            if (!Store.Data.Webcam.IsWebcamEnabled || Store.Data.Webcam.Window == null)
+            {
+                return;
+            }
+
             Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
                 Store.Data.Webcam.Window.Close();
