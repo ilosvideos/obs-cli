@@ -28,8 +28,7 @@ namespace obs_cli.Services.Recording.Abstract
             {
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
-                Store.Data.Record.OutputAndEncoders.obsOutput.Start();
-                return true;
+                return Store.Data.Record.OutputAndEncoders.obsOutput.Start();
             }
             catch
             {

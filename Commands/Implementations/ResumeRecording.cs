@@ -36,8 +36,7 @@ namespace obs_cli.Commands.Implementations
             {
                 ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
                 Store.Data.Record.OutputAndEncoders = outputAndEncoders;
-                Store.Data.Record.OutputAndEncoders.obsOutput.Start();
-                isStarted = true;
+                isStarted = Store.Data.Record.OutputAndEncoders.obsOutput.Start();
             }
             catch
             {
