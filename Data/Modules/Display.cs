@@ -1,5 +1,8 @@
 ﻿using MonitorAware.Models;
 using obs_cli.Objects.Obs;
+using System;
+using System.Reflection;
+using System.Windows;
 
 namespace obs_cli.Data.Modules
 {
@@ -7,19 +10,17 @@ namespace obs_cli.Data.Modules
     {
         public Source DisplaySource { get; set; }
         public Item DisplayItem { get; set; }
-        public uint DpiX { get; set; }
-        public uint DpiY { get; set; }
         public Dpi SystemDpi { 
             get
             {
-                return new Dpi(DpiX, DpiY);
-            } 
-        }
+                var dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+                var dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
 
-        public void SetSystemDpi(uint dpiX, uint dpiY)
-        {
-            DpiX = dpiX;
-            DpiY = dpiY;
+                var dpiX = (int)dpiXProperty.GetValue(null, null);
+                var dpiY = (int)dpiYProperty.GetValue(null, null);
+
+                return new Dpi(Convert.ToUInt32(dpiX), Convert.ToUInt32(dpiY));
+            } 
         }
     }
 }
