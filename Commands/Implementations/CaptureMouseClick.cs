@@ -1,8 +1,6 @@
 ﻿using obs_cli.Enums;
-using System;
+using obs_cli.Helpers;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -17,7 +15,7 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            
+            FileWriteService.WriteLineToFile("in CaptureMouseClick");
         }
     }
 }
