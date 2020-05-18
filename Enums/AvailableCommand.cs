@@ -34,6 +34,8 @@ namespace obs_cli.Enums
         GetWebcamWindowProperties,
         [Description("initialize")]
         Initialize,
+        [Description("mouse-click-complete")]
+        MouseClickComplete,
         [Description("move-webcam-window")]
         MoveWebcamWindow,
         [Description("pause-recording")]
@@ -42,6 +44,8 @@ namespace obs_cli.Enums
         PositionWebcamWindow,
         [Description("resume-recording")]
         ResumeRecording,
+        [Description("set-mouse-click-highlight-position")]
+        SetMouseClickHighlightPosition,
         [Description("start-recording")]
         StartRecording,
         [Description("stop-recording")]
