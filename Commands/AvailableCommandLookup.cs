@@ -10,6 +10,7 @@ namespace obs_cli.Commands
         public static Dictionary<string, Type> All = new Dictionary<string, Type>()
         {
             { AvailableCommand.CancelRecording.GetDescription(), typeof(CancelRecording) },
+            { AvailableCommand.CaptureMouseClick.GetDescription(), typeof(CaptureMouseClick) },
             { AvailableCommand.ChangeWebcam.GetDescription(), typeof(ChangeWebcam) },
             { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
             { AvailableCommand.DisableWebcam.GetDescription(), typeof(DisableWebcam) },
