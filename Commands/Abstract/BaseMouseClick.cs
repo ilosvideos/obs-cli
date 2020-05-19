@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using obs_cli.Data;
+using System.Collections.Generic;
+using static OBS.libobs;
 
 namespace obs_cli.Commands.Abstract
 {
@@ -11,6 +13,12 @@ namespace obs_cli.Commands.Abstract
         {
             X = int.Parse(arguments["x"]);
             Y = int.Parse(arguments["y"]);
+
+            if (!Store.Data.Record.AppliedCrop.Equals(default(obs_sceneitem_crop)))
+            {
+                X = X - Store.Data.Record.AppliedCrop.left;
+                Y = Y - Store.Data.Record.AppliedCrop.top;
+            }
         }
     }
 }
