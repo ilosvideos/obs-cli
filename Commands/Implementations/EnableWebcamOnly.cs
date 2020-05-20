@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Services;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
@@ -65,6 +64,8 @@ namespace obs_cli.Commands.Implementations
                     {
                         Store.Data.Webcam.Window.Left = Left;
                         Store.Data.Webcam.Window.Top = Top;
+                        Store.Data.Webcam.Window.Height = Height;
+                        Store.Data.Webcam.Window.Width = Width;
                     }
                     else
                     {
