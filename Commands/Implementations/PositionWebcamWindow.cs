@@ -1,7 +1,6 @@
 ﻿using obs_cli.Commands.Abstract;
 using obs_cli.Data;
 using obs_cli.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
