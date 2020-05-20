@@ -31,14 +31,11 @@ namespace obs_cli.Services
 			double baseOffsetX = activeScreenBounds.X;
 			double baseOffsetY = activeScreenBounds.Y;
 
-			// todo: determine if we're fullscreen or not. pass a value over to the cli when fullscreen is toggled on/off
-			//if (MainWindowAccessor.Window.selectionWindow != null)
-			//{
-			//    ILog.IlosLogger.Trace("Calculating webcam non-fullscreen");
-			//    Util.WindowSizeProperties selectionWindowSize = Util.GetWindowSizeFromMainThread(MainWindowAccessor.Window.selectionWindow);
-			//    baseOffsetX = selectionWindowSize.Left + selectionWindowSize.BorderWidth.Value;
-			//    baseOffsetY = selectionWindowSize.Top + selectionWindowSize.BorderWidth.Value;
-			//}
+			if (!Store.Data.Record.IsFullScreen)
+			{
+				baseOffsetX = Store.Data.Record.AppliedCrop.left;
+				baseOffsetY = Store.Data.Record.AppliedCrop.top;
+			}
 
 			WindowSizeProperties webcamWindowSize = Util.GetWindowSizeProperties(Store.Data.Webcam.Window);
 			double webcamItemWidth = webcamWindowSize.Width - (webcamWindowSize.BorderWidth.Value * 2);
