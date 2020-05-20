@@ -20,7 +20,8 @@ namespace obs_cli.Commands.Implementations
         {
             var properties = new WebcamWindowProperties()
             {
-                IsEnabled = Store.Data.Webcam.IsWebcamEnabled
+                IsEnabled = Store.Data.Webcam.IsWebcamEnabled,
+                BorderSize = 10
             };
 
             if (Store.Data.Webcam.IsWebcamEnabled && Store.Data.Webcam.Window != null)
