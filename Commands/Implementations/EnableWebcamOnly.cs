@@ -1,5 +1,6 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Services;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
@@ -27,48 +28,19 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            // webcam window is not created
-            // create webcam window and run it under application
-            // show webcam window with first camera
-            // position it to the Top/Left values passed in
-            if (Store.Data.Webcam.Window == null)
+            try
             {
-                Thread thread = new Thread(() =>
+                // webcam window is not created
+                // create webcam window and run it under application
+                // show webcam window with first camera
+                // position it to the Top/Left values passed in
+                if (Store.Data.Webcam.Window == null)
                 {
-                    Store.Data.Webcam.Window = new WebcamWindow();
-                    Store.Data.App.ApplicationInstance = new Application();
-
-                    Store.Data.Webcam.Window.Left = Left;
-                    Store.Data.Webcam.Window.Top = Top;
-                    Store.Data.Webcam.Window.Show(Width, Height);
-
-                    Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
-
-                    Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
-
-                    Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
-                });
-
-                thread.Name = "Webcam Window";
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-            }
-            else
-            {
-                // webcam window is already created
-                // is webcam enabled? if so, just move it to the Left/Top position passed in. continue to show same webcam
-                // if not, enable the webcam, then move it to the Left/Top position passed in. use first webcam in the list
-                Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
-                {
-                    if (Store.Data.Webcam.IsWebcamEnabled)
+                    Thread thread = new Thread(() =>
                     {
-                        Store.Data.Webcam.Window.Left = Left;
-                        Store.Data.Webcam.Window.Top = Top;
-                        Store.Data.Webcam.Window.Height = Height;
-                        Store.Data.Webcam.Window.Width = Width;
-                    }
-                    else
-                    {
+                        Store.Data.Webcam.Window = new WebcamWindow();
+                        Store.Data.App.ApplicationInstance = new Application();
+
                         Store.Data.Webcam.Window.Left = Left;
                         Store.Data.Webcam.Window.Top = Top;
                         Store.Data.Webcam.Window.Show(Width, Height);
@@ -76,12 +48,50 @@ namespace obs_cli.Commands.Implementations
                         Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
 
                         Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
-                    }
-                }));
-            }
 
-            Store.Data.Webcam.IsWebcamEnabled = true;
-            Store.Data.Webcam.IsWebcamOnly = true;
+                        EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
+                        Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
+                    });
+
+                    thread.Name = "Webcam Window";
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                }
+                else
+                {
+                    // webcam window is already created
+                    // is webcam enabled? if so, just move it to the Left/Top position passed in. continue to show same webcam
+                    // if not, enable the webcam, then move it to the Left/Top position passed in. use first webcam in the list
+                    Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
+                    {
+                        if (Store.Data.Webcam.IsWebcamEnabled)
+                        {
+                            Store.Data.Webcam.Window.Left = Left;
+                            Store.Data.Webcam.Window.Top = Top;
+                            Store.Data.Webcam.Window.Height = Height;
+                            Store.Data.Webcam.Window.Width = Width;
+                        }
+                        else
+                        {
+                            Store.Data.Webcam.Window.Left = Left;
+                            Store.Data.Webcam.Window.Top = Top;
+                            Store.Data.Webcam.Window.Show(Width, Height);
+
+                            Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
+
+                            Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                            EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
+                        }
+                    }));
+                }
+
+                Store.Data.Webcam.IsWebcamEnabled = true;
+                Store.Data.Webcam.IsWebcamOnly = true;
+            }
+            catch(Exception ex)
+            {
+                EmitService.EmitEnableWebcamOnlyResponse(ex.Message, false, "There was an error enabling webcam only mode.");
+            }
         }
     }
 }

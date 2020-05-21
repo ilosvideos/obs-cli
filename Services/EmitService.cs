@@ -1,4 +1,5 @@
-﻿using obs_cli.Enums;
+﻿using obs_cli.Data;
+using obs_cli.Enums;
 using obs_cli.Helpers;
 using obs_cli.Objects;
 using System;
@@ -96,6 +97,25 @@ namespace obs_cli.Services
             };
 
             EmitSerializedOutput(command, statusResponse);
+        }
+
+        /// <summary>
+        /// Emits status response for enabling webcam only mode.
+        /// </summary>
+        /// <param name="webcamValue"></param>
+        /// <param name="command"></param>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
+        public static void EmitEnableWebcamOnlyResponse(string webcamValue, bool status, string message = null)
+        {
+            var statusResponse = new EnableWebcamOnlyResponse
+            {
+                IsSuccessful = status,
+                Message = message,
+                WebcamEnabledValue = webcamValue
+            };
+
+            EmitSerializedOutput(AvailableCommand.EnableWebcamOnly, statusResponse);
         }
 
         public static void EmitWebcamWindowProperties(WebcamWindowProperties webcamWindowProperties)
