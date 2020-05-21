@@ -50,6 +50,14 @@
 			public static string VIDGRID = "VidGrid";
 		}
 
+		public static class ErrorMessages
+		{
+			public static class Webcam
+			{
+				public static string WebcamNotFound = "The selected webcam could not be found.";
+			}
+		}
+
 		// See https://wiki.winehq.org/List_Of_Windows_Messages for more codes.
 		internal enum WindowMessage
 		{
