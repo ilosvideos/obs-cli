@@ -12,6 +12,7 @@
 
             public static class ErrorMessages
             {
+                public static string EnableWebcamOnlyFailed = "There was an error enabling webcam only mode.";
                 public static string OptimalResolutionNotFound = "Exception thrown while searching for optimal webcam resolution.";
                 public static string WebcamNotFound = "The selected webcam could not be found.";
             }

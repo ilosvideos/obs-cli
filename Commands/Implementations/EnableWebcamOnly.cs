@@ -1,6 +1,7 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
 using obs_cli.Services;
+using obs_cli.Utility;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace obs_cli.Commands.Implementations
             }
             catch(Exception ex)
             {
-                EmitService.EmitEnableWebcamOnlyResponse(ex.Message, false, "There was an error enabling webcam only mode.");
+                EmitService.EmitEnableWebcamOnlyResponse(ex.Message, false, Constants.Webcam.ErrorMessages.EnableWebcamOnlyFailed);
             }
         }
     }
