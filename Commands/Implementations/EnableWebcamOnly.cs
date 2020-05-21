@@ -81,8 +81,9 @@ namespace obs_cli.Commands.Implementations
                             Store.Data.Webcam.Window.SetWebcam(Store.Data.Webcam.DefaultWebcam);
 
                             Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
-                            EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
                         }
+
+                        EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
                     }));
                 }
 
