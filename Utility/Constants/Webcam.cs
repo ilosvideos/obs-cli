@@ -4,7 +4,11 @@
     {
         public static class Webcam
         {
-            public static string NameValueDelimiter = ":\\";
+            public static class Settings
+            {
+                public static string NameValueDelimiter = ":\\";
+                public static string WebcamWindowThreadName = "Webcam window";
+            }
 
             public static class ErrorMessages
             {
