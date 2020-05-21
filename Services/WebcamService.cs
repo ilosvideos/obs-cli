@@ -138,7 +138,7 @@ namespace obs_cli.Services
 			}
 			catch (Exception)
 			{
-				FileWriteService.WriteLineToFile("Exception thrown while searching for optimal webcam resolution");
+				FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
 			}
 
 			return preferredResolution;
@@ -151,7 +151,8 @@ namespace obs_cli.Services
 		/// <returns></returns>
 		public static Webcam GetWebcam(string webcamValue)
 		{
-			return Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == webcamValue);
+			var value = webcamValue.Substring(webcamValue.IndexOf(Constants.Webcam.NameValueDelimiter));
+			return Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value.IndexOf(value) >= 0);
 		}
 
 		/// <summary>
