@@ -1,7 +1,7 @@
 ﻿namespace obs_cli.Utility
 {
 	// todo: each one of these classes should realistically get broken out into its own file/class
-	class Constants
+	partial class Constants
 	{
 		public static class Video
 		{
@@ -48,14 +48,6 @@
 			public static string SOFTWARE = "SOFTWARE";
 			public static string URL_PROTOCOL = "URL Protocol";
 			public static string VIDGRID = "VidGrid";
-		}
-
-		public static class ErrorMessages
-		{
-			public static class Webcam
-			{
-				public static string WebcamNotFound = "The selected webcam could not be found.";
-			}
 		}
 
 		// See https://wiki.winehq.org/List_Of_Windows_Messages for more codes.

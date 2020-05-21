@@ -73,7 +73,7 @@ namespace obs_cli.Commands.Implementations
 
                 if (webcam == null)
                 {
-                    throw new Exception(Constants.ErrorMessages.Webcam.WebcamNotFound);
+                    throw new Exception(Constants.Webcam.ErrorMessages.WebcamNotFound);
                 }
 
                 Store.Data.Webcam.Window.SetWebcam(webcam);
