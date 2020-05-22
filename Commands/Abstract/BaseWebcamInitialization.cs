@@ -1,6 +1,4 @@
-﻿using OBS;
-using obs_cli.Utility;
-using System;
+﻿using obs_cli.Utility;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands.Abstract
