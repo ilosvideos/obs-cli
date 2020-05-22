@@ -12,10 +12,7 @@ namespace obs_cli.Commands.Implementations
         public override string Name => AvailableCommand.ChangeWebcam.GetDescription();
 
         public ChangeWebcam(IDictionary<string, string> arguments)
-            :base(arguments)
-        {
-            
-        }
+            :base(arguments) { }
 
         public override void Execute()
         {

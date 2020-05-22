@@ -13,40 +13,10 @@ namespace obs_cli.Commands.Implementations
 {
     public class EnableWebcam : BaseWebcamInitialization
     {
-        public double? Height { get; set; }
-        public double? Width { get; set; }
-        public double? Left { get; set; }
-        public double? Top { get; set; }
-
         public override string Name => AvailableCommand.EnableWebcam.GetDescription();
 
         public EnableWebcam(IDictionary<string, string> arguments)
-            :base(arguments)
-        {
-            double height;
-            if (double.TryParse(arguments["height"], out height))
-            {
-                Height = height;
-            }
-
-            double width;
-            if (double.TryParse(arguments["width"], out width))
-            {
-                Width = width;
-            }
-
-            double left;
-            if (double.TryParse(arguments["left"], out left))
-            {
-                Left = left;
-            }
-
-            double top;
-            if (double.TryParse(arguments["top"], out top))
-            {
-                Top = top;
-            }
-        }
+            :base(arguments) { }
 
         public override void Execute()
         {
