@@ -7,58 +7,11 @@ namespace obs_cli.Commands.Abstract
 {
     public abstract class BaseWebcamInitialization : BaseCommand
     {
-        public int Fps { get; set; }
-        public string Resolution { get; set; }
-        public bool ShouldUseCustomSettings { get; set; }
-        public videoformat VideoFormat { get; set; }
         public string WebcamValue { get; set; }
 
-        public double? Height { get; set; }
-        public double? Width { get; set; }
-        public double? Left { get; set; }
-        public double? Top { get; set; }
-
-        protected BaseWebcamInitialization(IDictionary<string, string> arguments)
+        public BaseWebcamInitialization(IDictionary<string, string> arguments)
         {
-            double height;
-            if (double.TryParse(arguments[Constants.Webcam.Parameters.Height], out height))
-            {
-                Height = height;
-            }
-
-            double width;
-            if (double.TryParse(arguments[Constants.Webcam.Parameters.Width], out width))
-            {
-                Width = width;
-            }
-
-            double left;
-            if (double.TryParse(arguments[Constants.Webcam.Parameters.Left], out left))
-            {
-                Left = left;
-            }
-
-            double top;
-            if (double.TryParse(arguments[Constants.Webcam.Parameters.Top], out top))
-            {
-                Top = top;
-            }
-
-            if (arguments.ContainsKey(Constants.Webcam.Parameters.WebcamValue))
-            {
-                WebcamValue = arguments[Constants.Webcam.Parameters.WebcamValue];
-            }
-
-            if (arguments.ContainsKey(Constants.Webcam.Parameters.ShouldUseCustomSettings))
-            {
-                ShouldUseCustomSettings = bool.Parse(arguments[Constants.Webcam.Parameters.ShouldUseCustomSettings]);
-                if (ShouldUseCustomSettings)
-                {
-                    Fps = int.Parse(arguments[Constants.Webcam.Parameters.Fps]);
-                    Resolution = arguments[Constants.Webcam.Parameters.Resolution];
-                    VideoFormat = (videoformat)Enum.Parse(typeof(videoformat), arguments[Constants.Webcam.Parameters.VideoFormat]);
-                }
-            }
+            WebcamValue = arguments[Constants.Webcam.Parameters.WebcamValue];
         }
     }
 }

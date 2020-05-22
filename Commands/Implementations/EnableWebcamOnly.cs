@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class EnableWebcamOnly : BaseWebcamInitialization
+    public class EnableWebcamOnly : EnableWebcamInitialization
     {
         public override string Name => AvailableCommand.EnableWebcamOnly.GetDescription();
 

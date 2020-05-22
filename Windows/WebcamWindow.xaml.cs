@@ -124,6 +124,8 @@ namespace obs_cli.Windows
             int buffering = 2;
             webcamSettings.SetInt(VideoCapture.BUFFERING, buffering); // 0 = Auto, 1 = Enable, 2 = Disable
 
+            // need to check webcam whitelist
+
             if (selectedWebcamResolution != null)
             {
                 webcamSettings.SetString(VideoCapture.RESOLUTION, selectedWebcamResolution.value);

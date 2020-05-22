@@ -30,7 +30,7 @@ namespace obs_cli
 
                     if (!commandType.Equals(default(KeyValuePair<string, Type>)))
                     {
-                        IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0], z => z[1]);
+                        IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0].Trim(), z => z[1].Trim());
                         ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
                         try
                         {
