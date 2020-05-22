@@ -79,11 +79,9 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Webcam.Window.SetWebcam(webcam);
 
                 Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
+                EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcam, Store.Data.Webcam.Window.selectedWebcam.value, true);
             });
 
-            // todo: check to see if we're coming from webcam only
-            // if so, all we have to do is change scenes in the presentation
-            // and switch the webcams
             if (Store.Data.Webcam.Window == null)
             {
                 Thread thread = new Thread(() =>

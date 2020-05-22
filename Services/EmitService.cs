@@ -100,13 +100,13 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Emits status response for enabling webcam only mode.
+        /// Emits status response for enabling webcam.
         /// </summary>
         /// <param name="webcamValue"></param>
         /// <param name="command"></param>
         /// <param name="status"></param>
         /// <param name="message"></param>
-        public static void EmitEnableWebcamOnlyResponse(string webcamValue, bool status, string message = null)
+        public static void EmitEnableWebcamResponse(AvailableCommand command, string webcamValue, bool status, string message = null)
         {
             var statusResponse = new EnableWebcamOnlyResponse
             {
@@ -115,7 +115,7 @@ namespace obs_cli.Services
                 WebcamEnabledValue = webcamValue
             };
 
-            EmitSerializedOutput(AvailableCommand.EnableWebcamOnly, statusResponse);
+            EmitSerializedOutput(command, statusResponse);
         }
 
         public static void EmitWebcamWindowProperties(WebcamWindowProperties webcamWindowProperties)

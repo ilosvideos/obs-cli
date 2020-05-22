@@ -50,7 +50,7 @@ namespace obs_cli.Commands.Implementations
 
                         Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
 
-                        EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
+                        EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcamOnly, Store.Data.Webcam.Window.selectedWebcam.value, true);
                         Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
                     });
 
@@ -83,7 +83,7 @@ namespace obs_cli.Commands.Implementations
                             Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
                         }
 
-                        EmitService.EmitEnableWebcamOnlyResponse(Store.Data.Webcam.Window.selectedWebcam.value, true);
+                        EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcamOnly, Store.Data.Webcam.Window.selectedWebcam.value, true);
                     }));
                 }
 
@@ -92,7 +92,7 @@ namespace obs_cli.Commands.Implementations
             }
             catch(Exception ex)
             {
-                EmitService.EmitEnableWebcamOnlyResponse(ex.Message, false, Constants.Webcam.ErrorMessages.EnableWebcamOnlyFailed);
+                EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcamOnly, ex.Message, false, Constants.Webcam.ErrorMessages.EnableWebcamOnlyFailed);
             }
         }
     }
