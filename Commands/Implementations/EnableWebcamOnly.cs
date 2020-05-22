@@ -45,7 +45,7 @@ namespace obs_cli.Commands.Implementations
                         Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
                     });
 
-                    thread.Name = "Webcam Window";
+                    thread.Name = Constants.Webcam.Settings.WebcamWindowThreadName;
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                 }

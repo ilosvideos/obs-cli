@@ -1,12 +1,12 @@
 ﻿using OBS;
+using obs_cli.Utility;
+using System;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands.Abstract
 {
     public abstract class BaseWebcamInitialization : BaseCommand
     {
-        // todo: this class needs to accept parameters for the WebcamValue's custom hardware whitelist if applicable
-
         public int Fps { get; set; }
         public string Resolution { get; set; }
         public bool ShouldUseCustomSettings { get; set; }
@@ -21,32 +21,43 @@ namespace obs_cli.Commands.Abstract
         protected BaseWebcamInitialization(IDictionary<string, string> arguments)
         {
             double height;
-            if (double.TryParse(arguments["height"], out height))
+            if (double.TryParse(arguments[Constants.Webcam.Parameters.Height], out height))
             {
                 Height = height;
             }
 
             double width;
-            if (double.TryParse(arguments["width"], out width))
+            if (double.TryParse(arguments[Constants.Webcam.Parameters.Width], out width))
             {
                 Width = width;
             }
 
             double left;
-            if (double.TryParse(arguments["left"], out left))
+            if (double.TryParse(arguments[Constants.Webcam.Parameters.Left], out left))
             {
                 Left = left;
             }
 
             double top;
-            if (double.TryParse(arguments["top"], out top))
+            if (double.TryParse(arguments[Constants.Webcam.Parameters.Top], out top))
             {
                 Top = top;
             }
 
-            if (arguments.ContainsKey("webcamValue"))
+            if (arguments.ContainsKey(Constants.Webcam.Parameters.WebcamValue))
             {
-                WebcamValue = arguments["webcamValue"];
+                WebcamValue = arguments[Constants.Webcam.Parameters.WebcamValue];
+            }
+
+            if (arguments.ContainsKey(Constants.Webcam.Parameters.ShouldUseCustomSettings))
+            {
+                ShouldUseCustomSettings = bool.Parse(arguments[Constants.Webcam.Parameters.ShouldUseCustomSettings]);
+                if (ShouldUseCustomSettings)
+                {
+                    Fps = int.Parse(arguments[Constants.Webcam.Parameters.Fps]);
+                    Resolution = arguments[Constants.Webcam.Parameters.Resolution];
+                    VideoFormat = (videoformat)Enum.Parse(typeof(videoformat), arguments[Constants.Webcam.Parameters.VideoFormat]);
+                }
             }
         }
     }
