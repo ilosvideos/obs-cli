@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using OBS;
 using obs_cli.Data;
+using obs_cli.Data.Modules;
 using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Structs;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using WebcamDevice = obs_cli.Objects.Webcam;
 
 namespace obs_cli.Services
 {
@@ -84,6 +86,8 @@ namespace obs_cli.Services
 
 			Store.Data.Audio.InputSource.Enabled = true;
 			Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
+
+			Store.Data.Webcam.WebcamSettings = new WebcamSettings();
 		}
 
 		/// <summary>
@@ -149,7 +153,7 @@ namespace obs_cli.Services
 		/// </summary>
 		/// <param name="webcamValue"></param>
 		/// <returns></returns>
-		public static Webcam GetWebcam(string webcamValue)
+		public static WebcamDevice GetWebcam(string webcamValue)
 		{
 			var value = webcamValue.Substring(webcamValue.IndexOf(Constants.Webcam.Settings.NameValueDelimiter));
 			return Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value.IndexOf(value) >= 0);

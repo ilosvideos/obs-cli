@@ -1,4 +1,5 @@
 ﻿using OBS;
+using obs_cli.Data;
 using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
@@ -47,11 +48,17 @@ namespace obs_cli.Commands.Abstract
             if (arguments.ContainsKey(Constants.Webcam.Parameters.ShouldUseCustomSettings))
             {
                 ShouldUseCustomSettings = bool.Parse(arguments[Constants.Webcam.Parameters.ShouldUseCustomSettings]);
+                Store.Data.Webcam.WebcamSettings.ShouldUseCustomSettings = ShouldUseCustomSettings;
+
                 if (ShouldUseCustomSettings)
                 {
                     Fps = int.Parse(arguments[Constants.Webcam.Parameters.Fps]);
                     Resolution = arguments[Constants.Webcam.Parameters.Resolution];
                     VideoFormat = (videoformat)Enum.Parse(typeof(videoformat), arguments[Constants.Webcam.Parameters.VideoFormat]);
+
+                    Store.Data.Webcam.WebcamSettings.Fps = Fps;
+                    Store.Data.Webcam.WebcamSettings.Resolution = Resolution;
+                    Store.Data.Webcam.WebcamSettings.VideoFormat = VideoFormat;
                 }
             }
         }

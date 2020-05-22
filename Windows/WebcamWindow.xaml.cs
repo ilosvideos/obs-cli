@@ -125,25 +125,34 @@ namespace obs_cli.Windows
             webcamSettings.SetInt(VideoCapture.BUFFERING, buffering); // 0 = Auto, 1 = Enable, 2 = Disable
 
             // need to check webcam whitelist
-
-            if (selectedWebcamResolution != null)
+            if (Store.Data.Webcam.WebcamSettings.ShouldUseCustomSettings)
             {
-                webcamSettings.SetString(VideoCapture.RESOLUTION, selectedWebcamResolution.value);
+                webcamSettings.SetString(VideoCapture.RESOLUTION, Store.Data.Webcam.WebcamSettings.Resolution);
                 webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 1);
-            }
+                webcamSettings.SetInt(VideoCapture.VIDEO_FORMAT, (int)Store.Data.Webcam.WebcamSettings.VideoFormat);
+                webcamSettings.SetInt(VideoCapture.FRAME_INTERVAL, Store.Data.Webcam.WebcamSettings.Fps);
+            }   
             else
             {
-                var preferredResolution = WebcamService.GetOptimalWebcamResolution(selectedWebcam.dsDeviceValue);
-
-                if (!string.IsNullOrEmpty(preferredResolution))
+                if (selectedWebcamResolution != null)
                 {
-                    webcamSettings.SetString(VideoCapture.RESOLUTION, preferredResolution);
+                    webcamSettings.SetString(VideoCapture.RESOLUTION, selectedWebcamResolution.value);
                     webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 1);
                 }
                 else
                 {
-                    webcamSettings.Erase(VideoCapture.RESOLUTION);
-                    webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 0);
+                    var preferredResolution = WebcamService.GetOptimalWebcamResolution(selectedWebcam.dsDeviceValue);
+
+                    if (!string.IsNullOrEmpty(preferredResolution))
+                    {
+                        webcamSettings.SetString(VideoCapture.RESOLUTION, preferredResolution);
+                        webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 1);
+                    }
+                    else
+                    {
+                        webcamSettings.Erase(VideoCapture.RESOLUTION);
+                        webcamSettings.SetInt(VideoCapture.RESOLUTION_TYPE, 0);
+                    }
                 }
             }
 

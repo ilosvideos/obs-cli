@@ -11,6 +11,21 @@ namespace obs_cli.Data.Modules
     {
         public string ActiveWebcamValue { get; set; }
 
+        public WebcamDevice ActiveWebcam
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(ActiveWebcamValue))
+                {
+                    return Webcams.FirstOrDefault(x => x.value.Contains(ActiveWebcamValue));
+                }
+                else
+                {
+                    return Webcams.FirstOrDefault();
+                }
+            }
+        }
+
         public WebcamDevice DefaultWebcam
         {
             get
@@ -22,6 +37,8 @@ namespace obs_cli.Data.Modules
         public bool IsWebcamEnabled { get; set; }
 
         public bool IsWebcamOnly { get; set; }
+
+        public WebcamSettings WebcamSettings { get; set; }
 
         public Item Item { get; set; }
 
@@ -40,6 +57,7 @@ namespace obs_cli.Data.Modules
         public Webcam()
         {
             Webcams = new List<WebcamDevice>();
+            WebcamSettings = new WebcamSettings();
         }
     }
 }
