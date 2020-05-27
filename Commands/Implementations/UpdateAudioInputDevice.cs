@@ -14,6 +14,7 @@ namespace obs_cli.Commands.Implementations
         public override void Execute()
         {
             AudioService.UpdateAudioInput(DeviceId);
+            WebcamService.UpdateAudioDevice();
         }
     }
 }
