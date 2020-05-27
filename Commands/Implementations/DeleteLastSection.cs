@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
 using obs_cli.Services;
 using System.Collections.Generic;
 using System.IO;
@@ -20,8 +19,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("start DeleteLastSection");
-
             while (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
             {
                 Thread.Sleep(100);
@@ -31,10 +28,7 @@ namespace obs_cli.Commands.Implementations
             lastFile.Delete();
             Store.Data.Record.RecordedFiles.Remove(lastFile);
 
-            if (Store.Data.Record.RecordedFiles.Count == 0)
-            {
-                VideoService.CancelRecording();
-            }
+            EmitService.EmitDeleteLastSectionResponse(Store.Data.Record.RecordedFiles.Count, true);
         }
     }
 }

@@ -118,6 +118,24 @@ namespace obs_cli.Services
             EmitSerializedOutput(command, statusResponse);
         }
 
+        /// <summary>
+        /// Emits a status response for deleting the last section of the video.
+        /// </summary>
+        /// <param name="numberOfPartsLeft"></param>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
+        public static void EmitDeleteLastSectionResponse(int numberOfPartsLeft, bool status, string message = null)
+        {
+            var statusResponse = new DeleteLastSectionResponse
+            {
+                IsSuccessful = status,
+                Message = message,
+                NumberOfPartsLeft = numberOfPartsLeft
+            };
+
+            EmitSerializedOutput(AvailableCommand.DeleteLastSection, statusResponse);
+        }
+
         public static void EmitWebcamWindowProperties(WebcamWindowProperties webcamWindowProperties)
         {
             EmitSerializedOutput(AvailableCommand.GetWebcamWindowProperties, webcamWindowProperties);
