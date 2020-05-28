@@ -52,7 +52,7 @@ namespace obs_cli.Commands.Implementations
 
             Store.Data.ResetRecordModule();
 
-            EmitService.EmitStopRecordingStatus(stopRecordingStatus);
+            EmitService.EmitStopRecordingStatusResponse(fileOutputPath, Store.Data.Record.LastVideoName, true);
         }
     }
 }

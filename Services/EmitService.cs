@@ -32,15 +32,6 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Emits the stop recording status to standard output.
-        /// </summary>
-        /// <param name="parameters"></param>
-        public static void EmitStopRecordingStatus(StopRecordingStatusParameters parameters)
-        {
-            EmitOutput(AvailableCommand.StopRecording, parameters.ToDictionary());
-        }
-
-        /// <summary>
         /// Emits the thrown exception.
         /// </summary>
         /// <param name="exceptionMessage"></param>
@@ -116,6 +107,26 @@ namespace obs_cli.Services
             };
 
             EmitSerializedOutput(command, statusResponse);
+        }
+
+        /// <summary>
+        /// Emits serialized status response for stop recording command.
+        /// </summary>
+        /// <param name="videoFilePath"></param>
+        /// <param name="lastVideoName"></param>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
+        public static void EmitStopRecordingStatusResponse(string videoFilePath, string lastVideoName, bool status, string message = null)
+        {
+            var stopRecordingResponse = new StopRecordingResponse()
+            {
+                VideoFilePath = videoFilePath,
+                LastVideoName = lastVideoName,
+                IsSuccessful = status,
+                Message = message
+            };
+
+            EmitSerializedOutput(AvailableCommand.StopRecording, stopRecordingResponse);
         }
 
         /// <summary>
