@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -17,8 +16,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("terminating");
-
             Store.Data.Audio.InputMeter.RemoveCallback();
             Store.Data.Audio.OutputMeter.RemoveCallback();
 

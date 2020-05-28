@@ -27,8 +27,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("initialize command start");
-
             if (!Obs.Startup("en-US"))
             {
                 // todo: if any exceptions are thrown in this app, we need to bubble it all up to a single terminate code so consuming apps know that it shut down
@@ -36,8 +34,6 @@ namespace obs_cli.Commands.Implementations
             }
 
             AudioService.ResetAudioInfo();
-
-            FileWriteService.WriteLineToFile("ResetAudioInfo successful");
 
             VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
@@ -54,8 +50,6 @@ namespace obs_cli.Commands.Implementations
             });
 
             Obs.LoadAllModules();
-
-            FileWriteService.WriteLineToFile("Obs.LoadAllModules successful");
 
             Store.Data.Obs.Presentation = new Presentation();
             Store.Data.Obs.Presentation.AddScene("Main");
@@ -78,8 +72,6 @@ namespace obs_cli.Commands.Implementations
 
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
-
-            FileWriteService.WriteLineToFile("initialize command end");
         }
     }
 }
