@@ -40,7 +40,7 @@ namespace obs_cli
                         {
                             // todo: we probably don't want to shutdown on every single exception but let's just do a 
                             // catch all for now
-                            EmitService.EmitException(ex.Message);
+                            EmitService.EmitException(ex.Message, ex.StackTrace);
                             Environment.Exit(0);
                         }
                     }

@@ -35,11 +35,16 @@ namespace obs_cli.Services
         /// Emits the thrown exception.
         /// </summary>
         /// <param name="exceptionMessage"></param>
-        public static void EmitException(string exceptionMessage)
+        /// <param name="stackTrace"></param>
+        public static void EmitException(string exceptionMessage, string stackTrace)
         {
+            var message = new StringBuilder();
+            message.AppendLine(exceptionMessage);
+            message.AppendLine(stackTrace);
+
             var exceptionThrownParameters = new ExceptionThrownParameters
             {
-                Message = exceptionMessage
+                Message = message.ToString()
             };
 
             FileWriteService.WriteLineToFile(exceptionMessage);
