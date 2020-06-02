@@ -1,6 +1,8 @@
 ﻿using obs_cli.Commands.Abstract;
 using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Helpers;
+using obs_cli.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,7 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value == WebcamValue);
+            var webcam = WebcamService.GetWebcam(WebcamValue);
             if (webcam == null)
             {
                 return;

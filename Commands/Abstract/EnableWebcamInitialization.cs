@@ -12,7 +12,6 @@ namespace obs_cli.Commands.Abstract
         public string Resolution { get; set; }
         public bool ShouldUseCustomSettings { get; set; }
         public videoformat VideoFormat { get; set; }
-
         public double? Height { get; set; }
         public double? Width { get; set; }
         public double? Left { get; set; }

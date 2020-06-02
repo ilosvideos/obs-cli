@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "obs-cli", "obs-cli.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libobs-sharp", "..\obs-studio\libops-sharp\libobs-sharp\libobs-sharp.csproj", "{910FAB21-9D79-4CF2-AB70-47291BABA41E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorAware", "..\WpfMonitorAware\MonitorAware\MonitorAware.csproj", "{E216CB47-4CD6-4F68-8378-67D53423277B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonitorAware", "..\ilos_recorder\WpfMonitorAware\MonitorAware\MonitorAware.csproj", "{E216CB47-4CD6-4F68-8378-67D53423277B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,11 +50,12 @@ Global
 		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.Release|x64.Build.0 = Release|x64
 		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.Release|x86.ActiveCfg = Release|x86
 		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.Release|x86.Build.0 = Release|x86
-		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|Any CPU.ActiveCfg = x64|x86
-		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x64.ActiveCfg = x64|x64
-		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x64.Build.0 = x64|x64
-		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x86.ActiveCfg = x64|x86
-		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x86.Build.0 = x64|x86
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|Any CPU.ActiveCfg = Release|x64
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|Any CPU.Build.0 = Release|x64
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x64.ActiveCfg = Release|x64
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x64.Build.0 = Release|x64
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x86.ActiveCfg = Release|x86
+		{910FAB21-9D79-4CF2-AB70-47291BABA41E}.x64|x86.Build.0 = Release|x86
 		{E216CB47-4CD6-4F68-8378-67D53423277B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E216CB47-4CD6-4F68-8378-67D53423277B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E216CB47-4CD6-4F68-8378-67D53423277B}.Debug|x64.ActiveCfg = Debug|Any CPU
