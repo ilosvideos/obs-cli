@@ -28,6 +28,12 @@ namespace obs_cli.Commands.Abstract
 
         public override void Execute()
         {
+            // todo: figure out how/why this is being called if webcam window isn't initialized yet
+            if (Store.Data.Webcam.Window == null)
+            {
+                return;
+            }
+
             Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
                 Translate();

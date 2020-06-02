@@ -47,7 +47,7 @@ namespace obs_cli.Services
                 Message = message.ToString()
             };
 
-            FileWriteService.WriteLineToFile(exceptionMessage);
+            FileWriteService.WriteLineToFile(message.ToString());
 
             ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
         }
