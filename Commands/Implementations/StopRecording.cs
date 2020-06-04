@@ -43,13 +43,6 @@ namespace obs_cli.Commands.Implementations
 
             var fileOutputPath = new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
 
-            var stopRecordingStatus = new StopRecordingStatusParameters
-            {
-                VideoFilePath = fileOutputPath,
-                LastVideoName = Store.Data.Record.LastVideoName,
-                IsSuccessful = true
-            };
-
             Store.Data.ResetRecordModule();
 
             EmitService.EmitStopRecordingStatusResponse(fileOutputPath, Store.Data.Record.LastVideoName, true);
