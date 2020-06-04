@@ -117,10 +117,11 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Sets the audio input to the device with the given audio input id. 
+        /// Sets the audio input to the device with the given audio input id.
         /// </summary>
         /// <param name="savedAudioInputId"></param>
-        public static void SetAudioInput(string savedAudioInputId)
+        /// <returns></returns>
+        public static string SetAudioInput(string savedAudioInputId)
         {
             ObsData aiSettings = new ObsData();
             aiSettings.SetBool("use_device_timing", false);
@@ -139,9 +140,12 @@ namespace obs_cli.Services
             List<AudioDevice> allAudioInputs = GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
 
+            var usedAudioInputId = string.Empty;
+
             if (savedAudioInputId != null && savedIsInAvailableInputs)
             {
                 UpdateAudioInput(savedAudioInputId);
+                usedAudioInputId = savedAudioInputId;
             }
             else
             {
@@ -154,14 +158,18 @@ namespace obs_cli.Services
                 }
 
                 UpdateAudioInput(defaultDeviceId);
+                usedAudioInputId = defaultDeviceId;
             }
+
+            return usedAudioInputId;
         }
 
         /// <summary>
-        /// Sets the audio output to the device with the given audio output id. 
+        /// Sets the audio output to the device with the given audio output id.
         /// </summary>
         /// <param name="savedAudioOutputId"></param>
-        public static void SetAudioOutput(string savedAudioOutputId)
+        /// <returns></returns>
+        public static string SetAudioOutput(string savedAudioOutputId)
         {
             ObsData aoSettings = new ObsData();
             aoSettings.SetBool("use_device_timing", false);
@@ -179,14 +187,20 @@ namespace obs_cli.Services
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
 
+            var usedAudioOutputId = string.Empty;
+
             if (savedAudioOutputId != null && savedIsInAvailableOutputs)
             {
                 UpdateAudioOutput(savedAudioOutputId);
+                usedAudioOutputId = savedAudioOutputId;
             }
             else
             {
                 UpdateAudioOutput(Constants.Audio.NO_DEVICE_ID);
+                usedAudioOutputId = Constants.Audio.NO_DEVICE_ID;
             }
+
+            return usedAudioOutputId;
         }
 
         // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 

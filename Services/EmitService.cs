@@ -152,9 +152,18 @@ namespace obs_cli.Services
             EmitSerializedOutput(AvailableCommand.DeleteLastSection, statusResponse);
         }
 
+        /// <summary>
+        /// Emits a response with webcam window properties.
+        /// </summary>
+        /// <param name="webcamWindowProperties"></param>
         public static void EmitWebcamWindowProperties(WebcamWindowProperties webcamWindowProperties)
         {
             EmitSerializedOutput(AvailableCommand.GetWebcamWindowProperties, webcamWindowProperties);
+        }
+
+        public static void EmitInitializeResponse(InitializeResponse response)
+        {
+            EmitSerializedOutput(AvailableCommand.Initialize, response);
         }
 
         /// <summary>

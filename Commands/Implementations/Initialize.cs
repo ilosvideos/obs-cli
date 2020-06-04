@@ -67,11 +67,18 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
             Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
 
-            AudioService.SetAudioInput(this.SavedAudioInputId);
-            AudioService.SetAudioOutput(this.SavedAudioOutputId);
+            var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
+            var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
 
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
+
+            EmitService.EmitInitializeResponse(new InitializeResponse()
+            {
+                IsSuccessful = true,
+                SetAudioInputDevice = usedAudioInputId,
+                SetAudioOutputDevice = usedAudioOutputId
+            });
         }
     }
 }
