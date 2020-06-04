@@ -68,22 +68,18 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
 
             var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
-            FileWriteService.WriteLineToFile("audio input set");
 
             var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
-            FileWriteService.WriteLineToFile("audio output set");
 
             Store.Data.Obs.Presentation.SetItem(0);
             Store.Data.Obs.Presentation.SetSource(0);
 
-            FileWriteService.WriteLineToFile("about to emit InitializeResponse");
             EmitService.EmitInitializeResponse(new InitializeResponse
             {
                 IsSuccessful = true,
                 SetAudioInputDevice = usedAudioInputId,
                 SetAudioOutputDevice = usedAudioOutputId
             });
-            FileWriteService.WriteLineToFile("InitializeResponse emitted");
         }
     }
 }
