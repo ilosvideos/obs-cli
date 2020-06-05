@@ -1,8 +1,11 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Objects;
-using obs_cli.Objects.Obs;
+using obs_cli.Helpers;
 using obs_cli.Services;
+using obs_cli.Services.Recording;
+using obs_cli.Services.Recording.Abstract;
+using obs_cli.Services.Recording.Objects;
+using System;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
@@ -16,31 +19,31 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            VideoService.ResetVideoInfo(new ResetVideoInfoParameters
-            {
-                CropTop = CropTop,
-                CropRight = CropRight,
-                CropLeft = CropLeft,
-                CropBottom = CropBottom,
-                FrameRate = FrameRate,
-                OutputWidth = OutputWidth,
-                OutputHeight = OutputHeight,
-                CanvasWidth = CanvasWidth,
-                CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle
-            });
-
-            bool isStarted;
+            var isStarted = false;
 
             try
             {
-                ObsOutputAndEncoders outputAndEncoders = ObsService.CreateNewObsOutput();
-                Store.Data.Record.OutputAndEncoders = outputAndEncoders;
-                isStarted = Store.Data.Record.OutputAndEncoders.obsOutput.Start();
+                var baseRecordingParameters = new BaseRecordingParameters
+                {
+                    CropTop = CropTop,
+                    CropRight = CropRight,
+                    CropLeft = CropLeft,
+                    CropBottom = CropBottom,
+                    FrameRate = FrameRate,
+                    OutputWidth = OutputWidth,
+                    OutputHeight = OutputHeight,
+                    CanvasWidth = CanvasWidth,
+                    CanvasHeight = CanvasHeight,
+                    ScreenToRecordHandle = ScreenToRecordHandle,
+                    VideoOutputFolder = Store.Data.Record.VideoOutputFolder
+                };
+
+                IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
+                isStarted = service.StartRecording();
             }
-            catch
+            catch (Exception ex)
             {
-                isStarted = false;
+                FileWriteService.WriteLineToFile(ex.Message);
             }
 
             EmitService.EmitStatusResponse(AvailableCommand.ResumeRecording, isStarted);
