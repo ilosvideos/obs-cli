@@ -1,6 +1,6 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
+using obs_cli.Services;
 using System.Collections.Generic;
 using System.Timers;
 
@@ -19,7 +19,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("start pause recording");
             Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
 
             OutputPauseTimer = new Timer();
@@ -41,6 +40,8 @@ namespace obs_cli.Commands.Implementations
             OutputPauseTimer = null;
 
             Store.Data.Record.OutputAndEncoders.Dispose();
+
+            EmitService.EmitStatusResponse(AvailableCommand.PauseRecording, true, "Paused");
         }
     }
 }
