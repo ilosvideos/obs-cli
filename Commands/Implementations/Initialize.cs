@@ -27,8 +27,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            FileWriteService.WriteLineToFile("In Initialize");
-
             if (!Store.Data.Obs.IsObsStarted)
             {
                 if (!Obs.Startup("en-US"))
@@ -37,10 +35,7 @@ namespace obs_cli.Commands.Implementations
                     throw new ApplicationException("Startup failed.");
                 }
 
-                FileWriteService.WriteLineToFile("Obs.Startup called");
-
                 AudioService.ResetAudioInfo();
-                FileWriteService.WriteLineToFile("ResetAudioInfo called");
             }
 
             VideoService.ResetVideoInfo(new ResetVideoInfoParameters
@@ -57,27 +52,18 @@ namespace obs_cli.Commands.Implementations
                 ScreenToRecordHandle = ScreenToRecordHandle
             });
 
-            FileWriteService.WriteLineToFile("ResetVideoInfo");
-
             if (!Store.Data.Obs.IsObsStarted)
             {
                 Obs.LoadAllModules();
-
-                FileWriteService.WriteLineToFile("LoadAllModules");
 
                 Store.Data.Obs.Presentation = new Presentation();
                 Store.Data.Obs.Presentation.AddScene("Main");
                 Store.Data.Obs.Presentation.AddScene("Webcam");
                 Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
 
-                FileWriteService.WriteLineToFile("Presentation created");
-
                 Store.Data.Display.DisplaySource = Store.Data.Obs.Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
-                FileWriteService.WriteLineToFile("DisplaySource created");
-
                 Store.Data.Obs.Presentation.AddSource(Store.Data.Display.DisplaySource);
                 Store.Data.Display.DisplayItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Display.DisplaySource);
-                FileWriteService.WriteLineToFile("DisplayItem created");
 
                 Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
 
@@ -88,16 +74,12 @@ namespace obs_cli.Commands.Implementations
             }
 
             var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
-            FileWriteService.WriteLineToFile("SetAudioInput called");
 
             var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
-            FileWriteService.WriteLineToFile("SetAudioOutput called");
 
             Store.Data.Obs.Presentation.SetItem(0);
-            FileWriteService.WriteLineToFile("Main presentation scene set");
 
             Store.Data.Obs.Presentation.SetSource(0);
-            FileWriteService.WriteLineToFile("Presenation source 0 set");
 
             EmitService.EmitInitializeResponse(new InitializeResponse
             {
