@@ -155,8 +155,19 @@ namespace obs_cli.Services
 		/// <returns></returns>
 		public static WebcamDevice GetWebcam(string webcamValue)
 		{
-			var value = webcamValue.Substring(webcamValue.IndexOf(Constants.Webcam.Settings.NameValueDelimiter));
-			return Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value.IndexOf(value) >= 0);
+			var value = webcamValue;
+			if (webcamValue.IndexOf(Constants.Webcam.Settings.NameValueDelimiter) >= 0)
+			{
+				value = webcamValue.Substring(webcamValue.IndexOf(Constants.Webcam.Settings.NameValueDelimiter));
+			}
+
+			var webcam = Store.Data.Webcam.Webcams.FirstOrDefault(x => x.value.IndexOf(value) >= 0);
+			if (webcam == null)
+			{
+				webcam = Store.Data.Webcam.Webcams.FirstOrDefault();
+			}
+
+			return webcam;
 		}
 
 		/// <summary>
