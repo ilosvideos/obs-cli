@@ -16,6 +16,9 @@ namespace obs_cli.Services
         public const string DEFAULT_AUDIO_INPUT_DEVICE_NAME = "Primary Sound Capture Device";
         public const string DEFAULT_AUDIO_OUTPUT_DEVICE_NAME = "Primary Sound Output Device";
 
+        public static bool IsAudioInputCallbackEnabled { get; set; }
+        public static bool IsAudioOutputCallbackEnabled { get; set; }
+
         /// <summary>
         /// Calculates the audio meter float value based on magnitude.
         /// </summary>
@@ -135,7 +138,6 @@ namespace obs_cli.Services
 
             Store.Data.Audio.InputMeter = new VolMeter();
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
-            Store.Data.Audio.InputMeter.AddCallBack(EmitInputMagnitude);
 
             List<AudioDevice> allAudioInputs = GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
@@ -182,7 +184,6 @@ namespace obs_cli.Services
 
             Store.Data.Audio.OutputMeter = new VolMeter();
             Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
-            Store.Data.Audio.OutputMeter.AddCallBack(EmitOutputMagnitude);
 
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
@@ -201,6 +202,30 @@ namespace obs_cli.Services
             }
 
             return usedAudioOutputId;
+        }
+
+        public static void EnableInputMagnitudeEmitCallback()
+        {
+            Store.Data.Audio.InputMeter.AddCallBack(EmitInputMagnitude);
+            IsAudioInputCallbackEnabled = true;
+        }
+
+        public static void EnableOutputMagnitudeEmitCallback()
+        {
+            Store.Data.Audio.OutputMeter.AddCallBack(EmitOutputMagnitude);
+            IsAudioOutputCallbackEnabled = true;
+        }
+
+        public static void DisableInputMagnitudeCallback()
+        {
+            Store.Data.Audio.InputMeter.RemoveCallback();
+            IsAudioInputCallbackEnabled = false;
+        }
+
+        public static void DisableOutputMagnitudeCallback()
+        {
+            Store.Data.Audio.OutputMeter.RemoveCallback();
+            IsAudioOutputCallbackEnabled = false;
         }
 
         // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
