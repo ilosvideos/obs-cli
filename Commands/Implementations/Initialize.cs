@@ -27,13 +27,21 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            if (!Obs.Startup("en-US"))
-            {
-                // todo: if any exceptions are thrown in this app, we need to bubble it all up to a single terminate code so consuming apps know that it shut down
-                throw new ApplicationException("Startup failed.");
-            }
+            FileWriteService.WriteLineToFile("In Initialize");
 
-            AudioService.ResetAudioInfo();
+            if (!Store.Data.Obs.IsObsStarted)
+            {
+                if (!Obs.Startup("en-US"))
+                {
+                    // todo: if any exceptions are thrown in this app, we need to bubble it all up to a single terminate code so consuming apps know that it shut down
+                    throw new ApplicationException("Startup failed.");
+                }
+
+                FileWriteService.WriteLineToFile("Obs.Startup called");
+
+                AudioService.ResetAudioInfo();
+                FileWriteService.WriteLineToFile("ResetAudioInfo called");
+            }
 
             VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
@@ -49,30 +57,47 @@ namespace obs_cli.Commands.Implementations
                 ScreenToRecordHandle = ScreenToRecordHandle
             });
 
-            Obs.LoadAllModules();
+            FileWriteService.WriteLineToFile("ResetVideoInfo");
 
-            Store.Data.Obs.Presentation = new Presentation();
-            Store.Data.Obs.Presentation.AddScene("Main");
-            Store.Data.Obs.Presentation.AddScene("Webcam");
-            Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
+            if (!Store.Data.Obs.IsObsStarted)
+            {
+                Obs.LoadAllModules();
 
-            Store.Data.Display.DisplaySource = Store.Data.Obs.Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
+                FileWriteService.WriteLineToFile("LoadAllModules");
 
-            Store.Data.Obs.Presentation.AddSource(Store.Data.Display.DisplaySource);
-            Store.Data.Display.DisplayItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Display.DisplaySource);
-            Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
+                Store.Data.Obs.Presentation = new Presentation();
+                Store.Data.Obs.Presentation.AddScene("Main");
+                Store.Data.Obs.Presentation.AddScene("Webcam");
+                Store.Data.Obs.Presentation.SetScene(Store.Data.Obs.MainScene);
 
-            Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
+                FileWriteService.WriteLineToFile("Presentation created");
 
-            Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
-            Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
+                Store.Data.Display.DisplaySource = Store.Data.Obs.Presentation.CreateSource("monitor_capture", "Monitor Capture Source");
+                FileWriteService.WriteLineToFile("DisplaySource created");
+
+                Store.Data.Obs.Presentation.AddSource(Store.Data.Display.DisplaySource);
+                Store.Data.Display.DisplayItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Display.DisplaySource);
+                FileWriteService.WriteLineToFile("DisplayItem created");
+
+                Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
+
+                Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
+
+                Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
+                Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
+            }
 
             var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
+            FileWriteService.WriteLineToFile("SetAudioInput called");
 
             var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
+            FileWriteService.WriteLineToFile("SetAudioOutput called");
 
             Store.Data.Obs.Presentation.SetItem(0);
+            FileWriteService.WriteLineToFile("Main presentation scene set");
+
             Store.Data.Obs.Presentation.SetSource(0);
+            FileWriteService.WriteLineToFile("Presenation source 0 set");
 
             EmitService.EmitInitializeResponse(new InitializeResponse
             {
@@ -80,6 +105,8 @@ namespace obs_cli.Commands.Implementations
                 SetAudioInputDevice = usedAudioInputId,
                 SetAudioOutputDevice = usedAudioOutputId
             });
+
+            Store.Data.Obs.IsObsStarted = true;
         }
     }
 }

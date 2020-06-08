@@ -10,6 +10,7 @@ namespace obs_cli.Data.Modules
         public Click ActiveClick { get; set; }
         public List<Click> Clicks { get; set; }
         public Presentation Presentation { get; set; }
+        public bool IsObsStarted { get; set; }
         public Scene MainScene 
         {
             get 
