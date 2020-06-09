@@ -20,7 +20,7 @@ namespace obs_cli
             {
                 string line = Console.ReadLine();
 
-                FileWriteService.WriteLineToFile($"line: {line}");
+                FileWriteService.WriteTimestampedLineToFile($"line: {line}");
 
                 List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
                 if (argumentTokens.Count > 0)
