@@ -7,6 +7,7 @@ using obs_cli.Services.Recording.Abstract;
 using obs_cli.Services.Recording.Objects;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -20,6 +21,12 @@ namespace obs_cli.Commands.Implementations
         public override void Execute()
         {
             var isStarted = false;
+
+            // sleep to make sure the pausing is complete
+            while (Store.Data.Record.OutputAndEncoders.obsOutput != null)
+            {
+                Thread.Sleep(100);
+            }
 
             try
             {

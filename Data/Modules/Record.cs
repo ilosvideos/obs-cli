@@ -11,6 +11,7 @@ namespace obs_cli.Data.Modules
         public Screen ActiveScreen { get; set; }
         public obs_sceneitem_crop AppliedCrop { get; set; }
         public bool IsFullScreen { get; set; }
+        public bool IsPausing { get; set; }
         public string LastVideoName { get; set; }
         public ObsOutputAndEncoders OutputAndEncoders { get; set; }
         public List<FileInfo> RecordedFiles { get; set; }

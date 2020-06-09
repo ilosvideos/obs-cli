@@ -19,6 +19,11 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
+            if (Store.Data.Record.IsPausing)
+            {
+                return;
+            }
+
             Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
 
             OutputPauseTimer = new Timer();
@@ -26,6 +31,9 @@ namespace obs_cli.Commands.Implementations
             OutputPauseTimer.Elapsed += new ElapsedEventHandler(PauseRecordingWhenOutputInactive);
             OutputPauseTimer.Enabled = true;
             OutputPauseTimer.Start();
+
+            Store.Data.Record.IsPausing = true;
+            EmitService.EmitStatusResponse(AvailableCommand.PauseRecording, true, "Paused");
         }
 
         private void PauseRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
@@ -40,8 +48,7 @@ namespace obs_cli.Commands.Implementations
             OutputPauseTimer = null;
 
             Store.Data.Record.OutputAndEncoders.Dispose();
-
-            EmitService.EmitStatusResponse(AvailableCommand.PauseRecording, true, "Paused");
+            Store.Data.Record.IsPausing = false;
         }
     }
 }
