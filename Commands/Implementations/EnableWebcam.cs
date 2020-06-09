@@ -6,6 +6,7 @@ using obs_cli.Utility;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -43,7 +44,7 @@ namespace obs_cli.Commands.Implementations
 
                 if (webcam == null)
                 {
-                    throw new Exception(Constants.Webcam.ErrorMessages.WebcamNotFound);
+                    webcam = Store.Data.Webcam.Webcams.FirstOrDefault();
                 }
 
                 Store.Data.Webcam.Window.SetWebcam(webcam);
