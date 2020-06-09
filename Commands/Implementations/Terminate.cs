@@ -1,5 +1,6 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
+using obs_cli.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -18,6 +19,8 @@ namespace obs_cli.Commands.Implementations
         {
             Store.Data.Audio.InputMeter.RemoveCallback();
             Store.Data.Audio.OutputMeter.RemoveCallback();
+
+            FileWriteService.WriteLineToFile(Environment.NewLine);
 
             Environment.Exit(0);
         }
