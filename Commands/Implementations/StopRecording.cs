@@ -20,7 +20,11 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
+            // if the recorder is paused, we don't need to dispose the encoders
+            if (!Store.Data.Record.IsPaused)
+            {
+                Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
+            }
 
             OutputStopTimer.Interval = 50;
             OutputStopTimer.Elapsed += new ElapsedEventHandler(DisposeEncodersAndFinalizeVideo);
@@ -39,7 +43,10 @@ namespace obs_cli.Commands.Implementations
             OutputStopTimer.Dispose();
             OutputStopTimer = null;
 
-            Store.Data.Record.OutputAndEncoders.Dispose();
+            if (!Store.Data.Record.IsPaused)
+            {
+                Store.Data.Record.OutputAndEncoders.Dispose();
+            }
 
             var fileOutputPath = new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
 

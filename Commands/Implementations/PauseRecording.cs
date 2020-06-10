@@ -49,6 +49,7 @@ namespace obs_cli.Commands.Implementations
 
             Store.Data.Record.OutputAndEncoders.Dispose();
             Store.Data.Record.IsPausing = false;
+            Store.Data.Record.IsPaused = true;
         }
     }
 }
