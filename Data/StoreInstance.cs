@@ -7,12 +7,12 @@ namespace obs_cli.Data
     {
         public StoreInstance()
         {
-            this.App = new App();
-            this.Audio = new Audio();
-            this.Display = new Display();
-            this.Obs = new Obs();
-            this.Record = new Record();
-            this.Webcam = new Webcam();
+            App = new App();
+            Audio = new Audio();
+            Display = new Display();
+            Obs = new Obs();
+            Record = new Record();
+            Webcam = new Webcam();
         }
 
         public App App { get; set; }
@@ -27,7 +27,11 @@ namespace obs_cli.Data
         /// </summary>
         public void ResetRecordModule()
         {
-            this.Record = new Record();
+            var previousActiveScreen = Record.ActiveScreen;
+            Record = new Record
+            {
+                ActiveScreen = previousActiveScreen
+            };
         }
     }
 }
