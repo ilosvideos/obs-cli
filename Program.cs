@@ -32,19 +32,18 @@ namespace obs_cli
                     {
                         IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0].Trim(), z => z[1].Trim());
                         ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
-                        commandInstance.Execute();
-                        //try
-                        //{
-                        //    commandInstance.Execute();
-                        //}
-                        //catch(Exception ex)
-                        //{
-                        //    // todo: we probably don't want to shutdown on every single exception but let's just do a 
-                        //    // catch all for now
-                        //    FileWriteService.WriteTimestampedLineToFile(ex.Message);
-                        //    EmitService.EmitException(ex.Message, ex.StackTrace);
-                        //    Environment.Exit(0);
-                        //}
+
+                        try
+                        {
+                            commandInstance.Execute();
+                        }
+                        catch (Exception ex)
+                        {
+                            // todo: we probably don't want to shutdown on every single exception but let's just do a 
+                            // catch all for now
+                            EmitService.EmitException(ex.Message, ex.StackTrace);
+                            Environment.Exit(0);
+                        }
                     }
                 }
             }

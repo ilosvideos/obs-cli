@@ -6,11 +6,14 @@ namespace obs_cli.Objects
     {
         public string Message { get; set; }
 
+        public string StackTrace { get; set; }
+
         public virtual IDictionary<string, string> ToDictionary()
         {
             return new Dictionary<string, string>()
             {
-                { "message", Message.ToString() }
+                { "message", Message.ToString() },
+                { "stackTrace", StackTrace.ToString() }
             };
         }
     }

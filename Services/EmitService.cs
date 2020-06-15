@@ -37,18 +37,13 @@ namespace obs_cli.Services
         /// <param name="stackTrace"></param>
         public static void EmitException(string exceptionMessage, string stackTrace)
         {
-            var message = new StringBuilder();
-            message.AppendLine(exceptionMessage);
-            message.AppendLine(stackTrace);
-
             var exceptionThrownParameters = new ExceptionThrownParameters
             {
-                Message = message.ToString()
+                Message = exceptionMessage,
+                StackTrace = stackTrace
             };
 
-            //FileWriteService.WriteLineToFile(message.ToString());
-
-            //ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
+            ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
         }
 
         /// <summary>
