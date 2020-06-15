@@ -4,6 +4,8 @@ namespace obs_cli.Objects
 {
     public class ExceptionThrownParameters
     {
+        public string CommandName { get; set; }
+
         public string Message { get; set; }
 
         public string StackTrace { get; set; }
@@ -12,6 +14,7 @@ namespace obs_cli.Objects
         {
             return new Dictionary<string, string>()
             {
+                { "commandName", CommandName.ToString() },
                 { "message", Message.ToString() },
                 { "stackTrace", StackTrace.ToString() }
             };

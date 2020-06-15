@@ -35,10 +35,11 @@ namespace obs_cli.Services
         /// </summary>
         /// <param name="exceptionMessage"></param>
         /// <param name="stackTrace"></param>
-        public static void EmitException(string exceptionMessage, string stackTrace)
+        public static void EmitException(string commandName, string exceptionMessage, string stackTrace)
         {
             var exceptionThrownParameters = new ExceptionThrownParameters
             {
+                CommandName = commandName,
                 Message = exceptionMessage,
                 StackTrace = stackTrace
             };
