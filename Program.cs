@@ -16,6 +16,8 @@ namespace obs_cli
             Console.WriteLine("starting");
             Store.Data = new StoreInstance();
 
+            FileWriteService.DeletePreviousLogFile();
+
             while (true)
             {
                 string line = Console.ReadLine();
