@@ -55,7 +55,8 @@ namespace obs_cli.Utility
 			}
 			catch (Exception ex)
 			{
-				return new List<Size>();
+				throw ex;
+				//return new List<Size>();
 			}
 		}
 	}

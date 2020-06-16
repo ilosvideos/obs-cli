@@ -3,8 +3,6 @@ using Microsoft.Win32;
 using OBS;
 using obs_cli.Data;
 using obs_cli.Data.Modules;
-using obs_cli.Helpers;
-using obs_cli.Objects;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;

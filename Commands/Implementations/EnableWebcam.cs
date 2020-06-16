@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -26,7 +27,7 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            var showWebcam = new Action(() => 
+            var showWebcam = new Action(() =>
             {
                 if (!Left.HasValue || !Top.HasValue)
                 {
@@ -37,7 +38,7 @@ namespace obs_cli.Commands.Implementations
                     Store.Data.Webcam.Window.Left = Left.Value;
                     Store.Data.Webcam.Window.Top = Top.Value;
                 }
-                
+
                 Store.Data.Webcam.Window.Show(Width, Height);
 
                 var webcam = WebcamService.GetWebcam(WebcamValue);
@@ -62,6 +63,7 @@ namespace obs_cli.Commands.Implementations
 
                     showWebcam();
 
+                    Store.Data.App.ApplicationInstance.DispatcherUnhandledException += ApplicationInstance_DispatcherUnhandledException;
                     Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
                 });
 
@@ -78,6 +80,11 @@ namespace obs_cli.Commands.Implementations
             }
 
             Store.Data.Webcam.IsWebcamEnabled = true;
+        }
+
+        private void ApplicationInstance_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            EmitService.EmitException(AvailableCommand.EnableWebcam.GetDescription(), e.Exception.Message, e.Exception.StackTrace);
         }
     }
 }
