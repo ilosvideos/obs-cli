@@ -27,31 +27,24 @@ namespace obs_cli.Commands.Implementations
             {
                 Thread.Sleep(100);
             }
-
-            try
+            
+            var baseRecordingParameters = new BaseRecordingParameters
             {
-                var baseRecordingParameters = new BaseRecordingParameters
-                {
-                    CropTop = CropTop,
-                    CropRight = CropRight,
-                    CropLeft = CropLeft,
-                    CropBottom = CropBottom,
-                    FrameRate = FrameRate,
-                    OutputWidth = OutputWidth,
-                    OutputHeight = OutputHeight,
-                    CanvasWidth = CanvasWidth,
-                    CanvasHeight = CanvasHeight,
-                    ScreenToRecordHandle = ScreenToRecordHandle,
-                    VideoOutputFolder = Store.Data.Record.VideoOutputFolder
-                };
+                CropTop = CropTop,
+                CropRight = CropRight,
+                CropLeft = CropLeft,
+                CropBottom = CropBottom,
+                FrameRate = FrameRate,
+                OutputWidth = OutputWidth,
+                OutputHeight = OutputHeight,
+                CanvasWidth = CanvasWidth,
+                CanvasHeight = CanvasHeight,
+                ScreenToRecordHandle = ScreenToRecordHandle,
+                VideoOutputFolder = Store.Data.Record.VideoOutputFolder
+            };
 
-                IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
-                isStarted = service.StartRecording();
-            }
-            catch (Exception ex)
-            {
-                FileWriteService.WriteLineToFile(ex.Message);
-            }
+            IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
+            isStarted = service.StartRecording();            
 
             EmitService.EmitStatusResponse(AvailableCommand.ResumeRecording, isStarted);
         }

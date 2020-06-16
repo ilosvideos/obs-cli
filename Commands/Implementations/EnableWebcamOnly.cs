@@ -83,7 +83,8 @@ namespace obs_cli.Commands.Implementations
             }
             catch(Exception ex)
             {
-                EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcamOnly, ex.Message, false, Constants.Webcam.ErrorMessages.EnableWebcamOnlyFailed);
+                //EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcamOnly, ex.Message, false, Constants.Webcam.ErrorMessages.EnableWebcamOnlyFailed);
+                throw ex;
             }
         }
     }

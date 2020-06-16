@@ -23,33 +23,26 @@ namespace obs_cli.Commands.Implementations
         }
 
         public override void Execute()
-        {
-            try 
+        {           
+            var baseRecordingParameters = new BaseRecordingParameters
             {
-                var baseRecordingParameters = new BaseRecordingParameters
-                {
-                    CropTop = CropTop,
-                    CropRight = CropRight,
-                    CropLeft = CropLeft,
-                    CropBottom = CropBottom,
-                    FrameRate = FrameRate,
-                    OutputWidth = OutputWidth,
-                    OutputHeight = OutputHeight,
-                    CanvasWidth = CanvasWidth,
-                    CanvasHeight = CanvasHeight,
-                    ScreenToRecordHandle = ScreenToRecordHandle,
-                    VideoOutputFolder = VideoOutputFolder
-                };
+                CropTop = CropTop,
+                CropRight = CropRight,
+                CropLeft = CropLeft,
+                CropBottom = CropBottom,
+                FrameRate = FrameRate,
+                OutputWidth = OutputWidth,
+                OutputHeight = OutputHeight,
+                CanvasWidth = CanvasWidth,
+                CanvasHeight = CanvasHeight,
+                ScreenToRecordHandle = ScreenToRecordHandle,
+                VideoOutputFolder = VideoOutputFolder
+            };
 
-                IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
-                var isStarted = service.StartRecording();
+            IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
+            var isStarted = service.StartRecording();
 
-                EmitService.EmitStatusResponse(AvailableCommand.StartRecording, isStarted);
-            }
-            catch(Exception ex)
-            {
-                FileWriteService.WriteLineToFile(ex.Message);
-            }
+            EmitService.EmitStatusResponse(AvailableCommand.StartRecording, isStarted);
         }
     }
 }

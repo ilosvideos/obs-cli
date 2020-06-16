@@ -140,9 +140,10 @@ namespace obs_cli.Services
 					preferredResolution = $"{preferredRes.Width}x{preferredRes.Height}";
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
+				//FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
+				throw ex;
 			}
 
 			return preferredResolution;

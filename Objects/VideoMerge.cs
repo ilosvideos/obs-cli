@@ -1,5 +1,6 @@
 ﻿using NReco.VideoConverter;
 using obs_cli.Data;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -59,9 +60,10 @@ namespace obs_cli.Objects
 				DeleteInputFiles();
 				DeleteTemporaryFiles();
 			}
-			catch
+			catch (Exception ex)
 			{
 				DeleteTemporaryFiles();
+				throw ex;
 			}
 
 			return fileOutputPath;

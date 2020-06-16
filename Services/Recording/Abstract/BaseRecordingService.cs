@@ -1,6 +1,7 @@
 ﻿using obs_cli.Data;
 using obs_cli.Objects.Obs;
 using obs_cli.Services.Recording.Objects;
+using System;
 
 namespace obs_cli.Services.Recording.Abstract
 {
@@ -34,9 +35,10 @@ namespace obs_cli.Services.Recording.Abstract
 
                 return isStarted;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                //return false;
+                throw ex;
             }
         }
     }
