@@ -59,12 +59,9 @@ namespace obs_cli.Commands.Implementations
                 Thread thread = new Thread(() =>
                 {
                     Store.Data.Webcam.Window = new WebcamWindow();
-                    Store.Data.Webcam.Window.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
                     Store.Data.App.ApplicationInstance = new Application();
 
                     showWebcam();
-
-                    Store.Data.App.ApplicationInstance.DispatcherUnhandledException += ApplicationInstance_DispatcherUnhandledException;
                     Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
                 });
 
@@ -81,16 +78,6 @@ namespace obs_cli.Commands.Implementations
             }
 
             Store.Data.Webcam.IsWebcamEnabled = true;
-        }
-
-        private void Dispatcher_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            EmitService.EmitException(AvailableCommand.EnableWebcam.GetDescription(), e.Exception.Message, e.Exception.StackTrace);
-        }
-
-        private void ApplicationInstance_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            EmitService.EmitException(AvailableCommand.EnableWebcam.GetDescription(), e.Exception.Message, e.Exception.StackTrace);
         }
     }
 }

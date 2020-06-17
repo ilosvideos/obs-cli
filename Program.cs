@@ -18,6 +18,8 @@ namespace obs_cli
 
             FileWriteService.DeletePreviousLogFile();
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             while (true)
             {
                 string line = Console.ReadLine();
@@ -49,6 +51,12 @@ namespace obs_cli
                     }
                 }
             }
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var exception = (Exception)e.ExceptionObject;
+            EmitService.EmitException("AppDomain", exception.Message, exception.StackTrace);
         }
     }
 }

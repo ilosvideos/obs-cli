@@ -45,7 +45,7 @@ namespace obs_cli.Services
             };
 
             FileWriteService.WriteTimestampedLineToFile(exceptionMessage);
-            FileWriteService.WriteTimestampedLineToFile(stackTrace);
+            FileWriteService.WriteLineToFile(stackTrace);
 
             ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
         }
