@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using OBS;
 using obs_cli.Data;
 using obs_cli.Data.Modules;
+using obs_cli.Helpers;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
@@ -138,10 +139,11 @@ namespace obs_cli.Services
 					preferredResolution = $"{preferredRes.Width}x{preferredRes.Height}";
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				//FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
-				throw ex;
+				// prod recorder doesn't throw this exception actually. we just let it use whatever resolution
+				// it defaults to it seems
+				FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
 			}
 
 			return preferredResolution;
