@@ -21,7 +21,7 @@ namespace obs_cli.Services
 		/// </summary>
 		public static void CalculateItemPosition()
 		{
-			if (Store.Data.Webcam.Item == null)
+			if (Store.Data.Webcam.Item == null || Store.Data.Webcam.Window == null)
 			{
 				return;
 			}
