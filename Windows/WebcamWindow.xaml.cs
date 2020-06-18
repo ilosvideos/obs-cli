@@ -180,6 +180,10 @@ namespace obs_cli.Windows
             changeResolutionTimer.Elapsed += new ElapsedEventHandler(CheckIfWebcamResolutionChanged);
             changeResolutionTimer.Enabled = true;
             changeResolutionTimer.Start();
+            changeResolutionTimer.Disposed += delegate(object sender, EventArgs e)
+            {
+                elapsedTimerTime = 0;
+            };
         }
 
         private void CheckIfWebcamResolutionChanged(object sender, ElapsedEventArgs e)
@@ -187,6 +191,7 @@ namespace obs_cli.Windows
             if (Store.Data.Webcam.Source == null)
             {
                 changeResolutionTimer?.Stop();
+                changeResolutionTimer.Dispose();
                 changeResolutionTimer = null;
                 return;
             }
@@ -210,6 +215,7 @@ namespace obs_cli.Windows
             {
                 // If it doesn't work in 5 seconds, stop trying
                 changeResolutionTimer?.Stop();
+                changeResolutionTimer.Dispose();
                 changeResolutionTimer = null;
             }
         }
