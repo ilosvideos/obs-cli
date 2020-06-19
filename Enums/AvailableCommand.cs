@@ -18,6 +18,8 @@ namespace obs_cli.Enums
         DeleteLastSection,
         [Description("disable-webcam")]
         DisableWebcam,
+        [Description("disable-webcam-only")]
+        DisableWebcamOnly,
         [Description("enable-audio-input-magnitude-callback")]
         EnableAudioInputMagnitudeCallback,
         [Description("enable-audio-output-magnitude-callback")]

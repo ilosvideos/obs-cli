@@ -14,6 +14,7 @@ namespace obs_cli.Commands
             { AvailableCommand.ChangeWebcam.GetDescription(), typeof(ChangeWebcam) },
             { AvailableCommand.DeleteLastSection.GetDescription(), typeof(DeleteLastSection) },
             { AvailableCommand.DisableWebcam.GetDescription(), typeof(DisableWebcam) },
+            { AvailableCommand.DisableWebcamOnly.GetDescription(), typeof(DisableWebcamOnly) },
             { AvailableCommand.EnableWebcam.GetDescription(), typeof(EnableWebcam) },
             { AvailableCommand.EnableWebcamOnly.GetDescription(), typeof(EnableWebcamOnly) },
             { AvailableCommand.GetAudioInputDevices.GetDescription(), typeof(GetAudioInputDevices) },
