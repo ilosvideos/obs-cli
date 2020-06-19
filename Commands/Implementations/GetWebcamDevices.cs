@@ -25,7 +25,6 @@ namespace obs_cli.Commands.Implementations
             if (Store.Data.Webcam.Window == null)
             {
                 Store.Data.Webcam.Window = new WebcamWindow();
-                Store.Data.Webcam.Window.Dispatcher.UnhandledException += Dispatcher_UnhandledException;
                 WindowWasCreatedHere = true;
             }
 
@@ -52,11 +51,6 @@ namespace obs_cli.Commands.Implementations
                     });
                 }));
             }
-        }
-
-        private void Dispatcher_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
-        {
-            EmitService.EmitException(AvailableCommand.GetWebcamDevices.GetDescription(), e.Exception.Message, e.Exception.StackTrace);
         }
     }
 }
