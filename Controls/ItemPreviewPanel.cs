@@ -65,10 +65,10 @@ namespace obs_cli.Controls
 			}
 			else
 			{
-				if (_loadingMessage != null)
-				{
-					Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(RemoveLoadingMessage));
-				}
+				//if (_loadingMessage != null)
+				//{
+				//	Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(RemoveLoadingMessage));
+				//}
 			}
 
 			int newW = (int)cx;
@@ -116,7 +116,7 @@ namespace obs_cli.Controls
 				Text = "Loading webcam...",
 				AutoSize = false,
 				TextAlign = ContentAlignment.MiddleCenter,
-				Dock = DockStyle.Fill,
+				Dock = DockStyle.Bottom,
 				ForeColor = Color.White,
 				Font = new Font("Arial", 20),
 				BackColor = Color.DimGray
