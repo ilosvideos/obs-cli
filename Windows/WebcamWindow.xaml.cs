@@ -2,6 +2,7 @@
 using obs_cli.Behaviors;
 using obs_cli.Controls;
 using obs_cli.Data;
+using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Services;
 using obs_cli.Utility;
@@ -180,7 +181,7 @@ namespace obs_cli.Windows
             changeResolutionTimer.Elapsed += new ElapsedEventHandler(CheckIfWebcamResolutionChanged);
             changeResolutionTimer.Enabled = true;
             changeResolutionTimer.Start();
-            changeResolutionTimer.Disposed += delegate(object sender, EventArgs e)
+            changeResolutionTimer.Disposed += delegate (object sender, EventArgs e)
             {
                 elapsedTimerTime = 0;
             };
@@ -202,6 +203,7 @@ namespace obs_cli.Windows
                 webcamHeightBeforeChange != Store.Data.Webcam.Source.Height)
             {
                 changeResolutionTimer?.Stop();
+                changeResolutionTimer.Dispose();
                 changeResolutionTimer = null;
 
                 WebcamService.CalculateItemPosition();

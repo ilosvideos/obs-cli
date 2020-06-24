@@ -64,14 +64,8 @@ namespace obs_cli.Services
 				bottom = webcamItemAspectRatio < webcamAspectRatio ? 0 : cropHeight
 			};
 
-			Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() => 
-			{
-				FileWriteService.WriteLineToFile($"webcam left: { Store.Data.Webcam.Window.Left }; webcam top: { Store.Data.Webcam.Window.Top }");
-			}));
-			
-			FileWriteService.WriteLineToFile($"left: { webcamCrop.left }; top: { webcamCrop.top }; right: { webcamCrop.right }; bottom: { webcamCrop.bottom }") ;
-
 			Store.Data.Webcam.Item.SetCrop(webcamCrop);
+
 		}
 
 		/// <summary>
