@@ -1,6 +1,5 @@
 ﻿using OBS;
 using obs_cli.Data;
-using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
@@ -18,32 +17,6 @@ namespace obs_cli.Services
 
         public static bool IsAudioInputCallbackEnabled { get; set; }
         public static bool IsAudioOutputCallbackEnabled { get; set; }
-
-        /// <summary>
-        /// Calculates the audio meter float value based on magnitude.
-        /// </summary>
-        /// <param name="magnitude"></param>
-        /// <returns></returns>
-        public static float CalculateAudioMeterLevel(float magnitude)
-        {
-            float level;
-
-            if (magnitude <= -60)
-            {
-                level = 0.0f;
-            }
-            else if (magnitude >= -9)
-            {
-                level = 1.0f;
-            }
-            else
-            {
-                // 1.96 is 100/(60-9)
-                level = (float)Math.Abs((-60 - magnitude) * (1.96) / 100);
-            }
-
-            return level;
-        }
 
         /// <summary>
         /// Gets a list of all of the audio input devices.
@@ -212,12 +185,12 @@ namespace obs_cli.Services
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.InputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.InputLevel = magnitude[0];
         }
 
         private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.OutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
+            Store.Data.Audio.OutputLevel = magnitude[0];
         }
 
         /// <summary>
