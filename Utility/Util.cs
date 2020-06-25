@@ -1,9 +1,7 @@
 ﻿using obs_cli.Structs;
 using obs_cli.Windows;
 using System;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace obs_cli.Utility
 {

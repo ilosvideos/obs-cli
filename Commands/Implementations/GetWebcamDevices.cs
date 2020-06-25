@@ -5,7 +5,6 @@ using obs_cli.Services;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
-using System.Windows.Threading;
 
 namespace obs_cli.Commands.Implementations
 {

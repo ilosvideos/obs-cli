@@ -1,5 +1,4 @@
 ﻿using obs_cli.Data.Modules;
-using System.Windows;
 
 namespace obs_cli.Data
 {
