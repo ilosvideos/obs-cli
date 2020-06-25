@@ -28,6 +28,8 @@ namespace obs_cli.Enums
         ExceptionThrown,
         [Description("get-audio-input-devices")]
         GetAudioInputDevices,
+        [Description("get-audio-magnitudes")]
+        GetAudioMagnitudes,
         [Description("get-audio-output-devices")]
         GetAudioOutputDevices,
         [Description("get-webcam-devices")]

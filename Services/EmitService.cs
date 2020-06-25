@@ -141,9 +141,22 @@ namespace obs_cli.Services
             EmitSerializedOutput(AvailableCommand.GetWebcamWindowProperties, webcamWindowProperties);
         }
 
+        /// <summary>
+        /// Emits a response with initialization status.
+        /// </summary>
+        /// <param name="response"></param>
         public static void EmitInitializeResponse(InitializeResponse response)
         {
             EmitSerializedOutput(AvailableCommand.Initialize, response);
+        }
+
+        /// <summary>
+        /// Emits a response with audio input and output magnitude levels.
+        /// </summary>
+        /// <param name="response"></param>
+        public static void EmitAudioMagnitudes(AudioMagnitudesResponse response)
+        {
+            EmitSerializedOutput(AvailableCommand.GetAudioMagnitudes, response);
         }
 
         /// <summary>
