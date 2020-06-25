@@ -138,6 +138,7 @@ namespace obs_cli.Services
 
             Store.Data.Audio.InputMeter = new VolMeter();
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
+            Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
 
             List<AudioDevice> allAudioInputs = GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
@@ -184,6 +185,7 @@ namespace obs_cli.Services
 
             Store.Data.Audio.OutputMeter = new VolMeter();
             Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
+            Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
 
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
@@ -204,42 +206,18 @@ namespace obs_cli.Services
             return usedAudioOutputId;
         }
 
-        public static void EnableInputMagnitudeEmitCallback()
-        {
-            Store.Data.Audio.InputMeter.AddCallBack(EmitInputMagnitude);
-            IsAudioInputCallbackEnabled = true;
-        }
-
-        public static void EnableOutputMagnitudeEmitCallback()
-        {
-            Store.Data.Audio.OutputMeter.AddCallBack(EmitOutputMagnitude);
-            IsAudioOutputCallbackEnabled = true;
-        }
-
-        public static void DisableInputMagnitudeCallback()
-        {
-            Store.Data.Audio.InputMeter.RemoveCallback();
-            IsAudioInputCallbackEnabled = false;
-        }
-
-        public static void DisableOutputMagnitudeCallback()
-        {
-            Store.Data.Audio.OutputMeter.RemoveCallback();
-            IsAudioOutputCallbackEnabled = false;
-        }
-
         // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
         // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
         // This is probably an over-simplified calculation.
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
-        private static void EmitInputMagnitude(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            EmitService.EmitInputMagnitude(new AudioMagnitudeParameters { Magnitude = magnitude[0] });
+            Store.Data.Audio.InputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
-        private static void EmitOutputMagnitude(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
+        private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            EmitService.EmitOutputMagnitude(new AudioMagnitudeParameters { Magnitude = magnitude[0] });
+            Store.Data.Audio.OutputMeter.Level = CalculateAudioMeterLevel(magnitude[0]);
         }
 
         /// <summary>

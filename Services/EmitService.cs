@@ -13,24 +13,6 @@ namespace obs_cli.Services
     public static class EmitService
     {
         /// <summary>
-        /// Emits the audio input magnitude level to standard output.
-        /// </summary>
-        /// <param name="magnitude"></param>
-        public static void EmitInputMagnitude(AudioMagnitudeParameters parameters)
-        {
-            EmitOutput(AvailableCommand.AudioInputMagnitude, parameters.ToDictionary());
-        }
-
-        /// <summary>
-        /// Emits the audio output magnitude level to standard output.
-        /// </summary>
-        /// <param name="magnitude"></param>
-        public static void EmitOutputMagnitude(AudioMagnitudeParameters parameters)
-        {
-            EmitOutput(AvailableCommand.AudioOutputMagnitude, parameters.ToDictionary());
-        }
-
-        /// <summary>
         /// Emits the thrown exception.
         /// </summary>
         /// <param name="exceptionMessage"></param>

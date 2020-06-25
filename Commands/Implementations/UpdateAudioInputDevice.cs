@@ -1,6 +1,5 @@
 ﻿using obs_cli.Enums;
 using obs_cli.Services;
-using obs_cli.Utility;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
@@ -16,18 +15,6 @@ namespace obs_cli.Commands.Implementations
         {
             AudioService.UpdateAudioInput(DeviceId);
             WebcamService.UpdateAudioDevice();
-
-            if (!string.IsNullOrWhiteSpace(DeviceId) && DeviceId != Constants.Audio.NO_DEVICE_ID)
-            {
-                if (!AudioService.IsAudioInputCallbackEnabled)
-                {
-                    AudioService.EnableInputMagnitudeEmitCallback();
-                }
-            }
-            else
-            {
-                AudioService.DisableInputMagnitudeCallback();
-            }
         }
     }
 }
