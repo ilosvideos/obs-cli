@@ -5,9 +5,13 @@ using obs_cli.Helpers;
 using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Services;
+using obs_cli.Utility;
+using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
+using System.Windows;
 
 namespace obs_cli.Commands.Implementations
 {
@@ -71,6 +75,17 @@ namespace obs_cli.Commands.Implementations
 
                 Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
                 Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
+
+                Thread webcamWindowThread = new Thread(() =>
+                {
+                    Store.Data.Webcam.Window = new WebcamWindow();
+                    Store.Data.App.ApplicationInstance = new Application();
+                    Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
+                });
+
+                webcamWindowThread.Name = Constants.Webcam.Settings.WebcamWindowThreadName;
+                webcamWindowThread.SetApartmentState(ApartmentState.STA);
+                webcamWindowThread.Start();
             }
 
             var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);

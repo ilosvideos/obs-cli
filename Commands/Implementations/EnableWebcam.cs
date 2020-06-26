@@ -26,7 +26,7 @@ namespace obs_cli.Commands.Implementations
                 return;
             }
 
-            var showWebcam = new Action(() =>
+            Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
             {
                 if (!Left.HasValue || !Top.HasValue)
                 {
@@ -51,30 +51,7 @@ namespace obs_cli.Commands.Implementations
 
                 Store.Data.Webcam.Window.mainBorder.Visibility = Visibility.Visible;
                 EmitService.EmitEnableWebcamResponse(AvailableCommand.EnableWebcam, Store.Data.Webcam.Window.selectedWebcam.value, true);
-            });
-
-            if (Store.Data.Webcam.Window == null)
-            {
-                Thread thread = new Thread(() =>
-                {
-                    Store.Data.Webcam.Window = new WebcamWindow();
-                    Store.Data.App.ApplicationInstance = new Application();
-
-                    showWebcam();
-                    Store.Data.App.ApplicationInstance.Run(Store.Data.Webcam.Window);
-                });
-
-                thread.Name = Constants.Webcam.Settings.WebcamWindowThreadName;
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
-            }
-            else
-            {
-                Store.Data.Webcam.Window.Dispatcher.Invoke(new Action(() =>
-                {
-                    showWebcam();
-                }));
-            }
+            }));
 
             Store.Data.Webcam.IsWebcamEnabled = true;
         }
