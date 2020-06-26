@@ -22,15 +22,8 @@ namespace obs_cli.Commands.Implementations
                 IsSuccessful = true
             };
 
-            if (Store.Data.Audio.InputLevel.HasValue)
-            {
-                response.AudioInputLevel = Store.Data.Audio.InputLevel.Value;
-            }
-
-            if (Store.Data.Audio.OutputLevel.HasValue)
-            {
-                response.AudioInputLevel = Store.Data.Audio.OutputLevel.Value;
-            }
+            response.AudioInputLevel = Store.Data.Audio.InputMeter.Level;
+            response.AudioOutputLevel = Store.Data.Audio.OutputMeter.Level;
 
             EmitService.EmitAudioMagnitudes(response);
         }

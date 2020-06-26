@@ -1,5 +1,4 @@
-﻿using obs_cli.Objects;
-using obs_cli.Objects.Obs;
+﻿using obs_cli.Objects.Obs;
 
 namespace obs_cli.Data.Modules
 {
@@ -16,8 +15,5 @@ namespace obs_cli.Data.Modules
 
         public string CurrentOutputId { get; set; }
         public VolMeter OutputMeter { get; set; }
-
-        public float? InputLevel { get; set; }
-        public float? OutputLevel { get; set; }
     }
 }

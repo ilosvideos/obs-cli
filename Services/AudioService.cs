@@ -185,12 +185,12 @@ namespace obs_cli.Services
         // For practical purposes, we are treating -60 as 0 and -9 as 1.
         private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.InputLevel = magnitude[0];
+            Store.Data.Audio.InputMeter.Level = magnitude[0];
         }
 
         private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
         {
-            Store.Data.Audio.OutputLevel = magnitude[0];
+            Store.Data.Audio.OutputMeter.Level = magnitude[0];
         }
 
         /// <summary>
