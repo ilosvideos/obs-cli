@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="WPF.Shell.Integration.Library" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Include="Controls\WindowsFormsHostOverlay.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -42,9 +46,6 @@
   <ItemGroup>
     <Reference Include="DirectShowLib-2005">
       <HintPath>lib\DirectShowLib-2005.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Windows.Shell">
-      <HintPath>..\..\Windows Screen Recorder 2\ilos_recorder\packages\WPF.Shell.Integration.Library.2.0\lib\net30\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter.LT">
       <HintPath>lib\NReco.VideoConverter.LT.dll</HintPath>
