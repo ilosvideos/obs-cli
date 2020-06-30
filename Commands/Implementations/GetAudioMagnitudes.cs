@@ -19,11 +19,10 @@ namespace obs_cli.Commands.Implementations
         {
             var response = new AudioMagnitudesResponse
             {
-                IsSuccessful = true
+                IsSuccessful = true,
+                AudioInputLevel = Store.Data.Audio.InputMeter.Level,
+                AudioOutputLevel = Store.Data.Audio.OutputMeter.Level
             };
-
-            response.AudioInputLevel = Store.Data.Audio.InputMeter.Level;
-            response.AudioOutputLevel = Store.Data.Audio.OutputMeter.Level;
 
             EmitService.EmitAudioMagnitudes(response);
         }

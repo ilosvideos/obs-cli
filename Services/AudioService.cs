@@ -110,6 +110,7 @@ namespace obs_cli.Services
             Store.Data.Audio.InputItem.Name = "Mic";
 
             Store.Data.Audio.InputMeter = new VolMeter();
+            Store.Data.Audio.InputMeter.Level = float.NegativeInfinity;
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
             Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
 
@@ -157,6 +158,7 @@ namespace obs_cli.Services
             Store.Data.Audio.OutputItem.Name = "Desktop Audio";
 
             Store.Data.Audio.OutputMeter = new VolMeter();
+            Store.Data.Audio.OutputMeter.Level = float.NegativeInfinity;
             Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
             Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
 
