@@ -10,13 +10,14 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>..\obs-studio\build64\rundir\Debug\bin\64bit\</OutputPath>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\obs-studio\build64\rundir\Release\bin\64bit\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,13 +41,13 @@
 
   <ItemGroup>
     <Reference Include="DirectShowLib-2005">
-      <HintPath>..\obs-studio\build64\rundir\Debug\bin\64bit\DirectShowLib-2005.dll</HintPath>
+      <HintPath>lib\DirectShowLib-2005.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Windows.Shell">
       <HintPath>..\..\Windows Screen Recorder 2\ilos_recorder\packages\WPF.Shell.Integration.Library.2.0\lib\net30\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter.LT">
-      <HintPath>..\..\Windows Screen Recorder 2\obs-studio\build64\rundir\Debug\bin\64bit\NReco.VideoConverter.LT.dll</HintPath>
+      <HintPath>lib\NReco.VideoConverter.LT.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
