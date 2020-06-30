@@ -12,9 +12,6 @@ namespace obs_cli.Services
 {
     public static class AudioService
     {
-        public const string DEFAULT_AUDIO_INPUT_DEVICE_NAME = "Primary Sound Capture Device";
-        public const string DEFAULT_AUDIO_OUTPUT_DEVICE_NAME = "Primary Sound Output Device";
-
         public static bool IsAudioInputCallbackEnabled { get; set; }
         public static bool IsAudioOutputCallbackEnabled { get; set; }
 
@@ -24,7 +21,7 @@ namespace obs_cli.Services
         /// <returns></returns>
         public static List<AudioDevice> GetAudioInputDevices()
         {
-            return GetAudioDevices(Store.Data.Audio.InputSource, DEFAULT_AUDIO_INPUT_DEVICE_NAME);
+            return GetAudioDevices(Store.Data.Audio.InputSource, Constants.Audio.Defaults.AudioInputName);
         }
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace obs_cli.Services
         /// <returns></returns>
         public static List<AudioDevice> GetAudioOutputDevices()
         {
-            return GetAudioDevices(Store.Data.Audio.OutputSource, DEFAULT_AUDIO_OUTPUT_DEVICE_NAME);
+            return GetAudioDevices(Store.Data.Audio.OutputSource, Constants.Audio.Defaults.AudioOutputName);
         }
 
         /// <summary>
@@ -45,7 +42,7 @@ namespace obs_cli.Services
             Store.Data.Audio.CurrentInputId = deviceId;
 
             ObsData aiSettings = new ObsData();
-            aiSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
+            aiSettings.SetString(Constants.Audio.SettingKeys.DeviceId, deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
             Store.Data.Audio.InputSource.Update(aiSettings);
             aiSettings.Dispose();
 
@@ -64,7 +61,7 @@ namespace obs_cli.Services
             Store.Data.Audio.CurrentOutputId = deviceId;
 
             ObsData aoSettings = new ObsData();
-            aoSettings.SetString("device_id", deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
+            aoSettings.SetString(Constants.Audio.SettingKeys.DeviceId, deviceId.Equals(Constants.Audio.NO_DEVICE_ID) ? Constants.Audio.DEFAULT_DEVICE_ID : deviceId);
             Store.Data.Audio.OutputSource.Update(aoSettings);
             aoSettings.Dispose();
 
@@ -100,14 +97,14 @@ namespace obs_cli.Services
         public static string SetAudioInput(string savedAudioInputId)
         {
             ObsData aiSettings = new ObsData();
-            aiSettings.SetBool("use_device_timing", false);
-            Store.Data.Audio.InputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_input_capture", "Mic", aiSettings);
+            aiSettings.SetBool(Constants.Audio.SettingKeys.UseDeviceTiming, false);
+            Store.Data.Audio.InputSource = Store.Data.Obs.Presentation.CreateSource(Constants.Audio.SettingKeys.WasapiInputCapture, Constants.Audio.Settings.WasapiInputCaptureName, aiSettings);
             aiSettings.Dispose();
 
             Store.Data.Audio.InputSource.AudioOffset = Constants.Audio.DELAY_INPUT;
             Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.InputSource);
             Store.Data.Audio.InputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.InputSource);
-            Store.Data.Audio.InputItem.Name = "Mic";
+            Store.Data.Audio.InputItem.Name = Constants.Audio.Settings.WasapiInputCaptureName;
 
             Store.Data.Audio.InputMeter = new VolMeter();
             Store.Data.Audio.InputMeter.Level = float.NegativeInfinity;
@@ -149,13 +146,13 @@ namespace obs_cli.Services
         public static string SetAudioOutput(string savedAudioOutputId)
         {
             ObsData aoSettings = new ObsData();
-            aoSettings.SetBool("use_device_timing", false);
-            Store.Data.Audio.OutputSource = Store.Data.Obs.Presentation.CreateSource("wasapi_output_capture", "Desktop Audio", aoSettings);
+            aoSettings.SetBool(Constants.Audio.SettingKeys.UseDeviceTiming, false);
+            Store.Data.Audio.OutputSource = Store.Data.Obs.Presentation.CreateSource(Constants.Audio.SettingKeys.WasapiOutputCapture, Constants.Audio.Settings.WasapiOutputCaptureName, aoSettings);
             aoSettings.Dispose();
             Store.Data.Audio.OutputSource.AudioOffset = Constants.Audio.DELAY_OUTPUT; // For some reason, this offset needs to be here before presentation.CreateSource is called again to take affect
             Store.Data.Obs.Presentation.AddSource(Store.Data.Audio.OutputSource);
             Store.Data.Audio.OutputItem = Store.Data.Obs.Presentation.CreateItem(Store.Data.Audio.OutputSource);
-            Store.Data.Audio.OutputItem.Name = "Desktop Audio";
+            Store.Data.Audio.OutputItem.Name = Constants.Audio.Settings.WasapiOutputCaptureName;
 
             Store.Data.Audio.OutputMeter = new VolMeter();
             Store.Data.Audio.OutputMeter.Level = float.NegativeInfinity;
@@ -207,14 +204,14 @@ namespace obs_cli.Services
 
             audioDevices.Add(new AudioDevice
             {
-                name = "None",
+                name = Constants.Audio.Settings.AudioDeviceNoneName,
                 id = Constants.Audio.NO_DEVICE_ID
             });
 
             ObsProperty[] audioSourceProperties = audioSource.GetProperties().GetPropertyList();
             for (int i = 0; i < audioSourceProperties.Length; i++)
             {
-                if (audioSourceProperties[i].Name.Equals("device_id"))
+                if (audioSourceProperties[i].Name.Equals(Constants.Audio.SettingKeys.DeviceId))
                 {
                     string[] propertyNames = audioSourceProperties[i].GetListItemNames();
                     object[] propertyValues = audioSourceProperties[i].GetListItemValues();
@@ -222,7 +219,7 @@ namespace obs_cli.Services
                     for (int j = 0; j < propertyNames.Length; j++)
                     {
                         string deviceName = propertyNames[j];
-                        if (deviceName == "Default")
+                        if (deviceName == Constants.Audio.Settings.DefaultDeviceName)
                         {
                             deviceName = defaultDeviceName;
                         }
