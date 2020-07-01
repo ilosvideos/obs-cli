@@ -24,21 +24,21 @@ namespace obs_cli.Objects
 		/// Combines all of the InputFiles and writes it to disk.
 		/// </summary>
 		/// <returns>The final video's output path.</returns>
-		public string CombineAndWrite()
+		public VideoMergeOutput CombineAndWrite()
 		{
-			string fileOutputPath = string.Empty;
+			var output = new VideoMergeOutput();
 
 			try
 			{
-				fileOutputPath = Path.Combine(InputFiles.First().DirectoryName, Store.Data.Record.LastVideoName + ".mp4");
+				output.FileOutputPath = Path.Combine(InputFiles.First().DirectoryName, Store.Data.Record.LastVideoName + ".mp4");
 
 				if (InputFiles.Count == 1)
 				{
 					// Remove _part 1 from the file name, but don't concatenate
-					InputFiles.First().MoveTo(fileOutputPath);
-					OutputFile = new FileInfo(fileOutputPath);
+					InputFiles.First().MoveTo(output.FileOutputPath);
+					OutputFile = new FileInfo(output.FileOutputPath);
 
-					return fileOutputPath;
+					return output;
 				}
 
 				TempFileList = new FileInfo(Path.GetTempFileName());
@@ -52,7 +52,7 @@ namespace obs_cli.Objects
 
 				FFMpegConverter ffMpegConverter = new FFMpegConverter();
 
-				OutputFile = new FileInfo(fileOutputPath);
+				OutputFile = new FileInfo(output.FileOutputPath);
 
 				string ffmpegArgs = $"-f concat -safe 0 -i \"{TempFileList.FullName}\" -movflags +faststart -c copy \"{OutputFile.FullName}\"";
 				ffMpegConverter.Invoke(ffmpegArgs);
@@ -63,10 +63,11 @@ namespace obs_cli.Objects
 			catch (Exception ex)
 			{
 				DeleteTemporaryFiles();
-				throw ex;
+				output.IsSuccessful = false;
+				output.MergeFailureReason = ex.Message;
 			}
 
-			return fileOutputPath;
+			return output;
 		}
 
 		/// <summary>

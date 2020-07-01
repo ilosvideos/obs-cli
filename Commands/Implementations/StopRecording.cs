@@ -48,11 +48,11 @@ namespace obs_cli.Commands.Implementations
                 Store.Data.Record.OutputAndEncoders.Dispose();
             }
 
-            var fileOutputPath = new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
+            VideoMergeOutput output = new VideoMerge(Store.Data.Record.RecordedFiles).CombineAndWrite();
 
             Store.Data.ResetRecordModule();
 
-            EmitService.EmitStopRecordingStatusResponse(fileOutputPath, Store.Data.Record.LastVideoName, true);
+            EmitService.EmitStopRecordingStatusResponse(output.FileOutputPath, Store.Data.Record.LastVideoName, output.IsSuccessful, output.MergeFailureReason);
         }
     }
 }
