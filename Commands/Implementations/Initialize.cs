@@ -95,6 +95,12 @@ namespace obs_cli.Commands.Implementations
 
                 Store.Data.Obs.Presentation.SetSource(0);
 
+                // wait until the window is initialized before emitting a response
+                while (Store.Data.Webcam.Window == null)
+                {
+                    Thread.Sleep(100);
+                }
+
                 EmitService.EmitInitializeResponse(new InitializeResponse
                 {
                     IsSuccessful = true,
