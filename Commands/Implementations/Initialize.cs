@@ -86,22 +86,22 @@ namespace obs_cli.Commands.Implementations
                 webcamWindowThread.Name = Constants.Webcam.Settings.WebcamWindowThreadName;
                 webcamWindowThread.SetApartmentState(ApartmentState.STA);
                 webcamWindowThread.Start();
+
+                var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
+
+                var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
+
+                Store.Data.Obs.Presentation.SetItem(0);
+
+                Store.Data.Obs.Presentation.SetSource(0);
+
+                EmitService.EmitInitializeResponse(new InitializeResponse
+                {
+                    IsSuccessful = true,
+                    SetAudioInputDevice = usedAudioInputId,
+                    SetAudioOutputDevice = usedAudioOutputId
+                });
             }
-
-            var usedAudioInputId = AudioService.SetAudioInput(this.SavedAudioInputId);
-
-            var usedAudioOutputId = AudioService.SetAudioOutput(this.SavedAudioOutputId);
-
-            Store.Data.Obs.Presentation.SetItem(0);
-
-            Store.Data.Obs.Presentation.SetSource(0);
-
-            EmitService.EmitInitializeResponse(new InitializeResponse
-            {
-                IsSuccessful = true,
-                SetAudioInputDevice = usedAudioInputId,
-                SetAudioOutputDevice = usedAudioOutputId
-            });
 
             Store.Data.Obs.IsObsStarted = true;
         }
