@@ -17,7 +17,10 @@ namespace obs_cli.Services
         /// </summary>
         public static void CancelRecording()
         {
-            Store.Data.Record.OutputAndEncoders.Dispose();
+            if (Store.Data.Record.OutputAndEncoders != null)
+            {
+                Store.Data.Record.OutputAndEncoders.Dispose();
+            }
 
             foreach (FileInfo file in Store.Data.Record.RecordedFiles)
             {
