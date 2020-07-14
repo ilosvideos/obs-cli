@@ -11,6 +11,7 @@ namespace obs_cli.Data
             Display = new Display();
             Obs = new Obs();
             Record = new Record();
+            SelectionWindow = new SelectionWindow();
             Webcam = new Webcam();
         }
 
@@ -19,6 +20,7 @@ namespace obs_cli.Data
         public Display Display { get; set; }
         public Obs Obs { get; set; }
         public Record Record { get; set; }
+        public SelectionWindow SelectionWindow { get; set; }
         public Webcam Webcam { get; set; }
 
         /// <summary>

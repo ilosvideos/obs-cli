@@ -34,17 +34,18 @@ namespace obs_cli.Services
 
 			if (!Store.Data.Record.IsFullScreen)
 			{
-				baseOffsetX = Store.Data.Record.AppliedCrop.left;
-				baseOffsetY = Store.Data.Record.AppliedCrop.top;
+				baseOffsetX = Store.Data.SelectionWindow.Left + Store.Data.SelectionWindow.BorderWidth;
+				baseOffsetY = Store.Data.SelectionWindow.Top + Store.Data.SelectionWindow.BorderWidth;
 			}
 
 			WindowSizeProperties webcamWindowSize = Util.GetWindowSizeProperties(Store.Data.Webcam.Window);
 			double webcamItemWidth = webcamWindowSize.Width - (webcamWindowSize.BorderWidth.Value * 2);
 			double webcamItemHeight = webcamWindowSize.Height - (webcamWindowSize.BorderWidth.Value * 2);
 
-			int webcamObsX = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamWindowSize.Left + webcamWindowSize.BorderWidth.Value - baseOffsetX);
-			int webcamObsY = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamWindowSize.Top + webcamWindowSize.BorderWidth.Value - baseOffsetY);
-			int webcamObsWidth = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamItemWidth);
+            int webcamObsX = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamWindowSize.Left + webcamWindowSize.BorderWidth.Value - baseOffsetX);
+            int webcamObsY = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamWindowSize.Top + webcamWindowSize.BorderWidth.Value - baseOffsetY);
+
+            int webcamObsWidth = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamItemWidth);
 			int webcamObsHeight = DpiUtil.ConvertSizeWpfToPhysicalPixel(webcamItemHeight);
 
 			Store.Data.Webcam.Item.Position = new Vector2((float)webcamObsX, (float)webcamObsY);

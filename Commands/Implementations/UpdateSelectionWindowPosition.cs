@@ -1,0 +1,45 @@
+﻿using obs_cli.Data;
+using obs_cli.Enums;
+using System.Collections.Generic;
+
+namespace obs_cli.Commands.Implementations
+{
+    public class UpdateSelectionWindowPosition : BaseCommand
+    {
+        public override string Name => AvailableCommand.UpdateSelectionWindowPosition.GetDescription();
+
+        public double BorderWidth { get; set; }
+        // todo: maybe make a generic "Position" abstract class since a few of the webcam window commands also just accept left/top
+        public double Left { get; set; }
+        public double Top { get; set; }
+
+        public UpdateSelectionWindowPosition(IDictionary<string, string> arguments)
+        {
+            double borderWidth;
+            if (double.TryParse(arguments["borderWidth"], out borderWidth))
+            {
+                BorderWidth = borderWidth;
+            }
+
+            double left;
+            if (double.TryParse(arguments["left"], out left))
+            {
+                Left = left;
+            }
+
+            double top;
+            if (double.TryParse(arguments["top"], out top))
+            {
+                Top = top;
+            }
+        }
+
+        public override void Execute()
+        {
+            // store the values in the store
+            Store.Data.SelectionWindow.Top = Top;
+            Store.Data.SelectionWindow.Left = Left;
+            Store.Data.SelectionWindow.BorderWidth = BorderWidth;
+        }
+    }
+}

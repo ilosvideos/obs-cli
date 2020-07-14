@@ -34,7 +34,8 @@ namespace obs_cli.Commands
             { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) },
             { AvailableCommand.ToggleFullScreen.GetDescription(), typeof(ToggleFullScreen) },
             { AvailableCommand.UpdateAudioInputDevice.GetDescription(), typeof(UpdateAudioInputDevice) },
-            { AvailableCommand.UpdateAudioOutputDevice.GetDescription(), typeof(UpdateAudioOutputDevice) }
+            { AvailableCommand.UpdateAudioOutputDevice.GetDescription(), typeof(UpdateAudioOutputDevice) },
+            { AvailableCommand.UpdateSelectionWindowPosition.GetDescription(), typeof(UpdateSelectionWindowPosition) }
         };
     }
 }
