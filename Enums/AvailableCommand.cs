@@ -62,7 +62,7 @@ namespace obs_cli.Enums
         UpdateAudioInputDevice,
         [Description("update-audio-output-device")]
         UpdateAudioOutputDevice,
-        [Description("update-selection-window-position")]
-        UpdateSelectionWindowPosition
+        [Description("update-recording-area-position")]
+        UpdateRecordingAreaPosition
     }
 }

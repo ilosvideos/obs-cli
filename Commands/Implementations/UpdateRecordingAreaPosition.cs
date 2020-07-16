@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class UpdateSelectionWindowPosition : BaseCommand
+    public class UpdateRecordingAreaPosition : BaseCommand
     {
-        public override string Name => AvailableCommand.UpdateSelectionWindowPosition.GetDescription();
+        public override string Name => AvailableCommand.UpdateRecordingAreaPosition.GetDescription();
 
         public double BorderWidth { get; set; }
         // todo: maybe make a generic "Position" abstract class since a few of the webcam window commands also just accept left/top
         public double Left { get; set; }
         public double Top { get; set; }
 
-        public UpdateSelectionWindowPosition(IDictionary<string, string> arguments)
+        public UpdateRecordingAreaPosition(IDictionary<string, string> arguments)
         {
             double borderWidth;
             if (double.TryParse(arguments["borderWidth"], out borderWidth))
