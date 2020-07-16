@@ -27,7 +27,7 @@ namespace obs_cli.Services
 			}
 
 			// todo: verify that this is the correct screen
-			Rect activeScreenBounds = DpiUtil.GetScreenWpfBounds(Store.Data.Record.ActiveScreen);
+			Rect activeScreenBounds = DpiUtil.GetScreenWpfBounds(ScreenHelper.GetScreen(Store.Data.SelectionWindow.Left, Store.Data.SelectionWindow.Top));
 
 			double baseOffsetX = activeScreenBounds.X;
 			double baseOffsetY = activeScreenBounds.Y;

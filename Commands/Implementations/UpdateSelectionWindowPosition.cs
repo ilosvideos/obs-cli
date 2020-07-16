@@ -36,7 +36,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            // store the values in the store
             Store.Data.SelectionWindow.Top = Top;
             Store.Data.SelectionWindow.Left = Left;
             Store.Data.SelectionWindow.BorderWidth = BorderWidth;
