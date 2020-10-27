@@ -16,6 +16,7 @@ namespace obs_cli.Commands.Implementations
         public override void Execute()
         {
             VideoService.CancelRecording();
+            EmitService.EmitStatusResponse(AvailableCommand.CancelRecording, true);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace obs_cli.Commands.Implementations
 
         private void PauseRecordingWhenOutputInactive(object source, ElapsedEventArgs e)
         {
-            if (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
+            if (Store.Data.Record.OutputAndEncoders != null && Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
             {
                 return;
             }
