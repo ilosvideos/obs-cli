@@ -37,7 +37,6 @@ namespace obs_cli.Commands.Implementations
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle,
                 VideoOutputFolder = Store.Data.Record.VideoOutputFolder,
                 ScreenX = ScreenX,
                 ScreenY = ScreenY

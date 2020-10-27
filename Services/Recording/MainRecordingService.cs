@@ -15,7 +15,6 @@ namespace obs_cli.Services.Recording
         public double OutputHeight { get; set; }
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
-        public IntPtr ScreenToRecordHandle { get; set; }
         public int ScreenX { get; set; }
         public int ScreenY { get; set; }
 
@@ -30,7 +29,6 @@ namespace obs_cli.Services.Recording
             OutputHeight = parameters.OutputHeight;
             CanvasWidth = parameters.CanvasWidth;
             CanvasHeight = parameters.CanvasHeight;
-            ScreenToRecordHandle = parameters.ScreenToRecordHandle;
             ScreenX = parameters.ScreenX;
             ScreenY = parameters.ScreenY;
         }
@@ -48,7 +46,6 @@ namespace obs_cli.Services.Recording
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle,
                 ScreenX = ScreenX,
                 ScreenY = ScreenY
             });

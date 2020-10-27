@@ -13,7 +13,6 @@ namespace obs_cli.Objects
         public double OutputHeight { get; set; }
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
-        public IntPtr ScreenToRecordHandle { get; set; }
         public int ScreenX { get; set; }
         public int ScreenY { get; set; }
     }
