@@ -15,5 +15,7 @@ namespace obs_cli.Services.Recording.Objects
         public int CanvasHeight { get; set; }
         public IntPtr ScreenToRecordHandle { get; set; }
         public string VideoOutputFolder { get; set; }
+        public int ScreenX { get; set; }
+        public int ScreenY { get; set; }
     }
 }

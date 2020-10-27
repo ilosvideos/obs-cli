@@ -15,6 +15,8 @@ namespace obs_cli.Commands
         public int CanvasWidth { get; set; }
         public int CanvasHeight { get; set; }
         public IntPtr ScreenToRecordHandle { get; set; }
+        public int ScreenX { get; set; }
+        public int ScreenY { get; set; }
 
         protected BaseStartRecording(IDictionary<string, string> arguments)
         {
@@ -28,6 +30,8 @@ namespace obs_cli.Commands
             this.OutputWidth = double.Parse(arguments["outputWidth"]);
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
             this.ScreenToRecordHandle = (IntPtr)int.Parse(arguments["screenToRecordHandle"]);
+            this.ScreenX = int.Parse(arguments["screenX"]);
+            this.ScreenY = int.Parse(arguments["screenY"]);
         }
     }
 }

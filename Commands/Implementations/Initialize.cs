@@ -53,7 +53,9 @@ namespace obs_cli.Commands.Implementations
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle
+                ScreenToRecordHandle = ScreenToRecordHandle,
+                ScreenX = ScreenX,
+                ScreenY = ScreenY
             });
 
             if (!Store.Data.Obs.IsObsStarted)

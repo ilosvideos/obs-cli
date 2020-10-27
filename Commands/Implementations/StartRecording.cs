@@ -36,7 +36,9 @@ namespace obs_cli.Commands.Implementations
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
                 ScreenToRecordHandle = ScreenToRecordHandle,
-                VideoOutputFolder = VideoOutputFolder
+                VideoOutputFolder = VideoOutputFolder,
+                ScreenX = ScreenX,
+                ScreenY = ScreenY
             };
 
             IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);
