@@ -1,11 +1,9 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
 using obs_cli.Services;
 using obs_cli.Services.Recording;
 using obs_cli.Services.Recording.Abstract;
 using obs_cli.Services.Recording.Objects;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -39,8 +37,9 @@ namespace obs_cli.Commands.Implementations
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle,
-                VideoOutputFolder = Store.Data.Record.VideoOutputFolder
+                VideoOutputFolder = Store.Data.Record.VideoOutputFolder,
+                ScreenX = ScreenX,
+                ScreenY = ScreenY
             };
 
             IBaseRecordingService service = RecordingFactory.Make(Store.Data.Webcam.IsWebcamOnly, baseRecordingParameters);

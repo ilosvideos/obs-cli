@@ -84,7 +84,7 @@ namespace obs_cli.Services
                 bottom = parameters.CropBottom
             };
 
-            Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenToRecordHandle);
+            Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenX, parameters.ScreenY);
 
             //Set the proper display source
             if (Store.Data.Display.DisplaySource != null)

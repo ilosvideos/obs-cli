@@ -53,7 +53,8 @@ namespace obs_cli.Commands.Implementations
                 OutputHeight = OutputHeight,
                 CanvasWidth = CanvasWidth,
                 CanvasHeight = CanvasHeight,
-                ScreenToRecordHandle = ScreenToRecordHandle
+                ScreenX = ScreenX,
+                ScreenY = ScreenY
             });
 
             if (!Store.Data.Obs.IsObsStarted)
@@ -71,7 +72,7 @@ namespace obs_cli.Commands.Implementations
 
                 Store.Data.Display.DisplayItem.Name = "Monitor Capture SceneItem";
 
-                Rectangle activeScreenBounds = ScreenHelper.GetScreen(this.ScreenToRecordHandle).Bounds;
+                Rectangle activeScreenBounds = ScreenHelper.GetScreen(ScreenX, ScreenY).Bounds;
 
                 Store.Data.Display.DisplayItem.SetBounds(new Vector2(activeScreenBounds.Width, activeScreenBounds.Height), ObsBoundsType.None, ObsAlignment.Top); // this should always be the screen's resolution
                 Store.Data.Obs.MainScene.Items.Add(Store.Data.Display.DisplayItem);
