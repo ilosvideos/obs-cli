@@ -62,12 +62,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="REM Sign exe file for release only&#xD;&#xA;if $(ConfigurationName) == Release (&#xD;&#xA;    &quot;$(ILOS_SIGN_DIR)\signtool.exe&quot; sign /t http://timestamp.digicert.com /sha1 0cc0252905ee58bc33cd58451dd1a520c108840f &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
   </Target>
