@@ -39,7 +39,7 @@ namespace obs_cli
 
                         try
                         {
-                            commandInstance.Execute();
+                            commandInstance.Handle();
                         }
                         catch (Exception ex)
                         {

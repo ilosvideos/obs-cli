@@ -32,8 +32,6 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            CliLogger.CommandLogger.Trace("Initialize");
-
             if (!Store.Data.Obs.IsObsStarted)
             {
                 if (!Obs.Startup("en-US"))
