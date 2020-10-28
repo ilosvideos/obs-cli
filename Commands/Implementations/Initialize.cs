@@ -9,6 +9,7 @@ using obs_cli.Utility;
 using obs_cli.Windows;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows;
@@ -31,6 +32,8 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
+            CliLogger.CommandLogger.Trace("Initialize");
+
             if (!Store.Data.Obs.IsObsStarted)
             {
                 if (!Obs.Startup("en-US"))
@@ -38,6 +41,15 @@ namespace obs_cli.Commands.Implementations
                     // todo: if any exceptions are thrown in this app, we need to bubble it all up to a single terminate code so consuming apps know that it shut down
                     throw new ApplicationException("Startup failed.");
                 }
+
+                CliLogger.OBSLogger.Trace("libobs version: " + Obs.GetVersion());
+
+                // forward OBS logging messages to debugger
+                Obs.SetLogHandler((lvl, msg, p) =>
+                {
+                    Debug.WriteLine(msg);
+                    CliLogger.OBSLogger.Trace(msg);
+                });
 
                 AudioService.ResetAudioInfo();
             }
