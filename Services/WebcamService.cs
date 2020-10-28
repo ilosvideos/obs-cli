@@ -4,6 +4,7 @@ using OBS;
 using obs_cli.Data;
 using obs_cli.Data.Modules;
 using obs_cli.Helpers;
+using obs_cli.Objects;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
@@ -145,7 +146,7 @@ namespace obs_cli.Services
 			{
 				// prod recorder doesn't throw this exception actually. we just let it use whatever resolution
 				// it defaults to it seems
-				FileWriteService.WriteLineToFile(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
+				Loggers.CliLogger.Trace(Constants.Webcam.ErrorMessages.OptimalResolutionNotFound);
 			}
 
 			return preferredResolution;

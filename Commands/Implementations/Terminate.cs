@@ -20,8 +20,6 @@ namespace obs_cli.Commands.Implementations
             Store.Data.Audio.InputMeter.RemoveCallback();
             Store.Data.Audio.OutputMeter.RemoveCallback();
 
-            FileWriteService.WriteLineToFile(Environment.NewLine);
-
             Environment.Exit(0);
         }
     }
