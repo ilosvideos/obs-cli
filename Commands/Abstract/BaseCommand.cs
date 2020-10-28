@@ -10,7 +10,7 @@ namespace obs_cli.Commands
 
         public void Handle() 
         {
-            CliLogger.CommandLogger.Trace(Name);
+            Loggers.CommandLogger.Trace(Name);
             Execute();
         }
     }

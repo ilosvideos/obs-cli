@@ -1,6 +1,5 @@
 ﻿using obs_cli.Commands;
 using obs_cli.Data;
-using obs_cli.Helpers;
 using obs_cli.Services;
 using System;
 using System.Collections.Generic;
@@ -16,15 +15,11 @@ namespace obs_cli
             Console.WriteLine("starting");
             Store.Data = new StoreInstance();
 
-            FileWriteService.DeletePreviousLogFile();
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             while (true)
             {
                 string line = Console.ReadLine();
-
-                FileWriteService.WriteTimestampedLineToFile($"line: {line}");
 
                 List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
                 if (argumentTokens.Count > 0)

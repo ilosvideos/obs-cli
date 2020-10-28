@@ -40,13 +40,13 @@ namespace obs_cli.Commands.Implementations
                     throw new ApplicationException("Startup failed.");
                 }
 
-                CliLogger.OBSLogger.Trace("libobs version: " + Obs.GetVersion());
+                Loggers.OBSLogger.Trace("libobs version: " + Obs.GetVersion());
 
                 // forward OBS logging messages to debugger
                 Obs.SetLogHandler((lvl, msg, p) =>
                 {
                     Debug.WriteLine(msg);
-                    CliLogger.OBSLogger.Trace(msg);
+                    Loggers.OBSLogger.Trace(msg);
                 });
 
                 AudioService.ResetAudioInfo();

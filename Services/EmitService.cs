@@ -26,9 +26,6 @@ namespace obs_cli.Services
                 StackTrace = stackTrace
             };
 
-            FileWriteService.WriteTimestampedLineToFile(exceptionMessage);
-            FileWriteService.WriteLineToFile(stackTrace);
-
             ThrowException(AvailableCommand.ExceptionThrown, exceptionThrownParameters.ToDictionary());
         }
 
@@ -167,7 +164,6 @@ namespace obs_cli.Services
         private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize)
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
-            FileWriteService.WriteTimestampedLineToFile($"EmitSerializedOutput for { messageType.GetDescription() }");
             Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
         }
 
