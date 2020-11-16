@@ -35,6 +35,8 @@ namespace obs_cli.Commands.Abstract
             OutputStopTimer.Dispose();
             OutputStopTimer = null;
 
+            Store.Data.Record.OutputAndEncoders.Dispose();
+
             this.OutputStopped();
         }
     }
