@@ -23,6 +23,7 @@ namespace obs_cli.Data.Modules
         public Record()
         {
             this.RecordedFiles = new List<FileInfo>();
+            this.OutputAndEncoders = new ObsOutputAndEncoders();
         }
     }
 }
