@@ -1,44 +1,24 @@
-﻿using obs_cli.Data;
+﻿using obs_cli.Commands.Abstract;
 using obs_cli.Enums;
 using obs_cli.Services;
 using System.Collections.Generic;
-using System.Timers;
 
 namespace obs_cli.Commands.Implementations
 {
-    public class CancelRecording : BaseCommand
+    public class CancelRecording : BaseOutputStop
     {
         public override string Name => AvailableCommand.CancelRecording.GetDescription();
 
-        public Timer OutputStopTimer { get; set; }
-
-        public CancelRecording(IDictionary<string, string> arguments)
-        {
-            OutputStopTimer = new Timer();
-        }
+        public CancelRecording(IDictionary<string, string> arguments) { }
 
         public override void Execute()
         {
-            VideoService.CancelRecording();
-
-            OutputStopTimer = new Timer();
-            OutputStopTimer.Interval = 50;
-            OutputStopTimer.Elapsed += new ElapsedEventHandler(EmitStatusResponseWhenOutputInactive);
-            OutputStopTimer.Enabled = true;
-            OutputStopTimer.Start();
+            this.StopOutput();
         }
 
-        private void EmitStatusResponseWhenOutputInactive(object source, ElapsedEventArgs e)
+        protected override void OutputStopped()
         {
-            if (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
-            {
-                return;
-            }
-
-            OutputStopTimer.Stop();
-            OutputStopTimer.Dispose();
-            OutputStopTimer = null;
-
+            VideoService.CancelRecording();
             EmitService.EmitStatusResponse(AvailableCommand.CancelRecording, true);
         }
     }
