@@ -45,6 +45,7 @@
   <ItemGroup>
     <ProjectReference Include="..\obs-studio\libops-sharp\libobs-sharp\libobs-sharp.csproj" />
     <ProjectReference Include="..\ilos_recorder\WpfMonitorAware\MonitorAware\MonitorAware.csproj" />
+    <ProjectReference Include="..\vidgrid-recorder-data\vidgrid-recorder-data\vidgrid-recorder-data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
