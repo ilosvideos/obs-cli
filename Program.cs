@@ -21,33 +21,35 @@ namespace obs_cli
 
             while (true)
             {
-                string line = Console.ReadLine();
+                //string line = Console.ReadLine();
 
-                List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
-                if (argumentTokens.Count > 0)
-                {
-                    string command = argumentTokens.FirstOrDefault().Trim();
-                    var commandType = AvailableCommandLookup.All.FirstOrDefault(x => x.Key == command);
+                //List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
+                //if (argumentTokens.Count > 0)
+                //{
+                //    string command = argumentTokens.FirstOrDefault().Trim();
+                //    var commandType = AvailableCommandLookup.All.FirstOrDefault(x => x.Key == command);
 
-                    if (!commandType.Equals(default(KeyValuePair<string, Type>)))
-                    {
-                        IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0].Trim(), z => z[1].Trim());
-                        ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
+                //    if (!commandType.Equals(default(KeyValuePair<string, Type>)))
+                //    {
+                //        IDictionary<string, string> parameters = argumentTokens.Skip(1).Select(x => x.Split('=')).ToDictionary(y => y[0].Trim(), z => z[1].Trim());
+                //        ICommand commandInstance = (ICommand)Activator.CreateInstance(commandType.Value, parameters);
 
-                        try
-                        {
-                            commandInstance.Handle();
-                        }
-                        catch (Exception ex)
-                        {
-                            // todo: we probably don't want to shutdown on every single exception but let's just do a 
-                            // catch all for now
-                            PipeService.Teardown();
-                            EmitService.EmitException(commandInstance.Name, ex.Message, ex.StackTrace);
-                            Environment.Exit(0);
-                        }
-                    }
-                }
+                //        try
+                //        {
+                //            commandInstance.Handle();
+                //        }
+                //        catch (Exception ex)
+                //        {
+                //            // todo: we probably don't want to shutdown on every single exception but let's just do a 
+                //            // catch all for now
+                //            PipeService.Teardown();
+                //            EmitService.EmitException(commandInstance.Name, ex.Message, ex.StackTrace);
+                //            Environment.Exit(0);
+                //        }
+                //    }
+                //}
+
+                // is this going to infinitely loop now?
             }
         }
 

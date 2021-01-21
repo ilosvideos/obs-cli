@@ -1,4 +1,5 @@
-﻿using obs_cli.Enums;
+﻿using obs_cli.Data;
+using obs_cli.Enums;
 using obs_cli.Helpers;
 using obs_cli.Objects;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
+using vidgrid_recorder_data;
 
 namespace obs_cli.Services
 {
@@ -165,6 +167,7 @@ namespace obs_cli.Services
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
             Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
+            Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
         }
 
         /// <summary>
