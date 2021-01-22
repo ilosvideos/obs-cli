@@ -1,6 +1,5 @@
 ﻿using obs_cli.Data;
 using obs_cli.Enums;
-using obs_cli.Helpers;
 using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using vidgrid_recorder_data;
 
 namespace obs_cli.Services
 {
-    // todo: maybe break this into two separate services - EmitOutputService and EmitSerializedOutputService
     public static class EmitService
     {
         /// <summary>
@@ -168,16 +166,6 @@ namespace obs_cli.Services
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
             Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
             Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
-        }
-
-        /// <summary>
-        /// Emits the message type with the parameters formatted in the form of CLI arguments.
-        /// </summary>
-        /// <param name="messageType"></param>
-        /// <param name="additionalParameters"></param>
-        private static void EmitOutput(AvailableCommand messageType, IDictionary<string, string> additionalParameters = null)
-        {
-            Console.WriteLine(BuildParameterizedOutput(messageType, additionalParameters));
         }
 
         /// <summary>
