@@ -120,7 +120,7 @@ namespace obs_cli.Commands.Implementations
                 });
             }
 
-            AudioService.SetupMagnitudeCycle();
+            MagnitudeService.Setup();
 
             Store.Data.Obs.IsObsStarted = true;
         }
