@@ -1,4 +1,5 @@
-﻿using obs_cli.Data;
+﻿using NamedPipeWrapper;
+using obs_cli.Data;
 using obs_cli.Enums;
 using obs_cli.Objects;
 using System;
@@ -153,7 +154,7 @@ namespace obs_cli.Services
         /// <param name="response"></param>
         public static void EmitAudioMagnitudes(AudioMagnitudesResponse response)
         {
-            EmitSerializedOutput(AvailableCommand.GetAudioMagnitudes, response);
+            EmitSerializedOutput(AvailableCommand.GetAudioMagnitudes, response, Store.Data.Pipe.Magnitude);
         }
 
         /// <summary>
@@ -161,11 +162,17 @@ namespace obs_cli.Services
         /// </summary>
         /// <param name="messageType"></param>
         /// <param name="dataToSerialize"></param>
-        private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize)
+        private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize, NamedPipeServer<Message> pipe = null)
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
             Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
-            Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
+
+            if (pipe == null)
+            {
+                pipe = Store.Data.Pipe.Main;
+            }
+
+            pipe.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
         }
 
         /// <summary>
