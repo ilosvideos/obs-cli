@@ -3,7 +3,6 @@ using obs_cli.Commands;
 using obs_cli.Data;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using vidgrid_recorder_data;
 
@@ -11,10 +10,10 @@ namespace obs_cli.Services
 {
     public static class PipeService
     {
-        public static void Setup()
+        public static void Listen()
         {
-            Store.Data.Pipe.Main = SetupServer(Settings.MainPipeName);
-            Store.Data.Pipe.Magnitude = SetupServer(Settings.MagnitudePipeName);
+            Setup();
+            while (true) { }
         }
 
         public static void Teardown()
@@ -24,6 +23,12 @@ namespace obs_cli.Services
 
             Store.Data.Pipe.Main = null;
             Store.Data.Pipe.Magnitude = null;
+        }
+
+        private static void Setup()
+        {
+            Store.Data.Pipe.Main = SetupServer(Settings.MainPipeName);
+            Store.Data.Pipe.Magnitude = SetupServer(Settings.MagnitudePipeName);
         }
 
         private static NamedPipeServer<Message> SetupServer(string serverName)
@@ -41,13 +46,7 @@ namespace obs_cli.Services
 
         private static void HandleReceivedMessage(NamedPipeConnection<Message, Message> conn, Message message, string serverName)
         {
-            Console.WriteLine("Client {0} says: {1} on {2}", conn.Id, message.Text, serverName);
-            Debug.WriteLine($"Client {conn.Id} says: {message.Text} on {serverName}");
-
-            var line = message.Text;
-
-            // message text is going to be the command
-            List<string> argumentTokens = new List<string>(line.Split(new string[] { "--" }, StringSplitOptions.None));
+            List<string> argumentTokens = new List<string>(message.Text.Split(new string[] { "--" }, StringSplitOptions.None));
             if (argumentTokens.Count > 0)
             {
                 string command = argumentTokens.FirstOrDefault().Trim();

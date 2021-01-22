@@ -1,15 +1,10 @@
 ﻿using OBS;
 using obs_cli.Data;
-using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
-using System.Web.Script.Serialization;
-using vidgrid_recorder_data;
 using static OBS.libobs;
 
 namespace obs_cli.Services
