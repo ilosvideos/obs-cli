@@ -1,11 +1,15 @@
 ﻿using OBS;
 using obs_cli.Data;
+using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
+using System.Web.Script.Serialization;
+using vidgrid_recorder_data;
 using static OBS.libobs;
 
 namespace obs_cli.Services
@@ -176,6 +180,28 @@ namespace obs_cli.Services
             }
 
             return usedAudioOutputId;
+        }
+
+        private static Timer _magnitudeTimer;
+
+        public static void SetupMagnitudeCycle()
+        {
+            _magnitudeTimer = new Timer();
+            _magnitudeTimer.Interval = 33;
+            _magnitudeTimer.Elapsed += SendMagnitudes;
+            _magnitudeTimer.Start();
+        }
+
+        private static void SendMagnitudes(object sender, ElapsedEventArgs e)
+        {
+            var magnitudes = new AudioMagnitudesResponse
+            {
+                IsSuccessful = true,
+                AudioInputLevel = Store.Data.Audio.InputMeter.Level,
+                AudioOutputLevel = Store.Data.Audio.OutputMeter.Level
+            };
+
+            Store.Data.Pipe.Magnitude.PushMessage(new Message { Text = new JavaScriptSerializer().Serialize(magnitudes) });
         }
 
         // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 

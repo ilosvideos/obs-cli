@@ -30,7 +30,6 @@ namespace obs_cli.Services
         {
             var server = new NamedPipeServer<Message>(serverName);
 
-            server.ClientConnected += (NamedPipeConnection<Message, Message> conn) => HandleNewConnection(conn, serverName);
             server.ClientMessage += (NamedPipeConnection<Message, Message> conn, Message message) => HandleReceivedMessage(conn, message, serverName);
             
             server.Start();
@@ -38,12 +37,6 @@ namespace obs_cli.Services
             Console.WriteLine("Pipe server {0} started!", serverName);
 
             return server;
-        }
-
-        private static void HandleNewConnection(NamedPipeConnection<Message, Message> conn, string serverName)
-        {
-            Console.WriteLine("Client {0} is now connected to {1}!", conn.Id, serverName);
-            conn.PushMessage(new Message { Text = $"Welcome from {serverName} server!" });
         }
 
         private static void HandleReceivedMessage(NamedPipeConnection<Message, Message> conn, Message message, string serverName)

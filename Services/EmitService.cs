@@ -149,15 +149,6 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Emits a response with audio input and output magnitude levels.
-        /// </summary>
-        /// <param name="response"></param>
-        public static void EmitAudioMagnitudes(AudioMagnitudesResponse response)
-        {
-            EmitSerializedOutput(AvailableCommand.GetAudioMagnitudes, response, Store.Data.Pipe.Magnitude);
-        }
-
-        /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>
         /// <param name="messageType"></param>
