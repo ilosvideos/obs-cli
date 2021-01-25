@@ -16,7 +16,7 @@ namespace obs_cli.Commands.Abstract
 
         public void StopOutput()
         {
-            Store.Data.Record.OutputAndEncoders.obsOutput.Stop();
+            Store.Data.Record.OutputAndEncoders?.obsOutput?.Stop();
 
             OutputStopTimer.Interval = 50;
             OutputStopTimer.Elapsed += new ElapsedEventHandler(DisposeEncodersAndCallback);
@@ -26,7 +26,7 @@ namespace obs_cli.Commands.Abstract
 
         private void DisposeEncodersAndCallback(object source, ElapsedEventArgs e)
         {
-            if (Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
+            if (Store.Data.Record.OutputAndEncoders != null && Store.Data.Record.OutputAndEncoders.obsOutput != null && Store.Data.Record.OutputAndEncoders.obsOutput.Active)
             {
                 return;
             }
