@@ -153,17 +153,10 @@ namespace obs_cli.Services
         /// </summary>
         /// <param name="messageType"></param>
         /// <param name="dataToSerialize"></param>
-        private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize, NamedPipeServer<Message> pipe = null)
+        private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize)
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
-            Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
-
-            if (pipe == null)
-            {
-                pipe = Store.Data.Pipe.Main;
-            }
-
-            pipe.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
+            Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
         }
 
         /// <summary>
