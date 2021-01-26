@@ -30,7 +30,6 @@ namespace obs_cli.Commands
             { AvailableCommand.SetMouseClickHighlightPosition.GetDescription(), typeof(SetMouseClickHighlightPosition) },
             { AvailableCommand.StartRecording.GetDescription(), typeof(StartRecording) },
             { AvailableCommand.StopRecording.GetDescription(), typeof(StopRecording) },
-            { AvailableCommand.Terminate.GetDescription(), typeof(Terminate) },
             { AvailableCommand.ToggleFullScreen.GetDescription(), typeof(ToggleFullScreen) },
             { AvailableCommand.UpdateAudioInputDevice.GetDescription(), typeof(UpdateAudioInputDevice) },
             { AvailableCommand.UpdateAudioOutputDevice.GetDescription(), typeof(UpdateAudioOutputDevice) },
