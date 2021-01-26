@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="NamedPipeWrapper" Version="1.5.0" />
     <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="WPF.Shell.Integration.Library" Version="2.0.0" />
   </ItemGroup>
@@ -44,6 +45,7 @@
   <ItemGroup>
     <ProjectReference Include="..\obs-studio\libops-sharp\libobs-sharp\libobs-sharp.csproj" />
     <ProjectReference Include="..\ilos_recorder\WpfMonitorAware\MonitorAware\MonitorAware.csproj" />
+    <ProjectReference Include="..\vidgrid-recorder-data\vidgrid-recorder-data\vidgrid-recorder-data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

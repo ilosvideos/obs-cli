@@ -3,7 +3,6 @@ using obs_cli.Data;
 using obs_cli.Objects.Obs;
 using obs_cli.Structs;
 using obs_cli.Utility;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using static OBS.libobs;
@@ -109,7 +108,7 @@ namespace obs_cli.Services
             Store.Data.Audio.InputMeter = new VolMeter();
             Store.Data.Audio.InputMeter.Level = float.NegativeInfinity;
             Store.Data.Audio.InputMeter.AttachSource(Store.Data.Audio.InputSource);
-            Store.Data.Audio.InputMeter.AddCallBack(InputVolumeCallback);
+            Store.Data.Audio.InputMeter.AddCallBack(MagnitudeService.InputVolumeCallback);
 
             List<AudioDevice> allAudioInputs = GetAudioInputDevices();
             bool savedIsInAvailableInputs = allAudioInputs.Any(x => x.id == savedAudioInputId);
@@ -157,7 +156,7 @@ namespace obs_cli.Services
             Store.Data.Audio.OutputMeter = new VolMeter();
             Store.Data.Audio.OutputMeter.Level = float.NegativeInfinity;
             Store.Data.Audio.OutputMeter.AttachSource(Store.Data.Audio.OutputSource);
-            Store.Data.Audio.OutputMeter.AddCallBack(OutputVolumeCallback);
+            Store.Data.Audio.OutputMeter.AddCallBack(MagnitudeService.OutputVolumeCallback);
 
             List<AudioDevice> allAudioOutputs = GetAudioOutputDevices();
             bool savedIsInAvailableOutputs = allAudioOutputs.Any(x => x.id == savedAudioOutputId);
@@ -176,20 +175,6 @@ namespace obs_cli.Services
             }
 
             return usedAudioOutputId;
-        }
-
-        // As of OBS 21.0.1, audo meters have been reworked. We now need to calculate and draw ballistics ourselves. 
-        // Relevant commit: https://github.com/obsproject/obs-studio/commit/50ce2284557b888f230a1730fa580e82a6a133dc#diff-505cedf4005a973efa8df1e299be4199
-        // This is probably an over-simplified calculation.
-        // For practical purposes, we are treating -60 as 0 and -9 as 1.
-        private static void InputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
-        {
-            Store.Data.Audio.InputMeter.Level = magnitude[0];
-        }
-
-        private static void OutputVolumeCallback(IntPtr data, float[] magnitude, float[] peak, float[] input_peak)
-        {
-            Store.Data.Audio.OutputMeter.Level = magnitude[0];
         }
 
         /// <summary>

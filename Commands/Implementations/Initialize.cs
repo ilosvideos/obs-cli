@@ -120,6 +120,8 @@ namespace obs_cli.Commands.Implementations
                 });
             }
 
+            MagnitudeService.Setup();
+
             Store.Data.Obs.IsObsStarted = true;
         }
     }

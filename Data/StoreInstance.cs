@@ -10,6 +10,7 @@ namespace obs_cli.Data
             Audio = new Audio();
             Display = new Display();
             Obs = new Obs();
+            Pipe = new Pipe();
             Record = new Record();
             SelectionWindow = new SelectionWindow();
             Webcam = new Webcam();
@@ -19,6 +20,7 @@ namespace obs_cli.Data
         public Audio Audio { get; set; }
         public Display Display { get; set; }
         public Obs Obs { get; set; }
+        public Pipe Pipe { get; set; }
         public Record Record { get; set; }
         public SelectionWindow SelectionWindow { get; set; }
         public Webcam Webcam { get; set; }

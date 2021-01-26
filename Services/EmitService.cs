@@ -1,15 +1,16 @@
-﻿using obs_cli.Enums;
-using obs_cli.Helpers;
+﻿using NamedPipeWrapper;
+using obs_cli.Data;
+using obs_cli.Enums;
 using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
+using vidgrid_recorder_data;
 
 namespace obs_cli.Services
 {
-    // todo: maybe break this into two separate services - EmitOutputService and EmitSerializedOutputService
     public static class EmitService
     {
         /// <summary>
@@ -148,15 +149,6 @@ namespace obs_cli.Services
         }
 
         /// <summary>
-        /// Emits a response with audio input and output magnitude levels.
-        /// </summary>
-        /// <param name="response"></param>
-        public static void EmitAudioMagnitudes(AudioMagnitudesResponse response)
-        {
-            EmitSerializedOutput(AvailableCommand.GetAudioMagnitudes, response);
-        }
-
-        /// <summary>
         /// Emits the message type with the given data serialized as JSON.
         /// </summary>
         /// <param name="messageType"></param>
@@ -164,17 +156,7 @@ namespace obs_cli.Services
         private static void EmitSerializedOutput(AvailableCommand messageType, object dataToSerialize)
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
-            Console.WriteLine($"{ messageType.GetDescription() } --response={ serializedString }");
-        }
-
-        /// <summary>
-        /// Emits the message type with the parameters formatted in the form of CLI arguments.
-        /// </summary>
-        /// <param name="messageType"></param>
-        /// <param name="additionalParameters"></param>
-        private static void EmitOutput(AvailableCommand messageType, IDictionary<string, string> additionalParameters = null)
-        {
-            Console.WriteLine(BuildParameterizedOutput(messageType, additionalParameters));
+            Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
         }
 
         /// <summary>

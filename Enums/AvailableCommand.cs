@@ -28,8 +28,6 @@ namespace obs_cli.Enums
         ExceptionThrown,
         [Description("get-audio-input-devices")]
         GetAudioInputDevices,
-        [Description("get-audio-magnitudes")]
-        GetAudioMagnitudes,
         [Description("get-audio-output-devices")]
         GetAudioOutputDevices,
         [Description("get-webcam-devices")]
@@ -54,8 +52,6 @@ namespace obs_cli.Enums
         StartRecording,
         [Description("stop-recording")]
         StopRecording,
-        [Description("terminate")]
-        Terminate,
         [Description("toggle-full-screen")]
         ToggleFullScreen,
         [Description("update-audio-input-device")]
