@@ -1,6 +1,7 @@
 ﻿using NamedPipeWrapper;
 using obs_cli.Commands;
 using obs_cli.Data;
+using obs_cli.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,13 +34,15 @@ namespace obs_cli.Services
 
         private static NamedPipeServer<Message> SetupServer(string serverName)
         {
-            var server = new NamedPipeServer<Message>(serverName);
+            var derivedServerName = Store.Data.App.ParentProcessId.HasValue ? $"{serverName}-{Store.Data.App.ParentProcessId}" : serverName;
+            var server = new NamedPipeServer<Message>(derivedServerName);
 
             server.ClientMessage += (NamedPipeConnection<Message, Message> conn, Message message) => HandleReceivedMessage(conn, message, serverName);
             
             server.Start();
 
             Console.WriteLine("Pipe server {0} started!", serverName);
+            Loggers.CliLogger.Trace($"Pipe server created on channel: {derivedServerName}");
 
             return server;
         }
