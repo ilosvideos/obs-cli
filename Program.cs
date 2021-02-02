@@ -29,6 +29,7 @@ namespace obs_cli
 
             }
 
+            ParentHeartbeatService.Monitor();
             PipeService.Listen();
         }
 
