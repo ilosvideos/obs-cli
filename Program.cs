@@ -32,6 +32,14 @@ namespace obs_cli
             PipeService.Listen();
         }
 
+        public static void Terminate()
+        {
+            MagnitudeService.Teardown();
+            PipeService.Teardown();
+            ParentHeartbeatService.Teardown();
+            Environment.Exit(0);
+        }
+
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;

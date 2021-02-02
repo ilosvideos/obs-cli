@@ -1,4 +1,5 @@
 ﻿using obs_cli.Data;
+using obs_cli.Objects;
 using System.Diagnostics;
 using System.Timers;
 
@@ -26,17 +27,11 @@ namespace obs_cli.Services
             }
 
             var parentProcess = Process.GetProcessById(Store.Data.App.ParentProcessId.Value);
-            if (parentProcess == null)
+            if (parentProcess == null || parentProcess.HasExited)
             {
-                // it's dead. shut CLI down
-                Teardown();
-                return;
-            }
-
-            if (parentProcess.HasExited)
-            {
-                // something else made it exit between the null check and now. shut CLI down
-                Teardown();
+                Loggers.CliLogger.Warn($"Parent process {Store.Data.App.ParentProcessId} is gone. Shutting CLI down.");
+                _heartbeatTimer.Stop();
+                Program.Terminate();
                 return;
             }
         }
