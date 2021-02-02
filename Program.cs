@@ -15,6 +15,20 @@ namespace obs_cli
             Console.WriteLine("starting");
             Store.Data = new StoreInstance();
 
+            if (args.Length > 0)
+            {
+                int processId = -1;
+                if(int.TryParse(args[0], out processId))
+                {
+                    Store.Data.App.ParentProcessId = processId;
+                }
+                else
+                {
+                    Loggers.CliLogger.Error("No parent process ID argument detected.");
+                }
+
+            }
+
             PipeService.Listen();
         }
 

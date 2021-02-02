@@ -157,6 +157,7 @@ namespace obs_cli.Services
         {
             var serializedString = new JavaScriptSerializer().Serialize(dataToSerialize);
             Store.Data.Pipe.Main.PushMessage(new Message() { Text = $"{ messageType.GetDescription() } --response={ serializedString }" });
+            Loggers.CliLogger.Trace($"Emitting response for {messageType.GetDescription()}");
         }
 
         /// <summary>
