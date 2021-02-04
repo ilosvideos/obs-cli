@@ -15,10 +15,14 @@ namespace obs_cli.Commands.Implementations
 
         public override void Execute()
         {
-            // if the recorder is paused, we don't need to dispose the encoders since the pause disposed them.
-            if (!Store.Data.Record.IsPaused)
+            // if the recorder is paused, we don't need to execute encoder stop logic
+            if (Store.Data.Record.IsPaused)
             {
-                this.StopOutput();
+                OutputStopped();
+            }
+            else
+            {
+                StopOutput();
             }
         }
 
