@@ -46,6 +46,10 @@ namespace obs_cli
             var exception = (Exception)e.ExceptionObject;
             Loggers.CliLogger.Fatal(exception);
 
+            // todo:
+            // before we send exception.Message, we should check to see if it's in our dictionary of messages
+            // but what if the exception is the same type/message for multiple scenarios?
+
             EmitService.EmitException("AppDomain", exception.Message, exception.StackTrace);
         }
     }
