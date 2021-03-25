@@ -23,6 +23,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<!-- Workaround for https://github.com/dotnet/wpf/issues/2648#issuecomment-635674683 -->
+	<Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Controls\WindowsFormsHostOverlay.xaml" />
     <None Remove="Windows\WebcamWindow.xaml" />
   </ItemGroup>

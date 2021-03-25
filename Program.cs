@@ -1,8 +1,6 @@
 ﻿using obs_cli.Data;
-using obs_cli.Exceptions;
 using obs_cli.Objects;
 using obs_cli.Services;
-using obs_cli.Utility;
 using System;
 
 namespace obs_cli
@@ -46,15 +44,7 @@ namespace obs_cli
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;
-            Loggers.CliLogger.Fatal(exception);
-
-            // todo:
-            // before we send exception.Message, we should check to see if it's in our dictionary of messages
-            // but what if the exception is the same type/message for multiple scenarios?
-
-            //var exceptionMessage = exception is IObsException ? exception.Message : Constants.Exception.MESSAGE;
-
-            EmitService.EmitException("AppDomain", "test", exception.StackTrace);
+            ExceptionService.HandleException(exception, "AppDomain");
         }
     }
 }
