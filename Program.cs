@@ -1,6 +1,8 @@
 ﻿using obs_cli.Data;
+using obs_cli.Exceptions;
 using obs_cli.Objects;
 using obs_cli.Services;
+using obs_cli.Utility;
 using System;
 
 namespace obs_cli
@@ -50,7 +52,9 @@ namespace obs_cli
             // before we send exception.Message, we should check to see if it's in our dictionary of messages
             // but what if the exception is the same type/message for multiple scenarios?
 
-            EmitService.EmitException("AppDomain", exception.Message, exception.StackTrace);
+            //var exceptionMessage = exception is IObsException ? exception.Message : Constants.Exception.MESSAGE;
+
+            EmitService.EmitException("AppDomain", "test", exception.StackTrace);
         }
     }
 }
