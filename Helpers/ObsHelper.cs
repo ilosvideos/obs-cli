@@ -1,7 +1,9 @@
 ﻿using OBS;
+using obs_cli.Exceptions;
 using obs_cli.Objects;
 using obs_cli.Objects.Obs;
 using obs_cli.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -34,9 +36,16 @@ namespace obs_cli.Helpers
             // Find the OBS display that matches the bounds of our active screen. OBS display names are in the format of "Display {value}: WidthxHeight @ X,Y"
             string searchForString = $"@ {screen.Bounds.X},{screen.Bounds.Y}";
             int targetDisplayIndex = displayNames.FindIndex(x => x.Contains(searchForString));
-            int targetDisplayValue = int.Parse(displayValues[targetDisplayIndex].ToString());
 
-            return targetDisplayValue;
+            try
+            {
+                int targetDisplayValue = int.Parse(displayValues[targetDisplayIndex].ToString());
+                return targetDisplayValue;
+            }
+            catch(ArgumentOutOfRangeException ex)
+            {
+                throw new ObsGpuMismatchException(ex);
+            }
         }
 
         /// <summary>

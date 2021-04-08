@@ -68,8 +68,7 @@ namespace obs_cli.Services
                     {
                         // todo: we probably don't want to shutdown on every single exception but let's just do a 
                         // catch all for now
-                        Loggers.CliLogger.Fatal(ex);
-                        EmitService.EmitException(commandInstance.Name, ex.Message, ex.StackTrace);
+                        ExceptionService.HandleException(ex, commandInstance.Name);
                         Program.Terminate();
                     }
                 }

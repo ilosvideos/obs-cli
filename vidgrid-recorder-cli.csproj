@@ -23,6 +23,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<!-- Workaround for https://github.com/dotnet/wpf/issues/2648#issuecomment-635674683 -->
+	<Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Controls\WindowsFormsHostOverlay.xaml" />
     <None Remove="Windows\WebcamWindow.xaml" />
   </ItemGroup>
@@ -31,15 +36,6 @@
     <PackageReference Include="NamedPipeWrapper" Version="1.5.0" />
     <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="WPF.Shell.Integration.Library" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Include="Controls\WindowsFormsHostOverlay.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\WebcamWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 
   <ItemGroup>

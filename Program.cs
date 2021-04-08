@@ -44,9 +44,7 @@ namespace obs_cli
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = (Exception)e.ExceptionObject;
-            Loggers.CliLogger.Fatal(exception);
-
-            EmitService.EmitException("AppDomain", exception.Message, exception.StackTrace);
+            ExceptionService.HandleException(exception, "AppDomain");
         }
     }
 }
