@@ -37,6 +37,9 @@ namespace obs_cli.Helpers
             string searchForString = $"@ {screen.Bounds.X},{screen.Bounds.Y}";
             int targetDisplayIndex = displayNames.FindIndex(x => x.Contains(searchForString));
 
+            Loggers.CliLogger.Info($"There are {displayValues.Count} display values to choose from.");
+            Loggers.CliLogger.Info($"Attempting to choose targetDisplayIndex: {targetDisplayIndex}");
+
             try
             {
                 int targetDisplayValue = int.Parse(displayValues[targetDisplayIndex].ToString());
