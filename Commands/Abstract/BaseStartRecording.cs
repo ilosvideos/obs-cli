@@ -1,4 +1,4 @@
-﻿using System;
+﻿using obs_cli.Objects;
 using System.Collections.Generic;
 
 namespace obs_cli.Commands
@@ -30,6 +30,13 @@ namespace obs_cli.Commands
             this.OutputHeight = double.Parse(arguments["outputHeight"]);
             this.ScreenX = int.Parse(arguments["screenX"]);
             this.ScreenY = int.Parse(arguments["screenY"]);
+
+            Loggers.CliLogger.Info($"Received CanvasWidth: {this.CanvasWidth}");
+            Loggers.CliLogger.Info($"Received CanvasHeight: {this.CanvasHeight}");
+            Loggers.CliLogger.Info($"Received OutputWidth: {this.OutputWidth}");
+            Loggers.CliLogger.Info($"Received OutputHeight: {this.OutputHeight}");
+            Loggers.CliLogger.Info($"Received ScreenX: {this.ScreenX}");
+            Loggers.CliLogger.Info($"Received ScreenY: {this.ScreenY}");
         }
     }
 }

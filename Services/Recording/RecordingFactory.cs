@@ -1,4 +1,5 @@
-﻿using obs_cli.Services.Recording.Abstract;
+﻿using obs_cli.Objects;
+using obs_cli.Services.Recording.Abstract;
 using obs_cli.Services.Recording.Objects;
 
 namespace obs_cli.Services.Recording
@@ -10,10 +11,12 @@ namespace obs_cli.Services.Recording
             IBaseRecordingService service;
             if (isWebcamOnly)
             {
+                Loggers.CliLogger.Trace("Webcam only. Creating WebcamOnlyRecordingService");
                 service = new WebcamOnlyRecordingService(baseRecordingParameters);
             }
             else
             {
+                Loggers.CliLogger.Trace("Creating MainRecordingService");
                 service = new MainRecordingService(baseRecordingParameters);
             }
 

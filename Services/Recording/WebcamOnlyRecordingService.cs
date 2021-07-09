@@ -1,4 +1,5 @@
-﻿using obs_cli.Services.Recording.Abstract;
+﻿using obs_cli.Objects;
+using obs_cli.Services.Recording.Abstract;
 using obs_cli.Services.Recording.Objects;
 
 namespace obs_cli.Services.Recording
@@ -10,6 +11,7 @@ namespace obs_cli.Services.Recording
 
         public override void Setup()
         {
+            Loggers.CliLogger.Trace("In WebcamOnlyRecordingService Setup");
             VideoService.ConfigureWebcamOnly(FrameRate);
         }
     }

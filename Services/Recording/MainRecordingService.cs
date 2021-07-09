@@ -35,6 +35,7 @@ namespace obs_cli.Services.Recording
 
         public override void Setup()
         {
+            Loggers.CliLogger.Trace("In MainRecordingService Setup");
             VideoService.ResetVideoInfo(new ResetVideoInfoParameters
             {
                 CropTop = CropTop,

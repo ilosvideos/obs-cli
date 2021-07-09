@@ -72,6 +72,7 @@ namespace obs_cli.Services
             {
                 if (Store.Data.Obs.Presentation.SelectedScene.GetName().ToLowerInvariant() != "main")
                 {
+                    Loggers.CliLogger.Trace("Selected scene isn't main. Setting to main scene");
                     Store.Data.Obs.Presentation.SetScene(0);
                 }
             }
@@ -85,6 +86,10 @@ namespace obs_cli.Services
             };
 
             Store.Data.Record.ActiveScreen = ScreenHelper.GetScreen(parameters.ScreenX, parameters.ScreenY);
+            Loggers.CliLogger.Info($"ActiveScreen Bounds X: {Store.Data.Record.ActiveScreen.Bounds.X}");
+            Loggers.CliLogger.Info($"ActiveScreen Bounds Y: {Store.Data.Record.ActiveScreen.Bounds.Y}");
+            Loggers.CliLogger.Info($"ActiveScreen Bounds Width: {Store.Data.Record.ActiveScreen.Bounds.Width}");
+            Loggers.CliLogger.Info($"ActiveScreen Bounds Height: {Store.Data.Record.ActiveScreen.Bounds.Height}");
 
             //Set the proper display source
             if (Store.Data.Display.DisplaySource != null)
@@ -92,7 +97,10 @@ namespace obs_cli.Services
                 ObsData displaySettings = new ObsData();
                 displaySettings.SetBool("capture_cursor", true);
 
-                displaySettings.SetInt("monitor", ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, Store.Data.Record.ActiveScreen));
+                var displayValue = ObsHelper.GetObsDisplayValueFromScreen(Store.Data.Display.DisplaySource, Store.Data.Record.ActiveScreen);
+                Loggers.CliLogger.Info($"Received ObsDisplayValue: {displayValue}");
+
+                displaySettings.SetInt("monitor", displayValue);
 
                 Store.Data.Display.DisplaySource.Update(displaySettings);
                 displaySettings.Dispose();
