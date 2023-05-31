@@ -63,7 +63,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="REM Sign exe file for release only&#xD;&#xA;if $(ConfigurationName) == Release (&#xD;&#xA;    &quot;$(ILOS_SIGN_DIR)\signtool.exe&quot; sign /t http://timestamp.digicert.com /sha1 29b2cc7d8e791528d18fc73472fa402bf284f042 &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
+    <Exec Command="REM Sign exe file for release only&#xD;&#xA;if $(ConfigurationName) == Release (&#xD;&#xA;    &quot;$(ILOS_SIGN_DIR)\signtool.exe&quot; sign /t http://timestamp.digicert.com /sha1 8f22caec2b1d6ebe9c41b1bfbbcf5f1aceae3c06 &quot;$(TargetPath)&quot;&#xD;&#xA;)" />
   </Target>
 
 </Project>
